@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>jDat Demo</title>
+		<link rel="stylesheet" href="../src/jdat.css" type="text/css" />
+		<style type="text/css">
+			h1 { text-align: center; }
+			#jdat {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+			}
+		</style>
+		<script type="text/javascript" src="../vendor/jquery.js"></script>
+		<script type="text/javascript" src="../src/jdat.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				window.jdat = $("#jdat").jdat().data("jdat");
+				window.slider = window.jdat.addSlider({
+					label: "My Slider"
+				});
+				window.checkbox = window.jdat.addCheckBox({
+					label: "My Checkbox"
+				});
+				window.colorselect = window.jdat.addColorSelect({
+					label: "My Color"
+				});
+				window.combobox = window.jdat.addComboBox({
+					label: "My Combobox"
+				});
+				window.button = window.jdat.addButtons({
+					label: "My Buttons",
+					buttons: ["up", "down"],
+					onChange: function(data) {
+						console.log(data.source);
+					}
+				});
+				window.string = window.jdat.addString({
+					label: "My String",
+					disabled: true
+				});
+				window.section = window.jdat.addSection({
+					label: "My Section"
+				});
+				window.slider2 = window.section.addSlider({
+					label: "My Slider 2"
+				});
+				window.section2 = window.section.addSection({
+					label: "My Section 2"
+				});
+				window.slider3 = window.section2.addSlider({
+					label: "My Slider 3"
+				});
+				window.custom1 = window.jdat.addCustom({
+					label: "My Custom",
+					render: function(field) {
+						return $("<div>Hello World</div>");
+					}
+				});
+				window.title1 = window.jdat.addTitle({
+					title: "This is the Legend"
+				});
+				window.colorbar1 = window.jdat.addColorBar({
+					label: "My Colorbar",
+					colors: ["#00ff00", "#0000ff", "#ff0000"]
+				});
+			})
+		</script>
+	</head>
+	<body>
+		<h1>jDat Demo</h1>
+		<div id="jdat"></div>
+	</body>
+</html>
