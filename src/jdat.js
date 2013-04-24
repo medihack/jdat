@@ -1412,7 +1412,7 @@
 					self._options.onHover.call(this, value, e.pageX, e.pageY, x, y);
 				});
 			},
-			getColor: function(value, rgbFormat) {
+			getColor: function(value, format) {
 				var canvas = this.ctx.canvas;
 				var canvasWidth = canvas.width;
 				var x = canvasWidth * value;
@@ -1420,8 +1420,11 @@
 
 				var rgb = [data[0], data[1], data[2]];
 
-				if (rgbFormat) {
+				if (format == "rgb") {
 					return rgb;
+				}
+				else if (format == "hsv") {
+					return JDat.ColorHelper.rgb2hsv(rgb);
 				}
 				else {
 					return JDat.ColorHelper.rgb2hex(rgb);
