@@ -633,7 +633,7 @@
 			this._bindSlide();
 			this._bindInput();
 
-			this.value(this._options.value);
+			this.value(this._options.value, false);
 		}
 
 		JDat.extend(SliderController, JDat.FieldController, {
@@ -663,7 +663,7 @@
 						var adjustValue = function(x, finishChange) {
 							var bgLeft = bgOffset.left;
 							var value = min + (max - min) * ((x - bgLeft) / bgWidth);
-							self.value(value, finishChange);
+							self.value(value, true, finishChange);
 						}
 
 						adjustValue(e.pageX, false);
@@ -735,13 +735,11 @@
 					this._options.step = step;
 				}
 			},
-			value: function(value, finishChange) {
+			value: function(value, trigger, finishChange) {
 				if (value === undefined) {
 					return this._options.value;
 				}
 				else {
-					var trigger = true;
-
 					value = Number(value);
 					if (isNaN(value)) {
 						value = this._options.value;
@@ -774,7 +772,7 @@
 					this._setSlider();
 					this._setInput();
 
-					if (trigger) {
+					if (trigger === undefined || trigger) {
 						var data = {value: value, previous: oldValue};
 						this._trigger(data, finishChange);
 					}
@@ -801,7 +799,7 @@
 
 			this._bindInput();
 
-			this.value(this._options.value);
+			this.value(this._options.value, false);
 		}
 
 		JDat.extend(CheckBoxController, JDat.FieldController, {
@@ -818,7 +816,7 @@
 						self.value(checked);
 					});
 			},
-			value: function(checked, finishChange) {
+			value: function(checked, trigger, finishChange) {
 				if (checked === undefined) {
 					return this._options.value;
 				}
@@ -829,7 +827,10 @@
 					this._options.value = checked;
 
 					var data = {value: checked};
-					this._trigger(data, finishChange);
+
+					if (trigger === undefined || trigger) {
+						this._trigger(data, finishChange);
+					}
 				}
 
 			}
@@ -855,7 +856,7 @@
 			this._bindInput();
 			this._bindSelector();
 
-			this.value(this._options.value);
+			this.value(this._options.value, false);
 		}
 
 		JDat.extend(ColorSelectController, JDat.FieldController, {
@@ -934,7 +935,7 @@
 						var adjustValue = function(pageY, finishChange) {
 							var y = pageY - hfTop;
 							self.hsv[0] = calcH(y);
-							self._value("hsv", self.hsv, finishChange, true);
+							self._value("hsv", self.hsv, true, finishChange);
 						}
 
 						adjustValue(e.pageY, false);
@@ -982,7 +983,7 @@
 							var y = pageY - sfOffset.top;
 							self.hsv[1] = calcS(x);
 							self.hsv[2] = calcV(y);
-							self._value("hsv", self.hsv, finishChange, true);
+							self._value("hsv", self.hsv, true, finishChange);
 						}
 
 						adjustValue(e.pageX, e.pageY, false);
@@ -1051,7 +1052,7 @@
 				adjustHueKnob(hsv[0]);
 				adjustSaturationKnob(hsv[1], hsv[2]);
 			},
-			_value: function(format, color, finishChange, trigger) {
+			_value: function(format, color, trigger, finishChange) {
 				var hex, hsv;
 				if (format == "hex") {
 					hex = color;
@@ -1070,18 +1071,16 @@
 				var oldHex = this._options.value;
 				this._options.value = hex;
 
-				if (trigger) {
+				if (trigger === undefined || trigger) {
 					var data = {value: hex, previous: oldHex};
 					this._trigger(data, finishChange);
 				}
 			},
-			value: function(hex, finishChange) {
+			value: function(hex, trigger, finishChange) {
 				if (hex === undefined) {
 					return this._options.value;
 				}
 				else {
-					var trigger = true;
-
 					hex = hex.replace(/^\s+|\s+$/g, '');
 					hex = hex.toLowerCase();
 
@@ -1100,7 +1099,7 @@
 						trigger = false;
 					}
 
-					this._value("hex", hex, finishChange, trigger);
+					this._value("hex", hex, trigger, finishChange);
 				}
 			}
 		});
@@ -1126,7 +1125,7 @@
 			this._bindSelect();
 
 			this.selectOptions(this._options.selectOptions);
-			this.value(this._options.value);
+			this.value(this._options.value, false);
 		}
 
 		JDat.extend(ComboBoxController, JDat.FieldController, {
@@ -1162,13 +1161,11 @@
 					this._fillSelect(select);
 				}
 			},
-			value: function(option, finishChange) {
+			value: function(option, trigger, finishChange) {
 				if (option === undefined) {
 					return this._options.value;
 				}
 				else {
-					var trigger = true;
-
 					option = Number(option);
 					if (this._options.value == option) {
 						trigger = false;
@@ -1184,7 +1181,7 @@
 					optEl.attr("selected", "selected");
 					this._options.value = option;
 
-					if (trigger) {
+					if (trigger === undefined || trigger) {
 						var data = {value: option, previous: oldValue};
 						this._trigger(data, finishChange);
 					}
@@ -1275,7 +1272,7 @@
 
 			this._bindInput();
 
-			this.value(this._options.value);
+			this.value(this._options.value, false);
 		}
 
 		JDat.extend(StringController, JDat.FieldController, {
@@ -1290,12 +1287,11 @@
 					self.value(value);
 				});
 			},
-			value: function(string, finishChange) {
+			value: function(string, trigger, finishChange) {
 				if (string === undefined) {
 					return this._options.value;
 				}
 				else {
-					var trigger = true;
 					var valid = true;
 
 					if (this._options.strip) {
@@ -1322,7 +1318,7 @@
 
 					this._el.find('input').val(string);
 
-					if (trigger) {
+					if (trigger === undefined || trigger) {
 						var data = {value: string, previous: oldString};
 						this._trigger(data, finishChange);
 					}
@@ -1450,7 +1446,7 @@
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts);
 
-			this.value(this._options.value);
+			this.value(this._options.value, false);
 			this.text(this._options.text);
 		}
 
@@ -1461,13 +1457,11 @@
 					.append($('<div class="jdat-progressbar-overlay">'));
 				this._template().append(progressBar);
 			},
-			value: function(progress, finishChange) {
+			value: function(progress, trigger, finishChange) {
 				if (progress === undefined) {
 					return this._options.value;
 				}
 				else {
-					var trigger = true;
-
 					progress = parseInt(progress);
 
 					if (isNaN(progress)) {
@@ -1487,8 +1481,9 @@
 					this._el.find(".jdat-progressbar-bg span")
 						.css("width", progress + "%");
 
-					if (trigger) {
+					if (trigger === undefined || trigger) {
 						var data = {value: progress, previous: oldValue}
+						this._trigger(data, finishChange);
 					}
 				}
 			},
