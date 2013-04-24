@@ -863,7 +863,7 @@
 
 						var adjustValue = function(pageY, finishChange) {
 							var y = pageY - hfTop;
-							self.hsv.h = calcH(y);
+							self.hsv[0] = calcH(y);
 							self._value("hsv", self.hsv, finishChange, true);
 						}
 
@@ -910,8 +910,8 @@
 						var adjustValue = function(pageX, pageY, finishChange) {
 							var x = pageX - sfOffset.left;
 							var y = pageY - sfOffset.top;
-							self.hsv.s = calcS(x);
-							self.hsv.v = calcV(y);
+							self.hsv[1] = calcS(x);
+							self.hsv[2] = calcV(y);
 							self._value("hsv", self.hsv, finishChange, true);
 						}
 
@@ -929,7 +929,7 @@
 			},
 			_setInput: function(hex, hsv) {
 				var bgColor = hex;
-				var fgColor = (hsv.v > 0.5 && hsv.s < 0.5) ? "#000" : "#fff";
+				var fgColor = (hsv[2] > 0.5 && hsv[1] < 0.5) ? "#000" : "#fff";
 
 				this._el.find("input")
 					.val(hex)
@@ -943,7 +943,7 @@
 				var sat = this._el.find(".jdat-saturation-field");
 				var adjustSaturation = function(h) {
 					var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
-					var satHex = self._hsv2rgb({h: h, s: 1, v: 1}).hex;
+					var satHex = self._hsv2hex([h, 1, 1]);
 					var background = "linear-gradient(left, #fff 0%, " + satHex + " 100%)";
 					$.each(vendors, function(i, vendor) {
 						sat.css("background", vendor + background);
@@ -977,18 +977,18 @@
 					sk.css("backgroundColor", hex);
 				}
 
-				adjustSaturation(hsv.h);
-				adjustHueKnob(hsv.h);
-				adjustSaturationKnob(hsv.s, hsv.v);
+				adjustSaturation(hsv[0]);
+				adjustHueKnob(hsv[0]);
+				adjustSaturationKnob(hsv[1], hsv[2]);
 			},
 			// Credits to http://www.raphaeljs.com
 			_hsv2rgb: function(hsv) {
 				var R, G, B, X, C;
-				var h = (hsv.h % 360) / 60;
+				var h = (hsv[0] % 360) / 60;
 
-				C = hsv.v * hsv.s;
+				C = hsv[2] * hsv[1];
 				X = C * (1 - Math.abs(h % 2 - 1));
-				R = G = B = hsv.v - C;
+				R = G = B = hsv[2] - C;
 
 				h = ~~h;
 				R += [C, X, 0, 0, X, C][h];
@@ -998,40 +998,49 @@
 				var r = Math.floor(R * 255);
 				var g = Math.floor(G * 255);
 				var b = Math.floor(B * 255);
-				return { r: r, g: g, b: b, hex: "#" + (16777216 | b | (g << 8) | (r << 16)).toString(16).slice(1) };
+				return [r, g, b];
+			},
+			_rgb2hex: function(rgb) {
+				var r = rgb[0];
+				var g = rgb[1];
+				var b = rgb[2];
+				return "#" + (16777216 | b | (g << 8) | (r << 16))
+					.toString(16).slice(1);
+			},
+			_hsv2hex: function(hsv) {
+				var rgb = this._hsv2rgb(hsv);
+				return this._rgb2hex(rgb);
 			},
 			// r, g, b can be either in <0,1> range or <0,255> range.
 			// Credits to http://www.raphaeljs.com
 			_rgb2hsv: function(rgb) {
-				var r = rgb.r;
-				var g = rgb.g;
-				var b = rgb.b;
+				var r = rgb[0];
+				var g = rgb[1];
+				var b = rgb[2];
 
-				if (rgb.r > 1 || rgb.g > 1 || rgb.b > 1) {
+				if (rgb[0] > 1 || rgb[1] > 1 || rgb[2] > 1) {
 					r /= 255;
 					g /= 255;
 					b /= 255;
 				}
 
-				var H, S, V, C;
-				V = Math.max(r, g, b);
-				C = V - Math.min(r, g, b);
-				H = (C == 0 ? null :
-						V == r ? (g - b) / C + (g < b ? 6 : 0) :
-						V == g ? (b - r) / C + 2 :
-						(r - g) / C + 4);
-				H = (H % 6) * 60;
-				S = C == 0 ? 0 : C / V;
-				return { h: H, s: S, v: V };
+				var h, s, v, c;
+				v = Math.max(r, g, b);
+				c = v - Math.min(r, g, b);
+				h = (c == 0 ? null :
+						v == r ? (g - b) / c + (g < b ? 6 : 0) :
+						v == g ? (b - r) / c + 2 :
+						(r - g) / c + 4);
+				h = (h % 6) * 60;
+				s = c == 0 ? 0 : c / v;
+				return [h, s, v];
 			},
 			_hex2hsv: function(hex) {
-				var sHex = hex.slice(1);
-				var rgb = {
-					r: parseInt(sHex, 16) & (0 | (0 << 8) | (255 << 16)) >> 16,
-					g: parseInt(sHex, 16) & (0 | (255 << 8) | (0 << 16)) >> 8,
-					b: parseInt(sHex, 16) & (255 | (0 << 8) | (0 << 16))
-				}
-				return this._rgb2hsv(rgb);
+				var bigint = parseInt(hex.slice(1), 16);
+				var r = (bigint >> 16) & 255;
+				var g = (bigint >> 8) & 255;
+				var b = bigint & 255;
+				return this._rgb2hsv([r, g, b]);
 			},
 			_value: function(format, color, finishChange, trigger) {
 				var hex, hsv;
@@ -1041,7 +1050,7 @@
 				}
 				else { // format == "hsv"
 					hsv = color;
-					hex = this._hsv2rgb(hsv).hex;
+					hex = this._hsv2hex(hsv);
 				}
 
 				this.hsv = hsv;
