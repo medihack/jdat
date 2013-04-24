@@ -4,7 +4,7 @@
 	var JDat = JDat || {};
 
 	/*
-	 * inheritance helper
+	 * Helpers
 	 */
 	JDat.extend = function(sub, base, methods) {
 		var tmp = function(){};
@@ -12,6 +12,75 @@
 		sub.prototype = new tmp();
 		sub.prototype.constructor = sub;
 		$.extend(sub.prototype, methods);
+	}
+
+	JDat.ColorHelper = {
+		// Credits to http://www.raphaeljs.com
+		hsv2rgb: function(hsv) {
+			var R, G, B, X, C;
+			var h = (hsv[0] % 360) / 60;
+
+			C = hsv[2] * hsv[1];
+			X = C * (1 - Math.abs(h % 2 - 1));
+			R = G = B = hsv[2] - C;
+
+			h = ~~h;
+			R += [C, X, 0, 0, X, C][h];
+			G += [X, C, C, X, 0, 0][h];
+			B += [0, 0, X, C, C, X][h];
+
+			var r = Math.floor(R * 255);
+			var g = Math.floor(G * 255);
+			var b = Math.floor(B * 255);
+
+			return [r, g, b];
+		},
+		rgb2hex: function(rgb) {
+			var r = rgb[0];
+			var g = rgb[1];
+			var b = rgb[2];
+
+			return "#" + (16777216 | b | (g << 8) | (r << 16))
+				.toString(16).slice(1);
+		},
+		hsv2hex: function(hsv) {
+			var rgb = this.hsv2rgb(hsv);
+			return this.rgb2hex(rgb);
+		},
+		// r, g, b can be either in <0,1> range or <0,255> range.
+		// Credits to http://www.raphaeljs.com
+		rgb2hsv: function(rgb) {
+			var r = rgb[0];
+			var g = rgb[1];
+			var b = rgb[2];
+
+			if (rgb[0] > 1 || rgb[1] > 1 || rgb[2] > 1) {
+				r /= 255;
+				g /= 255;
+				b /= 255;
+			}
+
+			var h, s, v, c;
+			v = Math.max(r, g, b);
+			c = v - Math.min(r, g, b);
+			h = (c == 0 ? null :
+					v == r ? (g - b) / c + (g < b ? 6 : 0) :
+					v == g ? (b - r) / c + 2 :
+					(r - g) / c + 4);
+			h = (h % 6) * 60;
+			s = c == 0 ? 0 : c / v;
+
+			return [h, s, v];
+		},
+		hex2hsv: function(hex) {
+			var bigint = parseInt(hex.slice(1), 16);
+
+			var r = (bigint >> 16) & 255;
+			var g = (bigint >> 8) & 255;
+			var b = bigint & 255;
+
+			return this.rgb2hsv([r, g, b]);
+		}
 	}
 
 	/*
@@ -792,7 +861,8 @@
 		JDat.extend(ColorSelectController, JDat.FieldController, {
 			_render: function() {
 				this._template()
-					.append($('<input type="text">'))
+					.append($('<input type="text">')
+						.attr("spellcheck", "false"))
 					.append(function() {
 						return $('<div class="jdat-colorpicker">')
 							.append($('<div class="jdat-saturation-field">')
@@ -943,7 +1013,7 @@
 				var sat = this._el.find(".jdat-saturation-field");
 				var adjustSaturation = function(h) {
 					var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
-					var satHex = self._hsv2hex([h, 1, 1]);
+					var satHex = JDat.ColorHelper.hsv2hex([h, 1, 1]);
 					var background = "linear-gradient(left, #fff 0%, " + satHex + " 100%)";
 					$.each(vendors, function(i, vendor) {
 						sat.css("background", vendor + background);
@@ -981,76 +1051,15 @@
 				adjustHueKnob(hsv[0]);
 				adjustSaturationKnob(hsv[1], hsv[2]);
 			},
-			// Credits to http://www.raphaeljs.com
-			_hsv2rgb: function(hsv) {
-				var R, G, B, X, C;
-				var h = (hsv[0] % 360) / 60;
-
-				C = hsv[2] * hsv[1];
-				X = C * (1 - Math.abs(h % 2 - 1));
-				R = G = B = hsv[2] - C;
-
-				h = ~~h;
-				R += [C, X, 0, 0, X, C][h];
-				G += [X, C, C, X, 0, 0][h];
-				B += [0, 0, X, C, C, X][h];
-
-				var r = Math.floor(R * 255);
-				var g = Math.floor(G * 255);
-				var b = Math.floor(B * 255);
-				return [r, g, b];
-			},
-			_rgb2hex: function(rgb) {
-				var r = rgb[0];
-				var g = rgb[1];
-				var b = rgb[2];
-				return "#" + (16777216 | b | (g << 8) | (r << 16))
-					.toString(16).slice(1);
-			},
-			_hsv2hex: function(hsv) {
-				var rgb = this._hsv2rgb(hsv);
-				return this._rgb2hex(rgb);
-			},
-			// r, g, b can be either in <0,1> range or <0,255> range.
-			// Credits to http://www.raphaeljs.com
-			_rgb2hsv: function(rgb) {
-				var r = rgb[0];
-				var g = rgb[1];
-				var b = rgb[2];
-
-				if (rgb[0] > 1 || rgb[1] > 1 || rgb[2] > 1) {
-					r /= 255;
-					g /= 255;
-					b /= 255;
-				}
-
-				var h, s, v, c;
-				v = Math.max(r, g, b);
-				c = v - Math.min(r, g, b);
-				h = (c == 0 ? null :
-						v == r ? (g - b) / c + (g < b ? 6 : 0) :
-						v == g ? (b - r) / c + 2 :
-						(r - g) / c + 4);
-				h = (h % 6) * 60;
-				s = c == 0 ? 0 : c / v;
-				return [h, s, v];
-			},
-			_hex2hsv: function(hex) {
-				var bigint = parseInt(hex.slice(1), 16);
-				var r = (bigint >> 16) & 255;
-				var g = (bigint >> 8) & 255;
-				var b = bigint & 255;
-				return this._rgb2hsv([r, g, b]);
-			},
 			_value: function(format, color, finishChange, trigger) {
 				var hex, hsv;
 				if (format == "hex") {
 					hex = color;
-					hsv = this._hex2hsv(hex);
+					hsv = JDat.ColorHelper.hex2hsv(hex);
 				}
 				else { // format == "hsv"
 					hsv = color;
-					hex = this._hsv2hex(hsv);
+					hex = JDat.ColorHelper.hsv2hex(hsv);
 				}
 
 				this.hsv = hsv;
@@ -1407,23 +1416,6 @@
 					self._options.onHover.call(this, value, e.pageX, e.pageY, x, y);
 				});
 			},
-			_rgb2hex: function(rgb) {
-				var hexColor = "#";
-
-				var rhex = rgb[0].toString(16);
-				if (rhex.length == 1) rhex = "0" + rhex;
-				hexColor += rhex;
-
-				var ghex = rgb[1].toString(16);
-				if (ghex.length == 1) ghex = "0" + ghex;
-				hexColor += ghex;
-
-				var bhex = rgb[2].toString(16);
-				if (bhex.length == 1) bhex = "0" + bhex;
-				hexColor += bhex;
-
-				return hexColor;
-			},
 			getColor: function(value, rgbFormat) {
 				var canvas = this.ctx.canvas;
 				var canvasWidth = canvas.width;
@@ -1432,9 +1424,12 @@
 
 				var rgb = [data[0], data[1], data[2]];
 
-				if (rgbFormat) return rgb;
-
-				return this._rgb2hex(rgb);
+				if (rgbFormat) {
+					return rgb;
+				}
+				else {
+					return JDat.ColorHelper.rgb2hex(rgb);
+				}
 			}
 		});
 
