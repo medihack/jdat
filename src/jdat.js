@@ -15,6 +15,19 @@
 	}
 
 	JDat.ColorHelper = {
+		hex2hsv: function(hex) {
+			var bigint = parseInt(hex.slice(1), 16);
+
+			var r = (bigint >> 16) & 255;
+			var g = (bigint >> 8) & 255;
+			var b = bigint & 255;
+
+			return this.rgb2hsv([r, g, b]);
+		},
+		hsv2hex: function(hsv) {
+			var rgb = this.hsv2rgb(hsv);
+			return this.rgb2hex(rgb);
+		},
 		// Credits to http://www.raphaeljs.com
 		hsv2rgb: function(hsv) {
 			var R, G, B, X, C;
@@ -43,10 +56,6 @@
 			return "#" + (16777216 | b | (g << 8) | (r << 16))
 				.toString(16).slice(1);
 		},
-		hsv2hex: function(hsv) {
-			var rgb = this.hsv2rgb(hsv);
-			return this.rgb2hex(rgb);
-		},
 		// r, g, b can be either in <0,1> range or <0,255> range.
 		// Credits to http://www.raphaeljs.com
 		rgb2hsv: function(rgb) {
@@ -72,15 +81,6 @@
 
 			return [h, s, v];
 		},
-		hex2hsv: function(hex) {
-			var bigint = parseInt(hex.slice(1), 16);
-
-			var r = (bigint >> 16) & 255;
-			var g = (bigint >> 8) & 255;
-			var b = bigint & 255;
-
-			return this.rgb2hsv([r, g, b]);
-		}
 	}
 
 	/*
