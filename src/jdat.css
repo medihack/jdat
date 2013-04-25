@@ -1,3 +1,6 @@
+/*
+ * Widget
+ */
 .jdat-widget {
 	color: #eee;
 	font: 11px 'Lucida Grande', sans-serif;
@@ -11,6 +14,9 @@
 	/*user-select: none;*/
 }
 
+/*
+ * Resizer
+ */
 .jdat-resizer {
 	position: absolute;
 	width: 6px;
@@ -26,6 +32,9 @@
 	left: -3px;
 }
 
+/*
+ * TitleBar
+ */
 .jdat-titlebar {
 	background-color: #111;
 	color: #eee;
@@ -77,6 +86,9 @@
 	background-repeat: no-repeat;
 }
 
+/*
+ * CloseBar
+ */
 a.jdat-closebar {
 	display: inline-block;
 	text-decoration: none;
@@ -89,6 +101,9 @@ a.jdat-closebar {
 	width: 100%;
 }
 
+/*
+ * Field
+ */
 .jdat-field {
 	border-left: 3px solid #2fa1d6;
 	background-color: #1a1a1a;
@@ -102,6 +117,21 @@ a.jdat-closebar {
 
 .jdat-field-container {
 	overflow: hidden;
+}
+
+.jdat-field-label {
+	cursor: default;
+	float: left;
+	clear: left;
+	overflow: hidden;
+  white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 40%;
+}
+
+.jdat-field-panel {
+	width: 60%;
+	float: left;
 }
 
 .jdat-field input, .jdat-field select {
@@ -148,6 +178,9 @@ a.jdat-closebar {
 	transparent 75%, transparent) 0 0 / 20px 20px, #000;
 }
 
+/*
+ * Section
+ */
 .jdat-section-panel {
 	list-style: none;
 	margin: 0;
@@ -155,24 +188,8 @@ a.jdat-closebar {
 	clear: both;
 }
 
-.jdat-checkbox {
-	border-left: 3px solid #ff0000;
-}
-
-.jdat-slider {
-	border-left: 3px solid #2fa1d6;
-}
-
-.jdat-combobox {
-	border-left: 3px solid #ffd300;
-}
-
-.jdat-colorselect {
-	border-left: 3px solid #00cc00;
-}
-
-.jdat-title {
-	border-left: 3px solid #000;
+.jdat-section.jdat-indent > .jdat-section-panel {
+	margin-left: 4px;
 }
 
 .jdat-section-title {
@@ -216,14 +233,11 @@ a.jdat-closebar {
 	float: left;
 }
 
-.jdat-field-label {
-	cursor: default;
-	float: left;
-	clear: left;
-	overflow: hidden;
-  white-space: nowrap;
-	text-overflow: ellipsis;
-	width: 40%;
+/*
+ * Title
+ */
+.jdat-title {
+	border-left: 3px solid #000;
 }
 
 .jdat-field-title {
@@ -232,13 +246,11 @@ a.jdat-closebar {
 	text-overflow: ellipsis;
 }
 
-.jdat-field-panel {
-	width: 60%;
-	float: left;
-}
-
-.jdat-section.jdat-indent > .jdat-section-panel {
-	margin-left: 4px;
+/*
+ * Slider
+ */
+.jdat-slider {
+	border-left: 3px solid #2fa1d6;
 }
 
 .jdat-slider-bg {
@@ -277,18 +289,22 @@ a.jdat-closebar {
 	background-color: #3c3c3c;
 }
 
-.jdat-string input {
-	background: #303030;
-	outline: none;
-	width: 100%;
-	padding: 3px 0;
-	border: 0;
-	color: #fff;
-	height: 13px;
+/*
+ * CheckBox
+ */
+.jdat-checkbox {
+	border-left: 3px solid #ff0000;
 }
 
 .jdat-checkbox input {
 	margin-top: 7px;
+}
+
+/*
+ * ColorSelect
+ */
+.jdat-colorselect {
+	border-left: 3px solid #00cc00;
 }
 
 .jdat-colorselect input {
@@ -365,6 +381,13 @@ a.jdat-closebar {
 	border-bottom: 2px solid #fff;
 }
 
+/*
+ * ComboBox
+ */
+.jdat-combobox {
+	border-left: 3px solid #ffd300;
+}
+
 .jdat-combobox select {
 	margin-top: 4px;
 	border 0;
@@ -375,16 +398,35 @@ a.jdat-closebar {
 	padding: 0;
 }
 
+/*
+ * String
+ */
+.jdat-string input {
+	background: #303030;
+	outline: none;
+	width: 100%;
+	padding: 3px 0;
+	border: 0;
+	color: #fff;
+	height: 13px;
+}
+
 .jdat-string input:hover {
 	background-color: #3c3c3c;
 }
 
+/*
+ * ColorBar
+ */
 .jdat-colorbar canvas {
 	width: 100%;
 	height: 19px;
 	margin-top: 4px;
 }
 
+/*
+ * ProgressBar
+ */
 .jdat-progressbar-bg {
   position: relative;
   background-color: #303030;
