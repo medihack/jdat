@@ -190,9 +190,9 @@ a.jdat-closebar {
 	width: 0px;
 	height: 0px;
 	border-style: solid;
-	border-width: 4px 0 4px 8px;
+	border-width: 3px 0 3px 6px;
 	border-color: transparent transparent transparent #eee;
-	margin: 8px 5px 0 6px;
+	margin: 10px 5px 0 6px;
 	float: left;
 }
 
@@ -200,9 +200,9 @@ a.jdat-closebar {
 	width: 0px;
 	height: 0px;
 	border-style: solid;
-	border-width: 8px 4px 0 4px;
+	border-width: 6px 3px 0 3px;
 	border-color: #eee transparent transparent transparent;
-	margin: 8px 5px 0 6px;
+	margin: 10px 5px 0 6px;
 	float: left;
 }
 
