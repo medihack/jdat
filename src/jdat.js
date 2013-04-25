@@ -495,7 +495,7 @@
 		var defaults = {
 			id: null,
 			key: null,
-			label: "Field",
+			label: null,
 			disabled: false,
 			onChange: null,
 			onFinishChange: null
@@ -605,8 +605,9 @@
 
 		JDat.extend(TitleController, JDat.FieldController, {
 			_render: function() {
-				this._el.append($('<div class="jdat-field-title">')
-					.html(this._options.title));
+				this._template()
+					.append($('<div class="jdat-field-title">')
+						.html(this._options.title));
 			}
 		});
 
