@@ -14,6 +14,7 @@
 	/*user-select: none;*/
 }
 
+
 /*
  * Resizer
  */
@@ -31,6 +32,7 @@
 .jdat-resizer.jdat-left {
 	left: -3px;
 }
+
 
 /*
  * TitleBar
@@ -86,6 +88,7 @@
 	background-repeat: no-repeat;
 }
 
+
 /*
  * CloseBar
  */
@@ -101,10 +104,16 @@ a.jdat-closebar {
 	width: 100%;
 }
 
+
 /*
  * Field
  */
 .jdat-field {
+	position: relative;
+}
+
+.jdat-field-container {
+	overflow: hidden;
 	border-left: 3px solid #2fa1d6;
 	background-color: #1a1a1a;
 	border-bottom: 1px solid #2c2c2c;
@@ -112,17 +121,11 @@ a.jdat-closebar {
 	height: 27px;
 	line-height: 27px;
 	padding: 0 4px 0 5px;
-	position: relative;
-}
-
-.jdat-field-container {
-	overflow: hidden;
 }
 
 .jdat-field-label {
 	cursor: default;
 	float: left;
-	clear: left;
 	overflow: hidden;
   white-space: nowrap;
 	text-overflow: ellipsis;
@@ -178,9 +181,16 @@ a.jdat-closebar {
 	transparent 75%, transparent) 0 0 / 20px 20px, #000;
 }
 
+
 /*
  * Section
  */
+.jdat-section-title {
+	width: auto;
+	font-style: italic;
+	font-size: larger;
+}
+
 .jdat-section-panel {
 	list-style: none;
 	margin: 0;
@@ -192,18 +202,7 @@ a.jdat-closebar {
 	margin-left: 4px;
 }
 
-.jdat-section-title {
-	background-color: #1a1a1a;
-	border-bottom: 1px solid #2c2c2c;
-	cursor: auto;
-	height: 27px;
-	line-height: 27px;
-	overflow: hidden;
-	padding: 0 2px;
-	cursor: pointer;
-}
-
-.jdat-section-title .jdat-arrow-right {
+.jdat-field-container .jdat-arrow-right {
 	width: 0px;
 	height: 0px;
 	border-style: solid;
@@ -213,7 +212,8 @@ a.jdat-closebar {
 	float: left;
 }
 
-.jdat-section-title .jdat-arrow-down {
+.jdat-field-container .jdat-arrow-down {
+	display: inline;
 	width: 0px;
 	height: 0px;
 	border-style: solid;
@@ -223,33 +223,11 @@ a.jdat-closebar {
 	float: left;
 }
 
-.jdat-section-title .jdat-bullet {
-	width: 0px;
-	height: 0px;
-	border-style: solid;
-	border-width: 2px;
-	border-color: #eee;
-	margin: 11px 5px 0 6px;
-	float: left;
-}
-
-/*
- * Title
- */
-.jdat-title {
-	border-left: 3px solid #000;
-}
-
-.jdat-field-title {
-	font-style: italic;
-	font-size: larger;
-	text-overflow: ellipsis;
-}
 
 /*
  * Slider
  */
-.jdat-slider {
+.jdat-slider .jdat-field-container {
 	border-left: 3px solid #2fa1d6;
 }
 
@@ -289,10 +267,11 @@ a.jdat-closebar {
 	background-color: #3c3c3c;
 }
 
+
 /*
  * CheckBox
  */
-.jdat-checkbox {
+.jdat-checkbox .jdat-field-container {
 	border-left: 3px solid #ff0000;
 }
 
@@ -300,10 +279,11 @@ a.jdat-closebar {
 	margin-top: 7px;
 }
 
+
 /*
  * ColorSelect
  */
-.jdat-colorselect {
+.jdat-colorselect .jdat-field-container {
 	border-left: 3px solid #00cc00;
 }
 
@@ -381,10 +361,11 @@ a.jdat-closebar {
 	border-bottom: 2px solid #fff;
 }
 
+
 /*
  * ComboBox
  */
-.jdat-combobox {
+.jdat-combobox .jdat-field-container {
 	border-left: 3px solid #ffd300;
 }
 
@@ -397,6 +378,7 @@ a.jdat-closebar {
 	height: 18px;
 	padding: 0;
 }
+
 
 /*
  * String
@@ -415,6 +397,7 @@ a.jdat-closebar {
 	background-color: #3c3c3c;
 }
 
+
 /*
  * ColorBar
  */
@@ -423,6 +406,7 @@ a.jdat-closebar {
 	height: 19px;
 	margin-top: 4px;
 }
+
 
 /*
  * ProgressBar

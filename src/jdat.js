@@ -83,410 +83,6 @@
 		},
 	}
 
-	/*
-	 * SectionController
-	 */
-	JDat.SectionController = (function() {
-		var defaults = {
-			label: "Section",
-			closeable: true,
-			indent: true,
-			titlelize: true
-		}
-
-		var SectionController = function(el, options) {
-			this._el = el;
-			this._options = $.extend({}, defaults, options);
-
-			if (this._options.indent) {
-				this._el.addClass("jdat-indent");
-			}
-
-			this._render();
-
-			this._bindClose();
-
-			if (this.closed) {
-				this.close();
-			}
-		}
-
-		SectionController.prototype = {
-			constructor: SectionController,
-			_render: function() {
-				var self = this;
-				this._el
-					.append(function() {
-						var sectionTitle = $('<div class="jdat-section-title">');
-						if (self._options.titlelize) {
-							sectionTitle.addClass("jdat-field-title");
-						}
-						if (self._options.closeable) {
-							sectionTitle.append($('<div class="jdat-arrow-down">'));
-						}
-						else {
-							sectionTitle.append($('<div class="jdat-bullet">'));
-						}
-						return sectionTitle.append($('<div="jdat-section-label">')
-								.text(self._options.label));
-					})
-					.append($('<ul class="jdat-section-panel">'));
-			},
-			_bindClose: function() {
-				var self = this;
-
-				if (this._options.closeable) {
-					this._el.find(".jdat-section-title")
-						.click(function(e) {
-							e.preventDefault();
-							self.closed ? self.open() : self.close();
-						});
-				}
-			},
-			_addField: function(type, controllerClazz, options) {
-				var li = $("<li>")
-					.addClass("jdat-field")
-					.addClass("jdat-" + type)
-					.appendTo(this._el.find(".jdat-section-panel:eq(0)"));
-
-				if (options.id) li.attr("id", options.id);
-
-				var controller = new controllerClazz(li, options);
-				li.data("jdat", controller);
-				return controller;
-			},
-			addTitle: function(options) {
-				return this._addField("title", JDat.TitleController, options);
-			},
-			addSlider: function(options) {
-				return this._addField("slider", JDat.SliderController, options);
-			},
-			addCheckBox: function(options) {
-				return this._addField("checkbox", JDat.CheckBoxController, options);
-			},
-			addColorSelect: function(options) {
-				return this._addField("colorselect", JDat.ColorSelectController, options);
-			},
-			addComboBox: function(options) {
-				return this._addField("combobox", JDat.ComboBoxController, options);
-			},
-			addButtons: function(options) {
-				return this._addField("buttons", JDat.ButtonsController, options);
-			},
-			addString: function(options) {
-				return this._addField("string", JDat.StringController, options);
-			},
-			addColorBar: function(options) {
-				return this._addField("colorbar", JDat.ColorBarController, options);
-			},
-			addProgressBar: function(options) {
-				return this._addField("progressbar", JDat.ProgressBarController, options);
-			},
-			addCustom: function(options) {
-				return this._addField("custom", JDat.CustomController, options);
-			},
-			addSection: function(options) {
-				var li = $("<li>")
-					.addClass("jdat-section")
-					.appendTo(this._el.find(".jdat-section-panel:eq(0)"));
-
-				if (options.id) li.attr("id", options.id);
-
-				var controller = new JDat.SectionController(li, options);
-				li.data("jdat", controller);
-				return controller;
-			},
-			open: function() {
-				this._el.find("ul:eq(0)").slideDown("fast");
-				this._el.find(".jdat-section-title:eq(0)")
-					.find(".jdat-arrow-right")
-					.removeClass("jdat-arrow-right")
-					.addClass("jdat-arrow-down");
-				this.closed = false;
-			},
-			close: function() {
-				this._el.find("ul:eq(0)").slideUp("fast");
-				this._el.find(".jdat-section-title:eq(0)")
-					.find(".jdat-arrow-down")
-					.removeClass("jdat-arrow-down")
-					.addClass("jdat-arrow-right");
-				this.closed = true;
-			},
-			empty: function() {
-				this._el.find(".jdat-section-panel:eq(0)")
-					.empty();
-			}
-		}
-
-		return SectionController;
-	})();
-
-
-	/*
-	 * Widget
-	 */
-	JDat.Widget = (function() {
-		var defaults = {
-			resizeable: true,
-			resizerLocation: "right",
-
-			closeBar: "bottom",
-			openLabel: "Open",
-			closeLabel: "Close",
-
-			titleBar: true,
-			title: "",
-			undockable: true,
-			removable: true,
-			collapsible: true
-		}
-
-		var Widget = function(el, options) {
-			this._el = el;
-			this._options = $.extend({}, defaults, options);
-
-			this._render();
-
-			this._bindClose();
-			this._bindResize();
-			this._bindRemove();
-			this._bindDocking();
-
-			if (this.closed) {
-				this.close();
-			}
-		}
-
-		JDat.extend(Widget, JDat.SectionController, {
-			_render: function() {
-				var self = this;
-
-				this.widget = $('<div class="jdat-widget">');
-
-				// resizer
-				if (this._options.resizeable) {
-					var resizer = $('<div class="jdat-resizer">')
-					if (this._options.resizerLocation == "right") {
-						resizer.addClass("jdat-right");
-					}
-					else { // left
-						resizer.addClass("jdat-left");
-					}
-					resizer.appendTo(this.widget);
-				}
-
-				// title bar
-				if (this._options.titleBar) {
-					this._createTitleBar();
-				}
-
-				// section
-				this.widget.append($('<ul class="jdat-section-panel">'))
-
-				// close bar
-				if (this._options.closeBar) {
-					var close = $('<a href="#" class="jdat-closebar">')
-							.text(self._options.closeLabel);
-
-					if (this._options.closeBar == "bottom") {
-						this.widget.append(close);
-					}
-					else { // top close bar
-						this.widget.prepend(close);
-					}
-				}
-
-				this.widget.appendTo(this._el);
-			},
-			_createTitleBar: function() {
-				var titleBar = $('<div class="jdat-titlebar">')
-					.append($('<div class="jdat-titlebar-title">')
-							.text(this._options.title));
-				if (this._options.removable) {
-					titleBar.append($('<button class="jdat-remove">'));
-				}
-				if (this._options.collapsible) {
-					titleBar.append($('<button class="jdat-collapse">'));
-				}
-				if (this._options.undockable) {
-					titleBar.append($('<button class="jdat-undock">'));
-				}
-				titleBar.appendTo(this.widget);
-			},
-			_bindClose: function() {
-				var self = this;
-
-				this.widget.find(".jdat-closebar, button.jdat-collapse")
-					.click(function(e) {
-						e.preventDefault();
-						self.closed ? self.open() : self.close();
-					});
-			},
-			_bindResize: function() {
-				var self = this;
-
-				this.widget.find(".jdat-resizer")
-					.mousedown(function(e) {
-						if (e.which !== 1) return;
-						e.preventDefault();
-
-						var widgetWidth = self.widget.width();
-						var calcWidth = function(relPos) {
-							return widgetWidth + relPos;
-						}
-
-						var startPos = [e.pageX, e.pageY];
-						$(window).bind("mousemove.jdatDrag", function(e) {
-							var curPos = [e.pageX, e.pageY];
-							var relX = curPos[0] - startPos[0];
-
-							if (self._options.resizerLocation == "left") relX = -relX;
-							self.resize(calcWidth(relX));
-						});
-						$(window).one("mouseup", function() {
-							$(window).unbind("mousemove.jdatDrag");
-						});
-					});
-			},
-			_bindRemove: function() {
-				var self = this;
-				this.widget.find(".jdat-titlebar .jdat-remove")
-					.click(function() {
-						self.remove();
-					});
-			},
-			_bindDocking: function() {
-				var self = this;
-				this.widget.find(".jdat-titlebar .jdat-undock")
-					.on("click", function() {
-						if (self.undocked) {
-							self.dock();
-						}
-						else {
-							self.undock();
-						}
-					});
-
-				this.widget.find(".jdat-titlebar")
-					.mousedown(function(e) {
-						if (!self.undocked || e.which !== 1) return;
-						e.preventDefault();
-
-						var offset = self.widget.offset();
-						var dx = e.pageX - offset.left;
-						var dy = e.pageY - offset.top;
-
-						$(window).bind("mousemove.jdatDrag", function(e) {
-							var x = e.pageX - dx;
-							var y = e.pageY - dy;
-
-							self.widget.css("left", x);
-							self.widget.css("top", y);
-						});
-						$(window).one("mouseup.jdatDrag", function(e) {
-							$(window).unbind("mousemove.jdatDrag");
-						});
-					});
-			},
-			open: function() {
-				this.widget.find("ul:eq(0)").slideDown("fast");
-				this.widget.find(".jdat-closebar")
-					.text(this._options.closeLabel);
-				this.widget.find("button.jdat-expand")
-					.removeClass("jdat-expand")
-					.addClass("jdat-collapse");
-				this.closed = false;
-			},
-			close: function() {
-				this.widget.find("ul:eq(0)").slideUp("fast");
-				this.widget.find(".jdat-closebar")
-					.text(this._options.openLabel);
-				this.widget.find("button.jdat-collapse")
-					.removeClass("jdat-collapse")
-					.addClass("jdat-expand");
-				this.closed = true;
-			},
-			resize: function(width) {
-				this.widget.width(width);
-			},
-			empty: function() {
-				this.widget.find(".jdat-section-panel:eq(0)")
-					.empty();
-			},
-			remove: function() {
-				this.widget.fadeOut("fast", function() {
-					$(this).remove();
-				});
-			},
-			undock: function() {
-				if (this.undocked) return;
-
-				var self = this;
-
-				var offset = this.widget.offset();
-				this.widget.detach()
-					.appendTo("body")
-					.css("position", "absolute")
-					.css("left", offset.left)
-					.css("top", offset.top);
-
-				this.widget.find("button.jdat-undock")
-					.removeClass("jdat-undock")
-					.addClass("jdat-dock");
-
-				if (this._options.resizerLocation == "left") {
-					this.widget.find(".jdat-resizer")
-						.removeClass("jdat-left")
-						.addClass("jdat-right");
-				}
-
-				this.dockedPosition = [offset.left, offset.top];
-
-				this.undocked = true;
-			},
-			dock: function() {
-				if (!this.undocked) return;
-
-				var self = this;
-
-				var fix = function() {
-					self.widget.detach()
-						.appendTo(self._el)
-						.css("position", "")
-						.css("left", "")
-						.css("top", "");
-
-					self.widget.find("button.jdat-dock")
-						.removeClass("jdat-dock")
-						.addClass("jdat-undock");
-
-					if (self._options.resizerLocation == "left") {
-						self.widget.find(".jdat-resizer")
-							.removeClass("jdat-right")
-							.addClass("jdat-left");
-					}
-				}
-
-				var offset = this.widget.offset();
-				if (offset.left !== this.dockedPosition[0] || offset.top !== this.dockedPosition[1]) {
-					this.widget.animate({
-						"left": this.dockedPosition[0],
-						"top": this.dockedPosition[1]
-					}, function() {
-						fix();
-					});
-				}
-				else {
-					fix();
-				}
-
-				this.undocked = false;
-			}
-		});
-
-		return Widget;
-	})();
-
 
 	/*
 	 * FieldController
@@ -591,27 +187,118 @@
 
 
 	/*
-	 * TitleController
+	 * SectionController
 	 */
-	JDat.TitleController = (function() {
+	JDat.SectionController = (function() {
 		var defaults = {
-			title: "Title"
+			label: "Section",
+			closeable: true,
+			indent: true
 		}
 
-		var TitleController = function(el, options) {
+		var SectionController = function(el, options) {
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts);
+
+			if (this._options.indent) {
+				this._el.addClass("jdat-indent");
+			}
+
+			this._bindClose();
+
+			if (this.closed) {
+				this.close();
+			}
 		}
 
-		JDat.extend(TitleController, JDat.FieldController, {
+		JDat.extend(SectionController, JDat.FieldController, {
 			_render: function() {
-				this._template()
-					.append($('<div class="jdat-field-title">')
-						.html(this._options.title));
+				this._template().remove(); // removes the field panel
+
+				this._el.find(".jdat-field-label")
+					.addClass("jdat-section-title");
+
+				this._el.append($('<ul class="jdat-section-panel">'));
+
+				if (this._options.closeable) {
+					this._el.find(".jdat-field-container")
+						.prepend($('<div class="jdat-arrow-down">'));
+				}
+			},
+			_bindClose: function() {
+				var self = this;
+
+				if (this._options.closeable) {
+					this._el.find(".jdat-field-container:eq(0)")
+						.click(function(e) {
+							e.preventDefault();
+							self.closed ? self.open() : self.close();
+						});
+				}
+			},
+			_addField: function(type, controllerClazz, options) {
+				var li = $("<li>")
+					.addClass("jdat-field")
+					.addClass("jdat-" + type)
+					.appendTo(this._el.find(".jdat-section-panel:eq(0)"));
+
+				if (options.id) li.attr("id", options.id);
+
+				var controller = new controllerClazz(li, options);
+				li.data("jdat", controller);
+				return controller;
+			},
+			addSlider: function(options) {
+				return this._addField("slider", JDat.SliderController, options);
+			},
+			addCheckBox: function(options) {
+				return this._addField("checkbox", JDat.CheckBoxController, options);
+			},
+			addColorSelect: function(options) {
+				return this._addField("colorselect", JDat.ColorSelectController, options);
+			},
+			addComboBox: function(options) {
+				return this._addField("combobox", JDat.ComboBoxController, options);
+			},
+			addButtons: function(options) {
+				return this._addField("buttons", JDat.ButtonsController, options);
+			},
+			addString: function(options) {
+				return this._addField("string", JDat.StringController, options);
+			},
+			addColorBar: function(options) {
+				return this._addField("colorbar", JDat.ColorBarController, options);
+			},
+			addProgressBar: function(options) {
+				return this._addField("progressbar", JDat.ProgressBarController, options);
+			},
+			addCustom: function(options) {
+				return this._addField("custom", JDat.CustomController, options);
+			},
+			addSection: function(options) {
+				return this._addField("section", JDat.SectionController, options);
+			},
+			open: function() {
+				this._el.find("ul:eq(0)").slideDown("fast");
+				this._el.find(".jdat-arrow-right:eq(0)")
+					.removeClass("jdat-arrow-right")
+					.addClass("jdat-arrow-down");
+				this.closed = false;
+			},
+			close: function() {
+				this._el.find("ul:eq(0)").slideUp("fast");
+				this._el.find(".jdat-arrow-down:eq(0)")
+					.removeClass("jdat-arrow-down")
+					.addClass("jdat-arrow-right");
+				this.closed = true;
+			},
+			empty: function() {
+				this._el.find(".jdat-section-panel:eq(0)")
+					.empty();
 			}
 		});
 
-		return TitleController;
+		return SectionController;
 	})();
 
 
@@ -1541,6 +1228,275 @@
 	})();
 
 
+	/*
+	 * Widget
+	 */
+	JDat.Widget = (function() {
+		var defaults = {
+			resizeable: true,
+			resizerLocation: "right",
+
+			closeBar: "bottom",
+			openLabel: "Open",
+			closeLabel: "Close",
+
+			titleBar: true,
+			title: "",
+			undockable: true,
+			removable: true,
+			collapsible: true
+		}
+
+		var Widget = function(el, options) {
+			this._el = el;
+			this._options = $.extend({}, defaults, options);
+
+			this._render();
+
+			this._bindClose();
+			this._bindResize();
+			this._bindRemove();
+			this._bindDocking();
+
+			if (this.closed) {
+				this.close();
+			}
+		}
+
+		JDat.extend(Widget, JDat.SectionController, {
+			_render: function() {
+				var self = this;
+
+				this.widget = $('<div class="jdat-widget">');
+
+				// resizer
+				if (this._options.resizeable) {
+					var resizer = $('<div class="jdat-resizer">')
+					if (this._options.resizerLocation == "right") {
+						resizer.addClass("jdat-right");
+					}
+					else { // left
+						resizer.addClass("jdat-left");
+					}
+					resizer.appendTo(this.widget);
+				}
+
+				// title bar
+				if (this._options.titleBar) {
+					this._createTitleBar();
+				}
+
+				// section
+				this.widget.append($('<ul class="jdat-section-panel">'))
+
+				// close bar
+				if (this._options.closeBar) {
+					var close = $('<a href="#" class="jdat-closebar">')
+							.text(self._options.closeLabel);
+
+					if (this._options.closeBar == "bottom") {
+						this.widget.append(close);
+					}
+					else { // top close bar
+						this.widget.prepend(close);
+					}
+				}
+
+				this.widget.appendTo(this._el);
+			},
+			_createTitleBar: function() {
+				var titleBar = $('<div class="jdat-titlebar">')
+					.append($('<div class="jdat-titlebar-title">')
+							.text(this._options.title));
+				if (this._options.removable) {
+					titleBar.append($('<button class="jdat-remove">'));
+				}
+				if (this._options.collapsible) {
+					titleBar.append($('<button class="jdat-collapse">'));
+				}
+				if (this._options.undockable) {
+					titleBar.append($('<button class="jdat-undock">'));
+				}
+				titleBar.appendTo(this.widget);
+			},
+			_bindClose: function() {
+				var self = this;
+
+				this.widget.find(".jdat-closebar, button.jdat-collapse")
+					.click(function(e) {
+						e.preventDefault();
+						self.closed ? self.open() : self.close();
+					});
+			},
+			_bindResize: function() {
+				var self = this;
+
+				this.widget.find(".jdat-resizer")
+					.mousedown(function(e) {
+						if (e.which !== 1) return;
+						e.preventDefault();
+
+						var widgetWidth = self.widget.width();
+						var calcWidth = function(relPos) {
+							return widgetWidth + relPos;
+						}
+
+						var startPos = [e.pageX, e.pageY];
+						$(window).bind("mousemove.jdatDrag", function(e) {
+							var curPos = [e.pageX, e.pageY];
+							var relX = curPos[0] - startPos[0];
+
+							if (self._options.resizerLocation == "left") relX = -relX;
+							self.resize(calcWidth(relX));
+						});
+						$(window).one("mouseup", function() {
+							$(window).unbind("mousemove.jdatDrag");
+						});
+					});
+			},
+			_bindRemove: function() {
+				var self = this;
+				this.widget.find(".jdat-titlebar .jdat-remove")
+					.click(function() {
+						self.remove();
+					});
+			},
+			_bindDocking: function() {
+				var self = this;
+				this.widget.find(".jdat-titlebar .jdat-undock")
+					.on("click", function() {
+						if (self.undocked) {
+							self.dock();
+						}
+						else {
+							self.undock();
+						}
+					});
+
+				this.widget.find(".jdat-titlebar")
+					.mousedown(function(e) {
+						if (!self.undocked || e.which !== 1) return;
+						e.preventDefault();
+
+						var offset = self.widget.offset();
+						var dx = e.pageX - offset.left;
+						var dy = e.pageY - offset.top;
+
+						$(window).bind("mousemove.jdatDrag", function(e) {
+							var x = e.pageX - dx;
+							var y = e.pageY - dy;
+
+							self.widget.css("left", x);
+							self.widget.css("top", y);
+						});
+						$(window).one("mouseup.jdatDrag", function(e) {
+							$(window).unbind("mousemove.jdatDrag");
+						});
+					});
+			},
+			open: function() {
+				this.widget.find("ul:eq(0)").slideDown("fast");
+				this.widget.find(".jdat-closebar")
+					.text(this._options.closeLabel);
+				this.widget.find("button.jdat-expand")
+					.removeClass("jdat-expand")
+					.addClass("jdat-collapse");
+				this.closed = false;
+			},
+			close: function() {
+				this.widget.find("ul:eq(0)").slideUp("fast");
+				this.widget.find(".jdat-closebar")
+					.text(this._options.openLabel);
+				this.widget.find("button.jdat-collapse")
+					.removeClass("jdat-collapse")
+					.addClass("jdat-expand");
+				this.closed = true;
+			},
+			resize: function(width) {
+				this.widget.width(width);
+			},
+			empty: function() {
+				this.widget.find(".jdat-section-panel:eq(0)")
+					.empty();
+			},
+			remove: function() {
+				this.widget.fadeOut("fast", function() {
+					$(this).remove();
+				});
+			},
+			undock: function() {
+				if (this.undocked) return;
+
+				var self = this;
+
+				var offset = this.widget.offset();
+				this.widget.detach()
+					.appendTo("body")
+					.css("position", "absolute")
+					.css("left", offset.left)
+					.css("top", offset.top);
+
+				this.widget.find("button.jdat-undock")
+					.removeClass("jdat-undock")
+					.addClass("jdat-dock");
+
+				if (this._options.resizerLocation == "left") {
+					this.widget.find(".jdat-resizer")
+						.removeClass("jdat-left")
+						.addClass("jdat-right");
+				}
+
+				this.dockedPosition = [offset.left, offset.top];
+
+				this.undocked = true;
+			},
+			dock: function() {
+				if (!this.undocked) return;
+
+				var self = this;
+
+				var fix = function() {
+					self.widget.detach()
+						.appendTo(self._el)
+						.css("position", "")
+						.css("left", "")
+						.css("top", "");
+
+					self.widget.find("button.jdat-dock")
+						.removeClass("jdat-dock")
+						.addClass("jdat-undock");
+
+					if (self._options.resizerLocation == "left") {
+						self.widget.find(".jdat-resizer")
+							.removeClass("jdat-right")
+							.addClass("jdat-left");
+					}
+				}
+
+				var offset = this.widget.offset();
+				if (offset.left !== this.dockedPosition[0] || offset.top !== this.dockedPosition[1]) {
+					this.widget.animate({
+						"left": this.dockedPosition[0],
+						"top": this.dockedPosition[1]
+					}, function() {
+						fix();
+					});
+				}
+				else {
+					fix();
+				}
+
+				this.undocked = false;
+			}
+		});
+
+		return Widget;
+	})();
+
+
+	/*
+	 * jQuery Plugin
+	 */
 	$.fn.jdat = function(options) {
 		return this.each(function() {
 			var $this = $(this);
