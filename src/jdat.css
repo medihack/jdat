@@ -188,7 +188,7 @@ a.jdat-closebar {
 .jdat-section-title {
 	width: auto;
 	font-style: italic;
-	font-size: larger;
+	font-weight: bold;
 }
 
 .jdat-section-panel {
