@@ -93,6 +93,7 @@
 			key: null,
 			label: null,
 			disabled: false,
+			hidden: false,
 			onChange: null,
 			onFinishChange: null
 		}
@@ -105,6 +106,10 @@
 
 			if (this._options.disabled) {
 				this.disable();
+			}
+
+			if (this._options.hidden) {
+				this._el.hide();
 			}
 		}
 
@@ -162,10 +167,10 @@
 				}
 			},
 			show: function() {
-				this._el.slideUp("fast");
+				this._el.slideDown("fast");
 			},
 			hide: function() {
-				this._el.slideDown("fast");
+				this._el.slideUp("fast");
 			},
 			enable: function() {
 				this._el.find($(".jdat-field-disabler")
@@ -193,6 +198,7 @@
 		var defaults = {
 			label: "Section",
 			closeable: true,
+			closed: false,
 			indent: true
 		}
 
@@ -200,13 +206,9 @@
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts);
 
-			if (this._options.indent) {
-				this._el.addClass("jdat-indent");
-			}
-
 			this._bindClose();
 
-			if (this.closed) {
+			if (this._options.closed) {
 				this.close();
 			}
 		}
@@ -218,7 +220,12 @@
 				this._el.find(".jdat-field-label")
 					.addClass("jdat-section-title");
 
-				this._el.append($('<ul class="jdat-section-panel">'));
+				var sectionPanel = $('<ul class="jdat-section-panel">')
+					.appendTo(this._el);
+
+				if (this._options.indent) {
+					sectionPanel.addClass("jdat-indent");
+				}
 
 				if (this._options.closeable) {
 					this._el.find(".jdat-field-container")
@@ -279,17 +286,23 @@
 				return this._addField("section", JDat.SectionController, options);
 			},
 			open: function() {
-				this._el.find("ul:eq(0)").slideDown("fast");
+				this._el.find(".jdat-section-panel:eq(0)")
+					.slideDown("fast");
+
 				this._el.find(".jdat-arrow-right:eq(0)")
 					.removeClass("jdat-arrow-right")
 					.addClass("jdat-arrow-down");
+
 				this.closed = false;
 			},
 			close: function() {
-				this._el.find("ul:eq(0)").slideUp("fast");
+				this._el.find(".jdat-section-panel:eq(0)")
+					.slideUp("fast");
+
 				this._el.find(".jdat-arrow-down:eq(0)")
 					.removeClass("jdat-arrow-down")
 					.addClass("jdat-arrow-right");
+
 				this.closed = true;
 			},
 			empty: function() {

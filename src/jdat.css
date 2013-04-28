@@ -198,7 +198,7 @@ a.jdat-closebar {
 	clear: both;
 }
 
-.jdat-section.jdat-indent > .jdat-section-panel {
+.jdat-section-panel.jdat-indent {
 	margin-left: 4px;
 }
 
@@ -210,6 +210,7 @@ a.jdat-closebar {
 	border-color: transparent transparent transparent #eee;
 	margin: 10px 5px 0 6px;
 	float: left;
+	cursor: pointer;
 }
 
 .jdat-field-container .jdat-arrow-down {
@@ -221,6 +222,7 @@ a.jdat-closebar {
 	border-color: #eee transparent transparent transparent;
 	margin: 10px 5px 0 6px;
 	float: left;
+	cursor: pointer;
 }
 
 
