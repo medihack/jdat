@@ -176,11 +176,18 @@
 				this._el.find($(".jdat-field-disabler")
 						.remove());
 			},
-			disable: function() {
-				if (!this._el.has(".jdat-field-disabler").length) {
-					$('<div class="jdat-field-disabler">')
+			disable: function(loading) {
+				var disabler = this._el.find(".jdat-field-disabler");
+
+				if (!disabler.length) {
+					disabler = $('<div class="jdat-field-disabler">')
 						.appendTo(this._el);
+
+					if (loading) {
+						disabler.addClass("jdat-loading");
+					}
 				}
+
 			},
 			trigger: function(data, finishChange) {
 				this._trigger(data, finishChange);
@@ -237,9 +244,10 @@
 
 				if (this._options.closeable) {
 					this._el.find(".jdat-field-container:eq(0)")
-						.click(function(e) {
-							e.preventDefault();
+						.click(function() {
 							self.closed ? self.open() : self.close();
+
+							return false;
 						});
 				}
 			},
@@ -350,10 +358,8 @@
 				var self = this;
 
 				this._el.find(".jdat-slider-bg")
-					.mousedown(function(e) {
-						if (e.which !== 1) return;
-
-						e.preventDefault();
+					.mousedown(function(event) {
+						if (event.which !== 1) return;
 
 						var bg = self._el.find(".jdat-slider-bg");
 						var bgOffset = bg.offset();
@@ -367,25 +373,33 @@
 							self.value(value, true, finishChange);
 						}
 
-						adjustValue(e.pageX, false);
+						adjustValue(event.pageX, false);
 
-						$(window).bind("mousemove.jdatDrag", function(e) {
-							adjustValue(e.pageX, false);
+						$(window).bind("mousemove.jdatDrag", function(event) {
+							adjustValue(event.pageX, false);
+
+							return false;
 						});
-						$(window).one("mouseup", function(e) {
-							adjustValue(e.pageX, true);
+						$(window).one("mouseup", function(event) {
+							adjustValue(event.pageX, true);
 
 							$(window).unbind("mousemove.jdatDrag");
+
+							return false;
 						});
+
+						return false;
 					});
 			},
 			_bindInput: function() {
 				var self = this;
 
 				this._el.find("input")
-					.change(function(e) {
-						var value = $(e.currentTarget).val();
+					.change(function(event) {
+						var value = $(event.currentTarget).val();
 						self.value(value);
+
+						return false;
 					});
 			},
 			_setSlider: function() {
@@ -512,9 +526,11 @@
 				var self = this;
 
 				this._el.find("input")
-					.change(function(e) {
-						var checked = $(e.currentTarget).is(":checked");
+					.change(function(event) {
+						var checked = $(event.currentTarget).is(":checked");
 						self.value(checked);
+
+						return false;
 					});
 			},
 			value: function(checked, trigger, finishChange) {
@@ -580,36 +596,35 @@
 				var selector = this._el.find(".jdat-colorpicker");
 
 				this._el.find("input")
-					.change(function(e) {
-						var color = $(e.currentTarget).val();
+					.change(function(event) {
+						var color = $(event.currentTarget).val();
 						self.value(color);
+
+						return false;
 					})
-					.mousedown(function(e) {
+					.mousedown(function(event) {
 						if (selector.is(":visible")) {
 							selector.hide();
 						}
 						else {
 							selector.show();
 							var justShown = true;
-							$(document).on("mousedown", function(e) {
+							$(document).on("mousedown", function(event) {
 								if (justShown) {
 									justShown = false;
 								}
 								else {
 									selector.hide();
-									$(this).off(e);
+									$(this).off(event);
 								}
+								return false;
 							});
 						}
+
+						return false;
 					});
 			},
 			_bindSelector: function() {
-				this._el.find(".jdat-colorpicker")
-					.on("click mousedown", function(e) {
-						e.preventDefault();
-						e.stopPropagation();
-					});
-
 				this._bindHue();
 				this._bindSaturation();
 			},
@@ -617,10 +632,8 @@
 				var self = this;
 
 				this._el.find(".jdat-hue-field")
-					.mousedown(function(e) {
-						if (e.which !== 1) return;
-						e.preventDefault();
-						e.stopPropagation();
+					.mousedown(function(event) {
+						if (event.which !== 1) return;
 
 						var hf = $(this);
 						var hfTop = hf.offset().top;
@@ -639,26 +652,30 @@
 							self._value("hsv", self.hsv, true, finishChange);
 						}
 
-						adjustValue(e.pageY, false);
+						adjustValue(event.pageY, false);
 
-						$(window).bind("mousemove.jdatDrag", function(e) {
-							adjustValue(e.pageY, false);
+						$(window).bind("mousemove.jdatDrag", function(event) {
+							adjustValue(event.pageY, false);
+
+							return false;
 						});
-						$(window).one("mouseup", function(e) {
-							adjustValue(e.pageY, true);
+						$(window).one("mouseup", function(event) {
+							adjustValue(event.pageY, true);
 
 							$(window).unbind("mousemove.jdatDrag");
+
+							return false;
 						});
+
+						return false;
 					});
 			},
 			_bindSaturation: function() {
 				var self = this;
 
 				this._el.find(".jdat-saturation-field")
-					.mousedown(function(e) {
-						if (e.which !== 1) return;
-						e.preventDefault();
-						e.stopPropagation();
+					.mousedown(function(event) {
+						if (event.which !== 1) return;
 
 						var sf = $(this);
 						var sfOffset = sf.offset();
@@ -687,16 +704,22 @@
 							self._value("hsv", self.hsv, true, finishChange);
 						}
 
-						adjustValue(e.pageX, e.pageY, false);
+						adjustValue(event.pageX, event.pageY, false);
 
-						$(window).bind("mousemove.jdatDrag", function(e) {
-							adjustValue(e.pageX, e.pageY, false);
+						$(window).bind("mousemove.jdatDrag", function(event) {
+							adjustValue(event.pageX, event.pageY, false);
+
+							return false;
 						});
-						$(window).one("mouseup", function(e) {
-							adjustValue(e.pageX, e.pageY, true);
+						$(window).one("mouseup", function(event) {
+							adjustValue(event.pageX, event.pageY, true);
 
 							$(window).unbind("mousemove.jdatDrag");
+
+							return false;
 						});
+
+						return false;
 					});
 			},
 			_setInput: function(hex, hsv) {
@@ -846,9 +869,12 @@
 				var self = this;
 
 				this._el.find("select")
-					.change(function(e) {
-						var i = $(e.currentTarget).find("option:selected").index();
+					.change(function(event) {
+						var i = $(event.currentTarget).find("option:selected")
+							.index();
 						self.value(i);
+
+						return false;
 					});
 			},
 			selectOptions: function(selectOptions) {
@@ -927,9 +953,9 @@
 				// handles click and hold events
 				var fireStep = 0;
 				var timeoutId = 0;
-				buttons.mousedown(function(e) {
+				buttons.mousedown(function(event) {
 					fireStep = 1;
-					var index = $(e.currentTarget).index();
+					var index = $(event.currentTarget).index();
 					var data = {value: index};
 					var timeout = self._options.holdTimeout;
 					var timer = function() {
@@ -939,13 +965,17 @@
 					}
 					timer();
 
-					var clearTimer = function(e) {
+					var clearTimer = function() {
 						clearTimeout(timeoutId);
 						if (fireStep > 0) self._trigger(data, true);
 						fireStep = 0;
+
+						return false;
 					}
-					$(e.currentTarget).one("mouseup", clearTimer);
-					$(e.currentTarget).one("mouseleave", clearTimer);
+					$(event.currentTarget).one("mouseup", clearTimer);
+					$(event.currentTarget).one("mouseleave", clearTimer);
+
+					return false;
 				});
 			}
 		});
@@ -983,9 +1013,11 @@
 			},
 			_bindInput: function() {
 				var self = this;
-				this._el.find("input").change(function(e) {
-					var value = $(e.currentTarget).val();
+				this._el.find("input").change(function(event) {
+					var value = $(event.currentTarget).val();
 					self.value(value);
+
+					return false;
 				});
 			},
 			value: function(string, trigger, finishChange) {
@@ -1105,12 +1137,14 @@
 			_bindHover: function() {
 				var self = this;
 				var canvas = this._el.find("canvas")
-				canvas.mousemove(function(e) {
+				canvas.mousemove(function(event) {
 					var offset = canvas.offset();
-					var x = e.pageX - offset.left;
-					var y = e.pageY - offset.top;
+					var x = event.pageX - offset.left;
+					var y = event.pageY - offset.top;
 					var value = x / canvas.width();
-					self._options.onHover.call(this, value, e.pageX, e.pageY, x, y);
+					self._options.onHover.call(this, value, event.pageX, event.pageY, x, y);
+
+					return false;
 				});
 			},
 			getColor: function(value, format) {
@@ -1336,35 +1370,41 @@
 				var self = this;
 
 				this.widget.find(".jdat-closebar, button.jdat-collapse")
-					.click(function(e) {
-						e.preventDefault();
+					.click(function() {
 						self.closed ? self.open() : self.close();
+
+						return false;
 					});
 			},
 			_bindResize: function() {
 				var self = this;
 
 				this.widget.find(".jdat-resizer")
-					.mousedown(function(e) {
-						if (e.which !== 1) return;
-						e.preventDefault();
+					.mousedown(function(event) {
+						if (event.which !== 1) return;
 
 						var widgetWidth = self.widget.width();
 						var calcWidth = function(relPos) {
 							return widgetWidth + relPos;
 						}
 
-						var startPos = [e.pageX, e.pageY];
-						$(window).bind("mousemove.jdatDrag", function(e) {
-							var curPos = [e.pageX, e.pageY];
+						var startPos = [event.pageX, event.pageY];
+						$(window).bind("mousemove.jdatDrag", function(event) {
+							var curPos = [event.pageX, event.pageY];
 							var relX = curPos[0] - startPos[0];
 
 							if (self._options.resizerLocation == "left") relX = -relX;
 							self.resize(calcWidth(relX));
+
+							return false;
 						});
 						$(window).one("mouseup", function() {
 							$(window).unbind("mousemove.jdatDrag");
+
+							return false;
 						});
+
+						return false;
 					});
 			},
 			_bindRemove: function() {
@@ -1372,6 +1412,8 @@
 				this.widget.find(".jdat-titlebar .jdat-remove")
 					.click(function() {
 						self.remove();
+
+						return false;
 					});
 			},
 			_bindDocking: function() {
@@ -1384,27 +1426,34 @@
 						else {
 							self.undock();
 						}
+
+						return false;
 					});
 
 				this.widget.find(".jdat-titlebar")
-					.mousedown(function(e) {
-						if (!self.undocked || e.which !== 1) return;
-						e.preventDefault();
+					.mousedown(function(event) {
+						if (!self.undocked || event.which !== 1) return;
 
 						var offset = self.widget.offset();
-						var dx = e.pageX - offset.left;
-						var dy = e.pageY - offset.top;
+						var dx = event.pageX - offset.left;
+						var dy = event.pageY - offset.top;
 
-						$(window).bind("mousemove.jdatDrag", function(e) {
-							var x = e.pageX - dx;
-							var y = e.pageY - dy;
+						$(window).bind("mousemove.jdatDrag", function(event) {
+							var x = event.pageX - dx;
+							var y = event.pageY - dy;
 
 							self.widget.css("left", x);
 							self.widget.css("top", y);
+
+							return false;
 						});
-						$(window).one("mouseup.jdatDrag", function(e) {
+						$(window).one("mouseup.jdatDrag", function() {
 							$(window).unbind("mousemove.jdatDrag");
+
+							return false;
 						});
+
+						return false;
 					});
 			},
 			open: function() {

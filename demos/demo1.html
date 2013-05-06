@@ -20,6 +20,10 @@
 				window.slider = window.jdat.addSlider({
 					label: "My Slider"
 				});
+				window.slider.disable(true);
+				window.slider.disable(true);
+				<!--window.slider.disable(true);-->
+
 				window.checkbox = window.jdat.addCheckBox({
 					label: "My Checkbox"
 				});
@@ -38,10 +42,11 @@
 				});
 				window.string = window.jdat.addString({
 					label: "My String",
-					disabled: true
+					disabled: false
 				});
 				window.section = window.jdat.addSection({
-					label: "My Section"
+					label: "My Section",
+					closed: false
 				});
 				window.slider2 = window.section.addSlider({
 					label: "My Slider 2"
