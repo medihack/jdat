@@ -1150,7 +1150,7 @@
 			getColor: function(value, format) {
 				var canvas = this.ctx.canvas;
 				var canvasWidth = canvas.width;
-				var x = canvasWidth * value;
+				var x = (canvasWidth - 1) * value;
 				var data = this.ctx.getImageData(x, 0, 1, 1).data;
 
 				var rgb = [data[0], data[1], data[2]];
