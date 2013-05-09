@@ -204,6 +204,7 @@
 	JDat.SectionController = (function() {
 		var defaults = {
 			label: "Section",
+			title: true,
 			closeable: true,
 			closed: false,
 			indent: true
@@ -222,21 +223,23 @@
 
 		JDat.extend(SectionController, JDat.FieldController, {
 			_render: function() {
-				this._template().remove(); // removes the field panel
+				if (this._options.title) {
+					this._template().remove(); // removes the field panel
 
-				this._el.find(".jdat-field-label")
-					.addClass("jdat-section-title");
+					this._el.find(".jdat-field-label")
+						.addClass("jdat-section-title");
+
+					if (this._options.closeable) {
+						this._el.find(".jdat-field-container")
+							.prepend($('<div class="jdat-arrow-down">'));
+					}
+				}
 
 				var sectionPanel = $('<ul class="jdat-section-panel">')
 					.appendTo(this._el);
 
 				if (this._options.indent) {
 					sectionPanel.addClass("jdat-indent");
-				}
-
-				if (this._options.closeable) {
-					this._el.find(".jdat-field-container")
-						.prepend($('<div class="jdat-arrow-down">'));
 				}
 			},
 			_bindClose: function() {
