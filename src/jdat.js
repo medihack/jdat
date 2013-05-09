@@ -92,6 +92,7 @@
 			id: null,
 			key: null,
 			label: null,
+			titleize: false,
 			disabled: false,
 			hidden: false,
 			onChange: null,
@@ -136,7 +137,10 @@
 
 				var fieldPanel = $('<div class="jdat-field-panel">');
 
-				fieldContainer.append($('<span class="jdat-field-label">'))
+				var fieldLabel = $('<span class="jdat-field-label">');
+				if (this._options.titleize) fieldLabel.addClass("jdat-title");
+
+				fieldContainer.append(fieldLabel)
 					.append(fieldPanel);
 
 				this.label(this._options.label);
@@ -227,7 +231,8 @@
 					this._template().remove(); // removes the field panel
 
 					this._el.find(".jdat-field-label")
-						.addClass("jdat-section-title");
+						.addClass("jdat-section-title")
+						.addClass("jdat-title");
 
 					if (this._options.closeable) {
 						this._el.find(".jdat-field-container")
@@ -1356,7 +1361,7 @@
 			},
 			_createTitleBar: function() {
 				var titleBar = $('<div class="jdat-titlebar">')
-					.append($('<div class="jdat-titlebar-title">')
+					.append($('<div class="jdat-titlebar-title jdat-title">')
 							.text(this._options.title));
 				if (this._options.removable) {
 					titleBar.append($('<button class="jdat-remove">'));

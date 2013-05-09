@@ -1,4 +1,13 @@
 /*
+ * General
+ */
+.jdat-title {
+	font-style: italic;
+	font-weight: bold;
+}
+
+
+/*
  * Widget
  */
 .jdat-widget {
@@ -49,7 +58,6 @@
 
 .jdat-titlebar-title {
 	float: left;
-	font-style: italic;
 	font-size: larger;
 	text-overflow: ellipsis;
 }
@@ -205,8 +213,6 @@ to { background-position: 30px 0; }
  */
 .jdat-section-title {
 	width: auto;
-	font-style: italic;
-	font-weight: bold;
 }
 
 .jdat-section-panel {
