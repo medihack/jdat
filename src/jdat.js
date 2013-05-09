@@ -1284,7 +1284,7 @@
 	JDat.Widget = (function() {
 		var defaults = {
 			resizeable: true,
-			resizerLocation: "right",
+			resizer: "right",
 
 			closeBar: "bottom",
 			openLabel: "Open",
@@ -1322,7 +1322,7 @@
 				// resizer
 				if (this._options.resizeable) {
 					var resizer = $('<div class="jdat-resizer">')
-					if (this._options.resizerLocation == "right") {
+					if (this._options.resizer == "right") {
 						resizer.addClass("jdat-right");
 					}
 					else { // left
@@ -1396,7 +1396,7 @@
 							var curPos = [event.pageX, event.pageY];
 							var relX = curPos[0] - startPos[0];
 
-							if (self._options.resizerLocation == "left") relX = -relX;
+							if (self._options.resizer == "left") relX = -relX;
 							self.resize(calcWidth(relX));
 
 							return false;
@@ -1505,7 +1505,7 @@
 					.removeClass("jdat-undock")
 					.addClass("jdat-dock");
 
-				if (this._options.resizerLocation == "left") {
+				if (this._options.resizer == "left") {
 					this.widget.find(".jdat-resizer")
 						.removeClass("jdat-left")
 						.addClass("jdat-right");
@@ -1531,7 +1531,7 @@
 						.removeClass("jdat-dock")
 						.addClass("jdat-undock");
 
-					if (self._options.resizerLocation == "left") {
+					if (self._options.resizer == "left") {
 						self.widget.find(".jdat-resizer")
 							.removeClass("jdat-right")
 							.addClass("jdat-left");
