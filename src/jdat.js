@@ -474,13 +474,13 @@
 					var step = this._options.step;
 					if (value % step != 0) {
 						// TODO investigate further
-						//value = Math.round(value / step) * step;
 						var str = String(step);
 						var p = 0;
 						if (str.indexOf(".") > -1) {
 							p = str.length - str.indexOf(".") - 1;
 						}
 						var tenTo = Math.pow(10, p);
+						value = Math.round(value / step) * step;
 						value = Math.round(value * tenTo) / tenTo;
 					}
 
