@@ -322,29 +322,33 @@
 			},
 			open: function(complete) {
 				this._el.find(".jdat-section-panel:eq(0)")
-					.slideDown("fast");
+					.slideDown("fast", function() {
+						$(this).show();
+
+						if ($.isFunction(complete)) {
+							complete.call(this);
+						}
+					});
 
 				this._el.find(".jdat-arrow-right:eq(0)")
 					.removeClass("jdat-arrow-right")
 					.addClass("jdat-arrow-down");
 
-				if ($.isFunction(complete)) {
-					complete.call(this);
-				}
-
 				this.closed = false;
 			},
 			close: function(complete) {
 				this._el.find(".jdat-section-panel:eq(0)")
-					.slideUp("fast");
+					.slideUp("fast", function() {
+						$(this).hide();
+
+						if ($.isFunction(complete)) {
+							complete.call(this);
+						}
+					});
 
 				this._el.find(".jdat-arrow-down:eq(0)")
 					.removeClass("jdat-arrow-down")
 					.addClass("jdat-arrow-right");
-
-				if ($.isFunction(complete)) {
-					complete.call(this);
-				}
 
 				this.closed = true;
 			},
@@ -1492,30 +1496,40 @@
 					});
 			},
 			open: function(complete) {
-				this.widget.find("ul:eq(0)").slideDown("fast");
+				this.widget.find("ul:eq(0)")
+					.slideDown("fast", function() {
+						$(this).show();
+
+						if ($.isFunction(complete)) {
+							complete.call(this);
+						}
+					});
+
 				this.widget.find(".jdat-closebar")
 					.text(this._options.closeLabel);
+
 				this.widget.find("button.jdat-expand")
 					.removeClass("jdat-expand")
 					.addClass("jdat-collapse");
 
-				if ($.isFunction(complete)) {
-					complete.call(this);
-				}
-
 				this.closed = false;
 			},
 			close: function(complete) {
-				this.widget.find("ul:eq(0)").slideUp("fast");
+				this.widget.find("ul:eq(0)")
+					.slideUp("fast", function() {
+						$(this).hide();
+
+						if ($.isFunction(complete)) {
+							complete.call(this);
+						}
+					});
+
 				this.widget.find(".jdat-closebar")
 					.text(this._options.openLabel);
+
 				this.widget.find("button.jdat-collapse")
 					.removeClass("jdat-collapse")
 					.addClass("jdat-expand");
-
-				if ($.isFunction(complete)) {
-					complete.call(this);
-				}
 
 				this.closed = true;
 			},
