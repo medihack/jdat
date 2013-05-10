@@ -171,14 +171,24 @@
 				}
 			},
 			show: function() {
-				this._el.slideDown("fast");
+				this._el.slideDown("fast", function() {
+					$(this).show();
+				});
+
+				this._options.hidden = false;
 			},
 			hide: function() {
-				this._el.slideUp("fast");
+				this._el.slideUp("fast", function() {
+					$(this).hide();
+				});
+
+				this._options.hidden = true;
 			},
 			enable: function() {
 				this._el.find($(".jdat-field-disabler")
 						.remove());
+
+				this._options.disabled = false;
 			},
 			disable: function(loading) {
 				var disabler = this._el.find(".jdat-field-disabler");
@@ -192,6 +202,7 @@
 					}
 				}
 
+				this._options.disabled = true;
 			},
 			trigger: function(data, finishChange) {
 				this._trigger(data, finishChange);
