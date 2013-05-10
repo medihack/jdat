@@ -170,16 +170,22 @@
 					this._options.onChange = func;
 				}
 			},
-			show: function() {
+			show: function(complete) {
 				this._el.slideDown("fast", function() {
 					$(this).show();
+					if ($.isFunction(complete)) {
+						complete.call(this);
+					}
 				});
 
 				this._options.hidden = false;
 			},
-			hide: function() {
+			hide: function(complete) {
 				this._el.slideUp("fast", function() {
 					$(this).hide();
+					if ($.isFunction(complete)) {
+						complete.call(this);
+					}
 				});
 
 				this._options.hidden = true;
