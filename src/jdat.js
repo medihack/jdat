@@ -1156,9 +1156,23 @@
 
 		JDat.extend(ColorBarController, JDat.FieldController, {
 			_render: function() {
-				var canvas = $('<canvas>');
-				this._template().append(canvas);
+				var template = this._template();
+
+				var container = $('<div class="jdat-colorbar-container">');
+				template.append(container);
+				this.container = container;
+
+				var canvas = $('<canvas class="jdat-colorbar-canvas">');
+				container.append(canvas);
 				this.ctx = canvas[0].getContext("2d");
+
+				var marker = $('<div class="jdat-colorbar-marker">');
+				container.append(marker);
+				this.marker = marker;
+
+				var caption = $('<div class="jdat-colorbar-caption">');
+				container.append(caption);
+				this.caption = caption;
 
 				var w = this.ctx.canvas.width;
 				var h = this.ctx.canvas.height;
@@ -1175,13 +1189,34 @@
 			},
 			_bindHover: function() {
 				var self = this;
-				var canvas = this._el.find("canvas")
-				canvas.mousemove(function(event) {
+
+				this.container.mousemove(function(event) {
+					var canvas = $(self.ctx.canvas);
 					var offset = canvas.offset();
 					var x = event.pageX - offset.left;
-					var y = event.pageY - offset.top;
 					var value = x / canvas.width();
-					self._options.onHover.call(this, value, event.pageX, event.pageY, x, y);
+
+					self.marker.show();
+
+					if (value >= 0 && value <= 1) {
+						self.marker.css("left", x + "px");
+					}
+
+					var text = self._options.onHover.call(this, value);
+					if (text) {
+						self.caption.html(text).show();
+					}
+					else {
+						self.caption.hide();
+					}
+
+					return false;
+				});
+
+				this.container.mouseleave(function() {
+					self.marker.hide();
+
+					self.caption.hide();
 
 					return false;
 				});

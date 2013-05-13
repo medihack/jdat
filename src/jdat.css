@@ -427,10 +427,39 @@ to { background-position: 30px 0; }
 /*
  * ColorBar
  */
-.jdat-colorbar canvas {
+.jdat-colorbar-container {
+	position: relative;
 	width: 100%;
 	height: 19px;
 	margin-top: 4px;
+}
+
+.jdat-colorbar-canvas {
+	height: 100%;
+	width: 100%;
+}
+
+.jdat-colorbar-caption {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	line-height: 19px;
+	height: 100%;
+	width: 100%;
+	cursor: default;
+	text-overflow: ellipsis;
+}
+
+.jdat-colorbar-marker {
+	display: none;
+	background-color: #fff;
+	position: absolute;
+	width: 1px;
+	height: 19px;
+	top: 0;
+	left: 0;
 }
 
 
