@@ -647,15 +647,12 @@
 						}
 						else {
 							selector.show();
-							var justShown = true;
-							$(document).on("mousedown", function(event) {
-								if (justShown) {
-									justShown = false;
-								}
-								else {
-									selector.hide();
-									$(this).off(event);
-								}
+
+							self._selectColor(self.hex, self.hsv);
+
+							$(document).one("mousedown", function(event) {
+								selector.hide();
+
 								return false;
 							});
 						}
@@ -826,9 +823,11 @@
 					hex = JDat.ColorHelper.hsv2hex(hsv);
 				}
 
+				this.hex = hex;
 				this.hsv = hsv;
 
 				this._setInput(hex, hsv);
+
 				this._selectColor(hex, hsv);
 
 				var oldHex = this._options.value;
