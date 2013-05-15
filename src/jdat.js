@@ -654,6 +654,11 @@
 							selector.hide();
 						}
 						else {
+							// hide other colorpickers in this widget
+							$(this).parents(".jdat-widget")
+								.find(".jdat-colorpicker")
+								.hide();
+
 							selector.show();
 
 							self._selectColor(self.hex, self.hsv);
