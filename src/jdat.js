@@ -171,22 +171,26 @@
 				}
 			},
 			show: function(complete) {
+				var self = this;
+
 				this._el.slideDown("fast", function() {
 					$(this).show();
 
 					if ($.isFunction(complete)) {
-						complete.call(this);
+						complete.call(self);
 					}
 				});
 
 				this._options.hidden = false;
 			},
 			hide: function(complete) {
+				var self = this;
+
 				this._el.slideUp("fast", function() {
 					$(this).hide();
 
 					if ($.isFunction(complete)) {
-						complete.call(this);
+						complete.call(self);
 					}
 				});
 
@@ -321,12 +325,14 @@
 				return this._addField("section", JDat.SectionController, options);
 			},
 			open: function(complete) {
+				var self = this;
+
 				this._el.find(".jdat-section-panel:eq(0)")
 					.slideDown("fast", function() {
 						$(this).show();
 
 						if ($.isFunction(complete)) {
-							complete.call(this);
+							complete.call(self);
 						}
 					});
 
@@ -337,12 +343,14 @@
 				this.closed = false;
 			},
 			close: function(complete) {
+				var self = this;
+
 				this._el.find(".jdat-section-panel:eq(0)")
 					.slideUp("fast", function() {
 						$(this).hide();
 
 						if ($.isFunction(complete)) {
-							complete.call(this);
+							complete.call(self);
 						}
 					});
 
@@ -1201,7 +1209,8 @@
 						self.marker.css("left", x + "px");
 					}
 
-					var text = self._options.onHover.call(this, value);
+					var text = self._options.onHover.call(self, value);
+
 					if (text) {
 						self.caption.html(text).show();
 					}
@@ -1544,12 +1553,14 @@
 					});
 			},
 			open: function(complete) {
+				var self = this;
+
 				this.widget.find("ul:eq(0)")
 					.slideDown("fast", function() {
 						$(this).show();
 
 						if ($.isFunction(complete)) {
-							complete.call(this);
+							complete.call(self);
 						}
 					});
 
@@ -1563,12 +1574,14 @@
 				this.closed = false;
 			},
 			close: function(complete) {
+				var self = this;
+
 				this.widget.find("ul:eq(0)")
 					.slideUp("fast", function() {
 						$(this).hide();
 
 						if ($.isFunction(complete)) {
-							complete.call(this);
+							complete.call(self);
 						}
 					});
 
