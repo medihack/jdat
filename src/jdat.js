@@ -1364,7 +1364,10 @@
 			title: "",
 			undockable: true,
 			removable: true,
-			collapsible: true
+			collapsible: true,
+
+			settings: false,
+			onSettings: function() {}
 		}
 
 		var Widget = function(el, options) {
@@ -1436,6 +1439,9 @@
 				}
 				if (this._options.undockable) {
 					titleBar.append($('<button class="jdat-undock">'));
+				}
+				if (this._options.settings) {
+					titleBar.append($('<button class="jdat-settings">'));
 				}
 				titleBar.appendTo(this.widget);
 			},
@@ -1527,6 +1533,14 @@
 						});
 
 						return false;
+					});
+			},
+			_bindSettings: function() {
+				var self = this;
+
+				this.widget.find(".jdat-settings")
+					.click(function(event) {
+						self._options.onSettings.call(self);
 					});
 			},
 			open: function(complete) {

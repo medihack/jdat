@@ -97,6 +97,10 @@
 	background-repeat: no-repeat;
 }
 
+.jdat-titlebar button.jdat-settings {
+	background-image: url(images/jdat-settings.png);
+	background-repeat: no-repeat;
+}
 
 /*
  * CloseBar

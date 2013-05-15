@@ -16,7 +16,9 @@
 		<script type="text/javascript" src="../src/jdat.js"></script>
 		<script type="text/javascript">
 			$(function() {
-				window.jdat = $("#jdat").jdat().data("jdat");
+				window.jdat = $("#jdat").jdat({
+					settings: true
+				}).data("jdat");
 				window.slider = window.jdat.addSlider({
 					label: "My Slider"
 				});
