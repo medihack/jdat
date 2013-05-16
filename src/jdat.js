@@ -477,7 +477,11 @@
 				}
 				else {
 					this._options.max = max;
-					this.value(this._options.value);
+
+					// only adjust value if outside range
+					if (this._options.value > max) {
+						this.value(this._options.value);
+					}
 				}
 			},
 			min: function(min) {
@@ -486,7 +490,11 @@
 				}
 				else {
 					this._options.min = min;
-					this.value(this._options.value);
+
+					// only adjust value if outside range
+					if (this._options.value < min) {
+						this.value(this._options.value);
+					}
 				}
 			},
 			step: function(step) {
