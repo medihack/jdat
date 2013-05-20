@@ -422,15 +422,16 @@
 
 						adjustValue(event.pageX, false);
 
-						$(window).bind("mousemove.jdatDrag", function(event) {
+						$(window).on("mousemove.jdatDrag", function(event) {
 							adjustValue(event.pageX, false);
 
 							return false;
 						});
+
 						$(window).one("mouseup", function(event) {
 							adjustValue(event.pageX, true);
 
-							$(window).unbind("mousemove.jdatDrag");
+							$(window).off("mousemove.jdatDrag");
 
 							return false;
 						});
@@ -459,7 +460,7 @@
 
 						var newValue = value;
 
-						$(window).bind("mousemove.jdatDrag", function(event) {
+						$(window).on("mousemove.jdatDrag", function(event) {
 							var dy = startY - event.pageY;
 							newValue = dy / 10 * step + value;
 							self.value(newValue, true, false);
@@ -467,10 +468,10 @@
 							return false;
 						});
 
-						$(window).bind("mouseup", function(event) {
+						$(window).on("mouseup", function(event) {
 							self.value(newValue, true, true);
 
-							$(window).unbind("mousemove.jdatDrag");
+							$(window).off("mousemove.jdatDrag");
 
 							return false;
 						});
@@ -740,15 +741,16 @@
 
 						adjustValue(event.pageY, false);
 
-						$(window).bind("mousemove.jdatDrag", function(event) {
+						$(window).on("mousemove.jdatDrag", function(event) {
 							adjustValue(event.pageY, false);
 
 							return false;
 						});
+
 						$(window).one("mouseup", function(event) {
 							adjustValue(event.pageY, true);
 
-							$(window).unbind("mousemove.jdatDrag");
+							$(window).off("mousemove.jdatDrag");
 
 							return false;
 						});
@@ -792,15 +794,16 @@
 
 						adjustValue(event.pageX, event.pageY, false);
 
-						$(window).bind("mousemove.jdatDrag", function(event) {
+						$(window).on("mousemove.jdatDrag", function(event) {
 							adjustValue(event.pageX, event.pageY, false);
 
 							return false;
 						});
+
 						$(window).one("mouseup", function(event) {
 							adjustValue(event.pageX, event.pageY, true);
 
-							$(window).unbind("mousemove.jdatDrag");
+							$(window).off("mousemove.jdatDrag");
 
 							return false;
 						});
@@ -1519,7 +1522,8 @@
 						}
 
 						var startPos = [event.pageX, event.pageY];
-						$(window).bind("mousemove.jdatDrag", function(event) {
+
+						$(window).on("mousemove.jdatDrag", function(event) {
 							var curPos = [event.pageX, event.pageY];
 							var relX = curPos[0] - startPos[0];
 
@@ -1528,8 +1532,9 @@
 
 							return false;
 						});
+
 						$(window).one("mouseup", function() {
-							$(window).unbind("mousemove.jdatDrag");
+							$(window).off("mousemove.jdatDrag");
 
 							return false;
 						});
@@ -1568,7 +1573,7 @@
 						var dx = event.pageX - offset.left;
 						var dy = event.pageY - offset.top;
 
-						$(window).bind("mousemove.jdatDrag", function(event) {
+						$(window).on("mousemove.jdatDrag", function(event) {
 							var x = event.pageX - dx;
 							var y = event.pageY - dy;
 
@@ -1577,8 +1582,9 @@
 
 							return false;
 						});
+
 						$(window).one("mouseup.jdatDrag", function() {
-							$(window).unbind("mousemove.jdatDrag");
+							$(window).off("mousemove.jdatDrag");
 
 							return false;
 						});
