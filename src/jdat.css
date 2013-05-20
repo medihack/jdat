@@ -1,18 +1,9 @@
 /*
  * General
  */
-.jdat-title {
-	font-style: italic;
-	font-weight: bold;
-}
-
-
-/*
- * Widget
- */
 .jdat-widget {
 	color: #eee;
-	font: 11px 'Lucida Grande', sans-serif;
+	font: 12px 'Lucida Grande', sans-serif;
 	text-shadow: 0 -1px 0 #111;
 	position: relative;
 	width: 250px;
@@ -22,6 +13,11 @@
 	/*-webkit-user-select: none;*/
 	/*-moz-user-select: none;*/
 	/*user-select: none;*/
+}
+
+.jdat-title {
+	font-style: italic;
+	font-weight: bold;
 }
 
 
@@ -151,7 +147,7 @@ a.jdat-closebar {
 }
 
 .jdat-field input, .jdat-field select {
-	font: 11px 'Lucida Grande', sans-serif;
+	font: 12px 'Lucida Grande', sans-serif;
 	vertical-align: baseline;
 	margin: 4px 0 0 0;
 	border: 0;
@@ -159,7 +155,7 @@ a.jdat-closebar {
 }
 
 .jdat-field button {
-	font: 11px 'Lucida Grande', sans-serif;
+	font: 12px 'Lucida Grande', sans-serif;
 	cursor: pointer;
 	padding: 0 2px;
 	margin: 4px 0 0 0;
