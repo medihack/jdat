@@ -447,6 +447,35 @@
 						self.value(value);
 
 						return false;
+					})
+
+					.mousedown(function(event) {
+						if (event.which !== 1) return;
+
+						var startY = event.pageY;
+
+						var step = self._options.step;
+						var value = self._options.value;
+
+						var newValue = value;
+
+						$(window).bind("mousemove.jdatDrag", function(event) {
+							var dy = startY - event.pageY;
+							newValue = dy / 10 * step + value;
+							self.value(newValue, true, false);
+
+							return false;
+						});
+
+						$(window).bind("mouseup", function(event) {
+							self.value(newValue, true, true);
+
+							$(window).unbind("mousemove.jdatDrag");
+
+							return false;
+						});
+
+						return false;
 					});
 			},
 			_setSlider: function() {
