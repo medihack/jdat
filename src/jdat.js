@@ -468,7 +468,7 @@
 							return false;
 						});
 
-						$(window).on("mouseup", function(event) {
+						$(window).one("mouseup", function(event) {
 							self.value(newValue, true, true);
 
 							$(window).off("mousemove.jdatDrag");
