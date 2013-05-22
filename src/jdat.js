@@ -1249,13 +1249,17 @@
 				this.container.mousemove(function(event) {
 					var canvas = $(self.ctx.canvas);
 					var offset = canvas.offset();
-					var x = event.pageX - offset.left;
-					var value = x / canvas.width();
+					var x = Math.round(event.pageX - offset.left);
+					var value = x / (canvas.width() - 1);
 
 					self.marker.show();
 
 					if (value >= 0 && value <= 1) {
 						self.marker.css("left", x + "px");
+					}
+					else {
+						if (value < 0) value = 0;
+						if (value > 1) value = 1;
 					}
 
 					var text = self._options.onHover.call(self, value);
