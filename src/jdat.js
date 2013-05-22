@@ -672,13 +672,14 @@
 								.append($('<div class="jdat-saturation-inner">'))
 								.append($('<div class="jdat-saturation-knob">')))
 							.append($('<div class="jdat-hue-field">')
-								.append($('<div class="jdat-hue-knob">')));
+								.append($('<div class="jdat-hue-knob">')))
+							.append($('<button class="jdat-colorpicker-close">×</button>'))
 					});
 			},
 			_bindInput: function() {
 				var self = this;
 
-				var selector = this._el.find(".jdat-colorpicker");
+				var picker = this._el.find(".jdat-colorpicker");
 
 				this._el.find("input")
 					.change(function(event) {
@@ -688,32 +689,35 @@
 						return false;
 					})
 					.mousedown(function(event) {
-						if (selector.is(":visible")) {
-							selector.hide();
-						}
-						else {
-							// hide other colorpickers in this widget
-							$(this).parents(".jdat-widget")
-								.find(".jdat-colorpicker")
-								.hide();
+						// hide other colorpickers in this widget
+						$(this).parents(".jdat-widget")
+							.find(".jdat-colorpicker")
+							.hide();
 
-							selector.show();
+						picker.show();
 
-							self._selectColor(self.hex, self.hsv);
+						self._selectColor(self.hex, self.hsv);
 
-							$(document).one("mousedown", function(event) {
-								selector.hide();
+						$(document).one("mousedown", function(event) {
+							picker.hide();
+						});
 
-								return false;
-							});
-						}
-
-						return false;
+						event.stopPropagation();
 					});
 			},
 			_bindSelector: function() {
 				this._bindHue();
 				this._bindSaturation();
+
+				var picker = this._el.find(".jdat-colorpicker");
+
+				// dummy, so it does not close the picker
+				picker.mousedown(function() { return false });
+
+				picker.find(".jdat-colorpicker-close")
+					.click(function() {
+						picker.hide();
+					});
 			},
 			_bindHue: function() {
 				var self = this;

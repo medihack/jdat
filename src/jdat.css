@@ -157,8 +157,6 @@ a.jdat-closebar {
 .jdat-field button {
 	font: 12px 'Lucida Grande', sans-serif;
 	cursor: pointer;
-	padding: 0 2px;
-	margin: 4px 0 0 0;
 	vertical-align: baseline;
 }
 
@@ -326,16 +324,17 @@ to { background-position: 30px 0; }
 .jdat-colorpicker {
 	display: none;
 	position: absolute;
+	width: 146px;
+	height: 100px;
 	background-color: #222222;
 	z-index: 100;
 }
 
 .jdat-saturation-field {
+	position: absolute;
 	width: 100px;
 	height: 100px;
-	float: left;
 	cursor: pointer;
-	position: relative;
 	border: 1px solid #eee;
 	margin-right: 5px;
 }
@@ -362,11 +361,11 @@ to { background-position: 30px 0; }
 }
 
 .jdat-hue-field {
+	position: absolute;
+	left: 110px;
 	width: 15px;
 	height: 100px;
-	float: right;
 	cursor: ns-resize;
-	position: relative;
 	border: 1px solid #eee;
 
 	background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);
@@ -387,6 +386,14 @@ to { background-position: 30px 0; }
 	border-bottom: 2px solid #fff;
 }
 
+button.jdat-colorpicker-close {
+	position: absolute;
+	left: 135px;
+	padding: 0 2px;
+	margin: 0;
+	border: 0;
+}
+
 
 /*
  * ComboBox
@@ -403,6 +410,15 @@ to { background-position: 30px 0; }
 	cursor: pointer;
 	height: 18px;
 	padding: 0;
+}
+
+
+/*
+ * Buttons
+ */
+.jdat-buttons button {
+	margin: 4px 0 0 0;
+	padding: 0 2px;
 }
 
 
