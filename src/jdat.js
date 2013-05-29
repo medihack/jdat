@@ -96,7 +96,8 @@
 			disabled: false,
 			hidden: false,
 			onChange: null,
-			onFinishChange: null
+			onFinishChange: null,
+			onSetup: null
 		}
 
 		var FieldController = function(el, options) {
@@ -111,6 +112,10 @@
 
 			if (this._options.hidden) {
 				this._el.hide();
+			}
+
+			if (this._options.onSetup) {
+				this._options.onSetup.call(this);
 			}
 		}
 
