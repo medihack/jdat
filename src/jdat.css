@@ -139,6 +139,7 @@ a.jdat-closebar {
   white-space: nowrap;
 	text-overflow: ellipsis;
 	width: 40%;
+	height: 27px;
 }
 
 .jdat-field-panel {
