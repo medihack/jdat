@@ -939,7 +939,7 @@
 		var defaults = {
 			label: "ComboBox",
 			value: 1,
-			selectOptions: ["alpha", "beta", "gamma"],
+			selectOptions: [],
 		}
 
 		var ComboBoxController = function(el, options) {
@@ -982,9 +982,8 @@
 					return this._options.selectOptions;
 				}
 				else {
-					var select = this._el.find("select")
-						.empty();
-
+					this._options.selectOptions = selectOptions;
+					var select = this._el.find("select").empty();
 					this._fillSelect(select);
 				}
 			},
