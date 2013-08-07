@@ -506,7 +506,7 @@
 					this._el.find(".jdat-field-label").text(label);
 				}
 			},
-			max: function(max) {
+			max: function(max, trigger, finishChange) {
 				if (max === undefined) {
 					return this._options.max;
 				}
@@ -515,11 +515,11 @@
 
 					// only adjust value if outside range
 					if (this._options.value > max) {
-						this.value(this._options.value);
+						this.value(this._options.value, trigger, finishChange);
 					}
 				}
 			},
-			min: function(min) {
+			min: function(min, trigger, finishChange) {
 				if (min === undefined) {
 					return this._options.min;
 				}
@@ -528,7 +528,7 @@
 
 					// only adjust value if outside range
 					if (this._options.value < min) {
-						this.value(this._options.value);
+						this.value(this._options.value, trigger, finishChange);
 					}
 				}
 			},
