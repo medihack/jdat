@@ -19,59 +19,59 @@
 				window.jdat = $("#jdat").jdat({
 					settings: true
 				}).data("jdat");
-				window.slider = window.jdat.addSlider({
+				window.slider = window.jdat.add("slider", {
 					label: "My Slider"
 				});
 				window.slider.disable(true);
 				window.slider.disable(true);
 				<!--window.slider.disable(true);-->
 
-				window.checkbox = window.jdat.addCheckBox({
+				window.checkbox = window.jdat.add("checkbox", {
 					label: "My Checkbox"
 				});
-				window.colorselect = window.jdat.addColorSelect({
+				window.colorselect = window.jdat.add("colorselect", {
 					label: "My Color",
 					value: "#0000ff"
 				});
-				window.combobox = window.jdat.addComboBox({
+				window.combobox = window.jdat.add("combobox", {
 					label: "My Combobox"
 				});
-				window.button = window.jdat.addButtons({
+				window.button = window.jdat.add("buttons", {
 					label: "My Buttons",
 					buttons: ["up", "down"],
 					onChange: function(data) {
 						console.log(data.source);
 					}
 				});
-				window.string = window.jdat.addString({
+				window.string = window.jdat.add("string", {
 					label: "My String",
 					disabled: false
 				});
-				window.section = window.jdat.addSection({
+				window.section = window.jdat.add("section", {
 					label: "My Section",
 					closed: false
 				});
-				window.slider2 = window.section.addSlider({
+				window.slider2 = window.section.add("slider", {
 					label: "My Slider 2"
 				});
-				window.section2 = window.section.addSection({
+				window.section2 = window.section.add("section", {
 					label: "My Section 2",
 					title: false
 				});
-				window.colorselect2 = window.jdat.addColorSelect({
+				window.colorselect2 = window.jdat.add("colorselect", {
 					label: "My Color 2",
 					value: "#00f000"
 				});
-				window.slider3 = window.section2.addSlider({
+				window.slider3 = window.section2.add("slider", {
 					label: "My Slider 3"
 				});
-				window.custom1 = window.jdat.addCustom({
+				window.custom1 = window.jdat.add("custom", {
 					label: "My Custom",
 					render: function(field) {
 						return $("<div>Hello World</div>");
 					}
 				});
-				window.colorbar1 = window.jdat.addColorBar({
+				window.colorbar1 = window.jdat.add("colorbar", {
 					label: "My Colorbar",
 					colors: ["#00ff00", "#0000ff", "#ff0000"]
 				});
