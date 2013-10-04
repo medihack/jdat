@@ -306,6 +306,34 @@ to { background-position: 30px 0; }
 
 
 /*
+ * Toggle
+ */
+.jdat-toggle .jdat-toggle-bg {
+	height: 19px;
+	width: 80px;
+	margin-top: 4px;
+	background-color: #464747;
+	position: relative;
+	cursor: pointer;
+}
+
+.jdat-toggle .jdat-toggle-fg {
+	height: 19px;
+	width: 40px;
+	background-color: #666666;
+	position: absolute;
+	text-align: center;
+	line-height: 19px;
+	left: 0;
+}
+
+.jdat-toggle .jdat-toggle-on {
+	background-color: #0E88B1;
+	left: 40px;
+}
+
+
+/*
  * ColorSelect
  */
 .jdat-colorselect .jdat-field-container {

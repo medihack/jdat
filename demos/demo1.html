@@ -19,6 +19,9 @@
 				window.jdat = $("#jdat").jdat({
 					settings: true
 				}).data("jdat");
+				window.toggle = window.jdat.add("toggle", {
+					label: "My Toggle"
+				});
 				window.slider = window.jdat.add("slider", {
 					label: "My Slider"
 				});
