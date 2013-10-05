@@ -1246,7 +1246,7 @@
 	JDat.ComboBoxController = (function() {
 		var defaults = {
 			label: "ComboBox",
-			selectOptions: [], // array of string or array of hashes {value, text}
+			selectOptions: [], // array of strings or array of hashes {value, text}
 		}
 
 		var ComboBoxController = function(el, options) {
@@ -1343,7 +1343,7 @@
 		var defaults = {
 			label: "Button",
 			holdTimeout: 500,
-			buttons: []
+			buttons: [] // array of strings or array of hashes {buttonId, buttonContent}
 		}
 
 		var ButtonsController = function(el, options) {
@@ -1356,9 +1356,19 @@
 		JDat.extend(ButtonsController, JDat.FieldController, {
 			_render: function() {
 				var template = this._template()
-				$.each(this._options.buttons, function(index, label) {
-					template.append($('<button>')
-						.html(label));
+				$.each(this._options.buttons, function(index, button) {
+					if (typeof button === "string") {
+						template.append($('<button>')
+							.html(button));
+					}
+					else {
+						// assumes an array of hashes (with one key each)
+						// e.g. [{"button1": "<span>Button 1</span>"}, {"button2": "<span>Button 2</span>"}]
+						for (var buttonId in button) break;
+						template.append($('<button>')
+							.data("jdat-buttonId", buttonid)
+							.html(button["buttonId"]));
+					}
 				});
 			},
 			_bindButtons: function() {
@@ -1371,8 +1381,16 @@
 				var timeoutId = 0;
 				buttons.mousedown(function(event) {
 					fireStep = 1;
+
+					// if array of hashes were used for buttons option then the hash
+					// key of the pressed button is returned, otherwise the button itself
 					var button = $(event.currentTarget);
-					var data = {value: button};
+					var value = button.data("jdat-buttonId");
+					if (!value) {
+						value = button;
+					}
+					var data = {value: value};
+
 					var timeout = self._options.holdTimeout;
 					var timer = function() {
 						if (fireStep == 2) self._trigger(data, false);
