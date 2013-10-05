@@ -874,14 +874,14 @@
 						value = Math.round(value * tenTo) / tenTo;
 					}
 
-					var oldValue = this._options.value;
+					var prevValue = this._options.value;
 					this._options.value = value;
 
 					this._setSlider();
 					this._setInput();
 
 					if (trigger === undefined || trigger) {
-						var data = {value: value, previous: oldValue};
+						var data = {value: value, previous: prevValue};
 						this._trigger(data, finishChange);
 					}
 				}
@@ -1198,11 +1198,11 @@
 
 				this._selectColor(hex, hsv);
 
-				var oldHex = this._options.value;
+				var prevHex = this._options.value;
 				this._options.value = hex;
 
 				if (trigger === undefined || trigger) {
-					var data = {value: hex, previous: oldHex};
+					var data = {value: hex, previous: prevHex};
 					this._trigger(data, finishChange);
 				}
 			},
@@ -1246,8 +1246,7 @@
 	JDat.ComboBoxController = (function() {
 		var defaults = {
 			label: "ComboBox",
-			value: 1,
-			selectOptions: [],
+			selectOptions: [], // array of string or array of hashes {value, text}
 		}
 
 		var ComboBoxController = function(el, options) {
@@ -1257,7 +1256,8 @@
 			this._bindSelect();
 
 			this.selectOptions(this._options.selectOptions);
-			this.value(this._options.value, false);
+
+			this.prevSelection = this._el.find("select").val();
 		}
 
 		JDat.extend(ComboBoxController, JDat.FieldController, {
@@ -1267,20 +1267,31 @@
 			},
 			_fillSelect: function(select) {
 				var selectOptions = this._options.selectOptions;
-				$.each(selectOptions, function(i, v) {
+				$.each(selectOptions, function(i, option) {
+					var value, text;
+					if (typeof option === "string") {
+						value = option;
+						text = option;
+					}
+					else {
+						// assumes an array of hashes (with one key each)
+						// e.g. [{"myoption1", "My Option 1"}, {"myoption2": "My Option 2"}]
+						for (value in option) break;
+						text = option[value];
+					}
+
 					select.append($('<option>')
-						.attr("value", v)
-						.text(v));
+						.attr("value", value)
+						.text(text));
 				});
 			},
 			_bindSelect: function() {
 				var self = this;
 
 				this._el.find("select")
-					.change(function(event) {
-						var i = $(event.currentTarget).find("option:selected")
-							.index();
-						self.value(i);
+					.change(function() {
+						var selection = this.value;
+						self.value(selection);
 
 						return false;
 					});
@@ -1295,30 +1306,26 @@
 					this._fillSelect(select);
 				}
 			},
-			value: function(option, trigger, finishChange) {
-				if (option === undefined) {
-					return this._options.value;
+			value: function(selection, trigger, finishChange) {
+				if (selection === undefined) {
+					return this._el.find("select").val();
 				}
 				else {
-					option = Number(option);
-					if (this._options.value == option) {
-						trigger = false;
+					var selectOption = this._el
+						.find('select option[value="' + selection + '"]');
+
+					if (selectOption.length == 0) return;
+
+					if (!selectOption.is(":selected")) {
+						selectOption.attr("selected", "selected");
 					}
-
-					var optEl = this._el
-						.find("select")
-						.find("option:eq(" + option + ")")
-
-					if (optEl.length == 0) return;
-
-					var oldValue = this._options.value;
-					optEl.attr("selected", "selected");
-					this._options.value = option;
 
 					if (trigger === undefined || trigger) {
-						var data = {value: option, previous: oldValue};
+						var data = {value: selection, previous: this.prevSelection};
 						this._trigger(data, finishChange);
 					}
+
+					this.prevSelection = selection;
 				}
 			}
 		});
@@ -1457,13 +1464,13 @@
 						trigger = false;
 					}
 
-					var oldString = this._options.value;
+					var prevString = this._options.value;
 					this._options.value = string;
 
 					this._el.find('input').val(string);
 
 					if (trigger === undefined || trigger) {
-						var data = {value: string, previous: oldString};
+						var data = {value: string, previous: prevString};
 						this._trigger(data, finishChange);
 					}
 				}
@@ -1670,14 +1677,14 @@
 						}
 					}
 
-					var oldValue = this._options.value;
+					var prevValue = this._options.value;
 					this._options.value = progress;
 
 					this._el.find(".jdat-progressbar-bg span")
 						.css("width", progress + "%");
 
 					if (trigger === undefined || trigger) {
-						var data = {value: progress, previous: oldValue}
+						var data = {value: progress, previous: prevValue}
 						this._trigger(data, finishChange);
 					}
 				}
