@@ -1,32 +1,38 @@
 $(function() {
 	var jdat = $("#jdat").jdat({
 		settings: true,
-		resizer: "left"
+		resizer: "left",
+		title: "jDat Panel"
 	}).data("jdat");
 
 	jdat.add("toggle", {
-		label: "My Toggle"
+		label: "Toggle"
 	});
 
 	jdat.add("slider", {
-		label: "My Slider"
+		label: "Slider"
 	});
 
 	jdat.add("checkbox", {
-		label: "My Checkbox"
+		label: "Checkbox"
 	});
 
 	jdat.add("colorselect", {
-		label: "My Color",
+		label: "Color",
 		value: "#0000ff"
 	});
 
 	jdat.add("combobox", {
-		label: "My Combobox"
+		label: "Combobox",
+		selectOptions: [
+			{"option1": "Option 1"},
+			{"option2": "Option 2"},
+			{"option3": "Option 3"}
+		]
 	});
 
 	jdat.add("buttons", {
-		label: "My Buttons",
+		label: "Buttons",
 		buttons: ["up", "down"],
 		onChange: function(data) {
 			console.log(data.source);
@@ -34,42 +40,43 @@ $(function() {
 	});
 
 	jdat.add("string", {
-		label: "My String",
-		disabled: false
+		label: "String",
+		disabled: false,
+		onChange: function() { console.log("change"); },
+		onFinishChange: function() { console.log("finish change"); }
 	});
 
-	var section1 = jdat.add("section", {
-		label: "My Section",
+	var section = jdat.add("section", {
+		label: "Section",
 		closed: false
 	});
 
-	section1.add("slider", {
-		label: "My Slider 2"
+	section.add("slider", {
+		label: "Slider"
 	});
 
-	var section2 = section1.add("section", {
-		label: "My Section 2",
-		title: false
+	section.add("slider", {
+		label: "Slider"
 	});
 
-	jdat.add("colorselect", {
-		label: "My Color 2",
-		value: "#00f000"
-	});
-
-	section2.add("slider", {
-		label: "My Slider 3"
+	section.add("slider", {
+		label: "Slider"
 	});
 
 	jdat.add("custom", {
-		label: "My Custom",
+		label: "Custom",
 		render: function(field) {
 			return $("<div>Hello World</div>");
 		}
 	});
 
 	jdat.add("colorbar", {
-		label: "My Colorbar",
+		label: "Colorbar",
 		colors: ["#00ff00", "#0000ff", "#ff0000"]
+	});
+
+	jdat.add("progressbar", {
+		label: "Progressbar",
+		value: 33
 	});
 });
