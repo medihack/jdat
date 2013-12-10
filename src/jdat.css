@@ -26,17 +26,18 @@
  */
 .jdat-resizer {
 	position: absolute;
-	width: 6px;
+	width: 8px;
 	cursor: ew-resize;
 	height: 100%;
+	z-index: 100;
 }
 
 .jdat-resizer.jdat-right {
-	right: -3px;
+	right: -4px;
 }
 
 .jdat-resizer.jdat-left {
-	left: -3px;
+	left: -4px;
 }
 
 
@@ -48,8 +49,15 @@
 	color: #eee;
 	clear: both;
 	height: 16px;
-	padding: 3px;
-	padding-left: 8px;
+	padding: 3px 3px 3px 0;
+}
+
+.jdat-resize-knob {
+	float: left;
+	height: 100%;
+	width: 5px;
+	margin-right: 8px;
+	background-color: #eee;
 }
 
 .jdat-titlebar-title {

@@ -436,9 +436,15 @@
 				this.widget.appendTo(this._el);
 			},
 			_createTitleBar: function() {
-				var titleBar = $('<div class="jdat-titlebar">')
-					.append($('<div class="jdat-titlebar-title jdat-title">')
-							.text(this._options.title));
+				var titleBar = $('<div class="jdat-titlebar">');
+
+				if (this._options.resizeable) {
+					titleBar.append($('<div class="jdat-resize-knob">'));
+				}
+				if (this._options.title) {
+					titleBar.append($('<div class="jdat-titlebar-title jdat-title">')
+					  .text(this._options.title));
+				}
 				if (this._options.removable) {
 					titleBar.append($('<button class="jdat-remove">'));
 				}
