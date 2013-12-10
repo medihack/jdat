@@ -3,86 +3,15 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>jDat Demo</title>
-		<link rel="stylesheet" href="../src/jdat.css" type="text/css" />
-		<style type="text/css">
-			h1 { text-align: center; }
-			#jdat {
-				position: absolute;
-				bottom: 0;
-				left: 0;
-			}
-		</style>
-		<script type="text/javascript" src="../vendor/jquery.js"></script>
-		<script type="text/javascript" src="../src/jdat.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				window.jdat = $("#jdat").jdat({
-					settings: true
-				}).data("jdat");
-				window.toggle = window.jdat.add("toggle", {
-					label: "My Toggle"
-				});
-				window.slider = window.jdat.add("slider", {
-					label: "My Slider"
-				});
-				window.slider.disable(true);
-				window.slider.disable(true);
-				<!--window.slider.disable(true);-->
 
-				window.checkbox = window.jdat.add("checkbox", {
-					label: "My Checkbox"
-				});
-				window.colorselect = window.jdat.add("colorselect", {
-					label: "My Color",
-					value: "#0000ff"
-				});
-				window.combobox = window.jdat.add("combobox", {
-					label: "My Combobox"
-				});
-				window.button = window.jdat.add("buttons", {
-					label: "My Buttons",
-					buttons: ["up", "down"],
-					onChange: function(data) {
-						console.log(data.source);
-					}
-				});
-				window.string = window.jdat.add("string", {
-					label: "My String",
-					disabled: false
-				});
-				window.section = window.jdat.add("section", {
-					label: "My Section",
-					closed: false
-				});
-				window.slider2 = window.section.add("slider", {
-					label: "My Slider 2"
-				});
-				window.section2 = window.section.add("section", {
-					label: "My Section 2",
-					title: false
-				});
-				window.colorselect2 = window.jdat.add("colorselect", {
-					label: "My Color 2",
-					value: "#00f000"
-				});
-				window.slider3 = window.section2.add("slider", {
-					label: "My Slider 3"
-				});
-				window.custom1 = window.jdat.add("custom", {
-					label: "My Custom",
-					render: function(field) {
-						return $("<div>Hello World</div>");
-					}
-				});
-				window.colorbar1 = window.jdat.add("colorbar", {
-					label: "My Colorbar",
-					colors: ["#00ff00", "#0000ff", "#ff0000"]
-				});
-			})
-		</script>
+		<!--<link rel="stylesheet" href="../vendor/bootstrap.css" type="text/css" />-->
+		<link rel="stylesheet" href="../src/jdat.css" type="text/css" />
+		<link rel="stylesheet" href="./demo1.css" type="text/css" />
+		<script src="../vendor/jquery.js"></script>
+		<script src="../src/jdat.js"></script>
+		<script src="./demo1.js"></script>
 	</head>
 	<body>
-		<h1>jDat Demo</h1>
 		<div id="jdat"></div>
 	</body>
 </html>
