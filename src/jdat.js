@@ -467,18 +467,18 @@
 				var self = this;
 
 				this.widget.find(".jdat-resizer")
-					.mousedown(function(event) {
-						if (event.which !== 1) return;
+					.mousedown(function(e) {
+						if (e.which !== 1) return;
 
 						var widgetWidth = self.widget.width();
 						var calcWidth = function(relPos) {
 							return widgetWidth + relPos;
 						}
 
-						var startPos = [event.pageX, event.pageY];
+						var startPos = [e.pageX, e.pageY];
 
-						$(window).on("mousemove.jdatDrag", function(event) {
-							var curPos = [event.pageX, event.pageY];
+						$(window).on("mousemove.jdatDrag", function(e) {
+							var curPos = [e.pageX, e.pageY];
 							var relX = curPos[0] - startPos[0];
 
 							if (self._options.resizer == "left") relX = -relX;
@@ -520,16 +520,16 @@
 					});
 
 				this.widget.find(".jdat-titlebar")
-					.mousedown(function(event) {
-						if (!self.undocked || event.which !== 1) return;
+					.mousedown(function(e) {
+						if (!self.undocked || e.which !== 1) return;
 
 						var offset = self.widget.offset();
-						var dx = event.pageX - offset.left;
-						var dy = event.pageY - offset.top;
+						var dx = e.pageX - offset.left;
+						var dy = e.pageY - offset.top;
 
-						$(window).on("mousemove.jdatDrag", function(event) {
-							var x = event.pageX - dx;
-							var y = event.pageY - dy;
+						$(window).on("mousemove.jdatDrag", function(e) {
+							var x = e.pageX - dx;
+							var y = e.pageY - dy;
 
 							self.widget.css("left", x);
 							self.widget.css("top", y);
@@ -550,7 +550,7 @@
 				var self = this;
 
 				this.widget.find(".jdat-settings")
-					.click(function(event) {
+					.click(function(e) {
 						self._options.onSettings.call(self);
 					});
 			},
@@ -713,8 +713,8 @@
 				var self = this;
 
 				this._el.find(".jdat-slider-bg")
-					.mousedown(function(event) {
-						if (event.which !== 1) return;
+					.mousedown(function(e) {
+						if (e.which !== 1) return;
 
 						var bg = self._el.find(".jdat-slider-bg");
 						var bgOffset = bg.offset();
@@ -728,16 +728,16 @@
 							self.value(value, true, finishChange);
 						}
 
-						adjustValue(event.pageX, false);
+						adjustValue(e.pageX, false);
 
-						$(window).on("mousemove.jdatDrag", function(event) {
-							adjustValue(event.pageX, false);
+						$(window).on("mousemove.jdatDrag", function(e) {
+							adjustValue(e.pageX, false);
 
 							return false;
 						});
 
-						$(window).one("mouseup", function(event) {
-							adjustValue(event.pageX, true);
+						$(window).one("mouseup", function(e) {
+							adjustValue(e.pageX, true);
 
 							$(window).off("mousemove.jdatDrag");
 
@@ -751,40 +751,38 @@
 				var self = this;
 
 				this._el.find("input")
-					.change(function(event) {
-						var value = $(event.currentTarget).val();
-						self.value(value);
+					.change(function(e) {
+						var value = $(e.currentTarget).val();
+						self.value(value, true, true);
 
 						return false;
 					})
 
-					.mousedown(function(event) {
-						if (event.which !== 1) return;
+					.mousedown(function(e) {
+						if (e.which !== 1) return;
 
-						var startY = event.pageY;
+						var startY = e.pageY;
 
 						var step = self._options.step;
 						var value = self._options.value;
 
 						var newValue = value;
 
-						$(window).on("mousemove.jdatDrag", function(event) {
-							var dy = startY - event.pageY;
+						$(window).on("mousemove.jdatDrag", function(e) {
+							var dy = startY - e.pageY;
 							newValue = dy / 10 * step + value;
 							self.value(newValue, true, false);
 
 							return false;
 						});
 
-						$(window).one("mouseup", function(event) {
+						$(window).one("mouseup", function() {
 							self.value(newValue, true, true);
 
 							$(window).off("mousemove.jdatDrag");
 
 							return false;
 						});
-
-						return false;
 					});
 			},
 			_setSlider: function() {
@@ -880,7 +878,7 @@
 					this._setSlider();
 					this._setInput();
 
-					if (trigger === undefined || trigger) {
+					if (trigger) {
 						var data = {value: value, previous: prevValue};
 						this._trigger(data, finishChange);
 					}
@@ -921,9 +919,9 @@
 				var self = this;
 
 				this._el.find("input")
-					.change(function(event) {
-						var checked = $(event.currentTarget).is(":checked");
-						self.value(checked);
+					.change(function(e) {
+						var checked = $(e.currentTarget).is(":checked");
+						self.value(checked, true, true);
 
 						return false;
 					});
@@ -940,7 +938,7 @@
 
 					var data = {value: checked};
 
-					if (trigger === undefined || trigger) {
+					if (trigger) {
 						this._trigger(data, finishChange);
 					}
 				}
@@ -993,13 +991,13 @@
 				var picker = this._el.find(".jdat-colorpicker");
 
 				this._el.find("input")
-					.change(function(event) {
-						var color = $(event.currentTarget).val();
-						self.value(color);
+					.change(function(e) {
+						var color = $(e.currentTarget).val();
+						self.value(color, true, true);
 
 						return false;
 					})
-					.mousedown(function(event) {
+					.mousedown(function(e) {
 						// hide other colorpickers in this widget
 						$(this).parents(".jdat-widget")
 							.find(".jdat-colorpicker")
@@ -1009,11 +1007,11 @@
 
 						self._selectColor(self.hex, self.hsv);
 
-						$(document).one("mousedown", function(event) {
+						$(document).one("mousedown", function() {
 							picker.hide();
 						});
 
-						event.stopPropagation();
+						e.stopPropagation();
 					});
 			},
 			_bindSelector: function() {
@@ -1034,8 +1032,8 @@
 				var self = this;
 
 				this._el.find(".jdat-hue-field")
-					.mousedown(function(event) {
-						if (event.which !== 1) return;
+					.mousedown(function(e) {
+						if (e.which !== 1) return;
 
 						var hf = $(this);
 						var hfTop = hf.offset().top;
@@ -1054,16 +1052,16 @@
 							self._value("hsv", self.hsv, true, finishChange);
 						}
 
-						adjustValue(event.pageY, false);
+						adjustValue(e.pageY, false);
 
-						$(window).on("mousemove.jdatDrag", function(event) {
-							adjustValue(event.pageY, false);
+						$(window).on("mousemove.jdatDrag", function(e) {
+							adjustValue(e.pageY, false);
 
 							return false;
 						});
 
-						$(window).one("mouseup", function(event) {
-							adjustValue(event.pageY, true);
+						$(window).one("mouseup", function(e) {
+							adjustValue(e.pageY, true);
 
 							$(window).off("mousemove.jdatDrag");
 
@@ -1077,8 +1075,8 @@
 				var self = this;
 
 				this._el.find(".jdat-saturation-field")
-					.mousedown(function(event) {
-						if (event.which !== 1) return;
+					.mousedown(function(e) {
+						if (e.which !== 1) return;
 
 						var sf = $(this);
 						var sfOffset = sf.offset();
@@ -1107,16 +1105,16 @@
 							self._value("hsv", self.hsv, true, finishChange);
 						}
 
-						adjustValue(event.pageX, event.pageY, false);
+						adjustValue(e.pageX, e.pageY, false);
 
-						$(window).on("mousemove.jdatDrag", function(event) {
-							adjustValue(event.pageX, event.pageY, false);
+						$(window).on("mousemove.jdatDrag", function(e) {
+							adjustValue(e.pageX, e.pageY, false);
 
 							return false;
 						});
 
-						$(window).one("mouseup", function(event) {
-							adjustValue(event.pageX, event.pageY, true);
+						$(window).one("mouseup", function(e) {
+							adjustValue(e.pageX, e.pageY, true);
 
 							$(window).off("mousemove.jdatDrag");
 
@@ -1201,7 +1199,7 @@
 				var prevHex = this._options.value;
 				this._options.value = hex;
 
-				if (trigger === undefined || trigger) {
+				if (trigger) {
 					var data = {value: hex, previous: prevHex};
 					this._trigger(data, finishChange);
 				}
@@ -1291,7 +1289,7 @@
 				this._el.find("select")
 					.change(function() {
 						var selection = this.value;
-						self.value(selection);
+						self.value(selection, true, true);
 
 						return false;
 					});
@@ -1322,7 +1320,7 @@
 						selectOption.attr("selected", "selected");
 					}
 
-					if (trigger === undefined || trigger) {
+					if (trigger) {
 						var data = {value: selection, previous: this.prevSelection};
 						this._trigger(data, finishChange);
 					}
@@ -1381,12 +1379,12 @@
 				// handles click and hold events
 				var fireStep = 0;
 				var timeoutId = 0;
-				buttons.mousedown(function(event) {
+				buttons.mousedown(function(e) {
 					fireStep = 1;
 
 					// if array of hashes were used for buttons option then the hash
 					// key of the pressed button is returned, otherwise the button itself
-					var button = $(event.currentTarget);
+					var button = $(e.currentTarget);
 					var value = button.data("jdat-buttonId");
 					if (!value) {
 						value = button;
@@ -1408,8 +1406,8 @@
 
 						return false;
 					}
-					$(event.currentTarget).one("mouseup", clearTimer);
-					$(event.currentTarget).one("mouseleave", clearTimer);
+					$(e.currentTarget).one("mouseup", clearTimer);
+					$(e.currentTarget).one("mouseleave", clearTimer);
 
 					return false;
 				});
@@ -1451,12 +1449,19 @@
 			},
 			_bindInput: function() {
 				var self = this;
-				this._el.find("input").change(function(event) {
-					var value = $(event.currentTarget).val();
-					self.value(value);
 
-					return false;
-				});
+				this._el.find("input")
+					.change(function(e) {
+						var value = $(e.currentTarget).val();
+						self.value(value, true, true);
+						return false;
+					})
+					.keyup(function(e) {
+						if (e.keyCode != 13) { // only on non return key
+							var value = $(e.currentTarget).val();
+							self.value(value, true, false);
+						}
+					});
 			},
 			value: function(string, trigger, finishChange) {
 				if (string === undefined) {
@@ -1489,7 +1494,7 @@
 
 					this._el.find('input').val(string);
 
-					if (trigger === undefined || trigger) {
+					if (trigger) {
 						var data = {value: string, previous: prevString};
 						this._trigger(data, finishChange);
 					}
@@ -1592,10 +1597,10 @@
 			_bindHover: function() {
 				var self = this;
 
-				this.container.mousemove(function(event) {
+				this.container.mousemove(function(e) {
 					var canvas = $(self.ctx.canvas);
 					var offset = canvas.offset();
-					var x = Math.round(event.pageX - offset.left);
+					var x = Math.round(e.pageX - offset.left);
 					var value = x / (canvas.width() - 1);
 
 					self.marker.show();
@@ -1703,7 +1708,7 @@
 					this._el.find(".jdat-progressbar-bg span")
 						.css("width", progress + "%");
 
-					if (trigger === undefined || trigger) {
+					if (trigger) {
 						var data = {value: progress, previous: prevValue}
 						this._trigger(data, finishChange);
 					}
@@ -1755,8 +1760,8 @@
 				var self = this;
 
 				this._el.find(".jdat-toggle-bg")
-					.click(function(event) {
-						self.value(!self.value());
+					.click(function(e) {
+						self.value(!self.value(), true, true);
 
 						return false;
 					});
@@ -1782,11 +1787,10 @@
 
 					var data = {value: checked};
 
-					if (trigger === undefined || trigger) {
+					if (trigger) {
 						this._trigger(data, finishChange);
 					}
 				}
-
 			}
 		});
 
