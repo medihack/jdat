@@ -1304,6 +1304,8 @@
 					this._options.selectOptions = selectOptions;
 					var select = this._el.find("select").empty();
 					this._fillSelect(select);
+
+					select.prop("disabled", selectOptions.length == 0);
 				}
 			},
 			value: function(selection, trigger, finishChange) {
