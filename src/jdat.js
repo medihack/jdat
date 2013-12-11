@@ -1293,6 +1293,7 @@
 		var defaults = {
 			label: "ComboBox",
 			selectOptions: [], // array of strings or array of hashes {value, text}
+			value: ""
 		}
 
 		var ComboBoxController = function(el, options, eventBus) {
@@ -1301,11 +1302,11 @@
 
 			this._bindSelect();
 
+			// TODO maybe check if value is in select options
+			// and if not add value as first select option
 			this.selectOptions(this._options.selectOptions);
 
-			this.prevSelection = this._el.find("select").val();
-
-			// TODO initialize
+			this._initialize();
 		}
 
 		JDat.extend(ComboBoxController, JDat.FieldController, {
@@ -1370,12 +1371,13 @@
 						selectOption.attr("selected", "selected");
 					}
 
+					var prevSelection = this._options.value;
+					this._options.value = selection;
+
 					if (trigger) {
-						var data = {value: selection, previous: this.prevSelection};
+						var data = {value: selection, previous: prevSelection};
 						this._trigger(data, finishChange);
 					}
-
-					this.prevSelection = selection;
 				}
 			}
 		});
