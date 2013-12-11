@@ -1,0 +1,42 @@
+/*
+ * Slider
+ */
+.jdat-slider .jdat-field-container {
+	border-left: 3px solid #2fa1d6;
+}
+
+.jdat-slider-bg {
+	background-color: #303030;
+	cursor: ew-resize;
+	width: 66%;
+	float: left;
+	height: 19px;
+	margin-top: 4px;
+	margin-left: -5px;
+	margin-right: 0;
+}
+
+.jdat-slider-bg:hover {
+	background-color: #3c3c3c;
+}
+
+.jdat-slider-fg {
+	background-color: #2fa1d6;
+	height: 100%;
+	width: 0%;
+}
+
+.jdat-slider input {
+	background: #303030;
+	outline: none;
+	width: 30%;
+	float: right;
+	padding: 3px;
+	border: 0;
+	color: #2fa1d6;
+	height: 13px;
+}
+
+.jdat-slider input:hover {
+	background-color: #3c3c3c;
+}

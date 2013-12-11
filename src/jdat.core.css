@@ -1,0 +1,257 @@
+/*
+ * General
+ */
+.jdat-widget {
+	color: #eee;
+	font: 12px 'Lucida Grande', sans-serif;
+	text-shadow: 0 -1px 0 #111;
+	position: relative;
+	width: 250px;
+	min-width: 200px;
+	z-index: 99;
+
+	/*-webkit-user-select: none;*/
+	/*-moz-user-select: none;*/
+	/*user-select: none;*/
+}
+
+.jdat-title {
+	font-style: italic;
+	font-weight: bold;
+}
+
+
+/*
+ * Resizer
+ */
+.jdat-resizer {
+	position: absolute;
+	width: 8px;
+	cursor: ew-resize;
+	height: 100%;
+	z-index: 100;
+}
+
+.jdat-resizer.jdat-right {
+	right: -4px;
+}
+
+.jdat-resizer.jdat-left {
+	left: -4px;
+}
+
+
+/*
+ * TitleBar
+ */
+.jdat-titlebar {
+	background-color: #111;
+	color: #eee;
+	clear: both;
+	height: 16px;
+	padding: 3px 3px 3px 0;
+}
+
+.jdat-resize-knob {
+	float: left;
+	height: 100%;
+	width: 5px;
+	margin-right: 8px;
+	background-color: #eee;
+}
+
+.jdat-titlebar-title {
+	float: left;
+	font-size: larger;
+	text-overflow: ellipsis;
+}
+
+.jdat-titlebar button {
+	float: right;
+	width: 14px;
+	height: 14px;
+	margin-left: 5px;
+	border: 0;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.jdat-titlebar button.jdat-remove {
+	background-image: url(images/jdat-remove.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-collapse {
+	background-image: url(images/jdat-collapse.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-expand {
+	background-image: url(images/jdat-expand.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-undock {
+	background-image: url(images/jdat-undock.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-dock {
+	background-image: url(images/jdat-dock.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-settings {
+	background-image: url(images/jdat-settings.png);
+	background-repeat: no-repeat;
+}
+
+/*
+ * CloseBar
+ */
+a.jdat-closebar {
+	display: inline-block;
+	text-decoration: none;
+	border: 0;
+	line-height: 19px;
+	height: 20px;
+	text-align: center;
+	background-color: #111;
+	color: #eee;
+	width: 100%;
+}
+
+
+/*
+ * Field
+ */
+.jdat-field {
+	position: relative;
+}
+
+.jdat-field-container {
+	overflow: hidden;
+	border-left: 3px solid #2fa1d6;
+	background-color: #1a1a1a;
+	border-bottom: 1px solid #2c2c2c;
+	cursor: auto;
+	height: 27px;
+	line-height: 27px;
+	padding: 0 4px 0 5px;
+}
+
+.jdat-field-label {
+	cursor: default;
+	float: left;
+	overflow: hidden;
+  white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 40%;
+	height: 27px;
+}
+
+.jdat-field-panel {
+	width: 60%;
+	float: left;
+}
+
+.jdat-field input, .jdat-field select {
+	font: 12px 'Lucida Grande', sans-serif;
+	vertical-align: baseline;
+	margin: 4px 0 0 0;
+	border: 0;
+	height: 13px;
+}
+
+.jdat-field button {
+	font: 12px 'Lucida Grande', sans-serif;
+	cursor: pointer;
+	vertical-align: baseline;
+}
+
+.jdat-field input:focus {
+	border: 0;
+	outline: 0;
+	box-shadow: none;
+}
+
+.jdat-field-disabler {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	background-color: #000;
+	background-repeat: repeat-x;
+	background-size: 30px 30px;
+	background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+	transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+	transparent 75%, transparent);
+	background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+	transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+	transparent 75%, transparent);
+	background-image: linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+	transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+	transparent 75%, transparent);
+	-pie-background: linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+	transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+	transparent 75%, transparent) 0 0 / 20px 20px, #000;
+}
+
+.jdat-loading {
+  -webkit-animation: loading 1s linear infinite;
+	animation: loading 1s linear infinite;
+}
+
+@-webkit-keyframes loading
+{
+to { background-position: 30px 0; }
+}
+
+@keyframes loading
+{
+to { background-position: 30px 0; }
+}
+
+
+/*
+ * Section
+ */
+.jdat-section-title {
+	width: auto;
+}
+
+.jdat-section-panel {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	clear: both;
+}
+
+.jdat-section-panel.jdat-indent {
+	margin-left: 4px;
+}
+
+.jdat-field-container .jdat-arrow-right {
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 3px 0 3px 6px;
+	border-color: transparent transparent transparent #eee;
+	margin: 10px 5px 0 6px;
+	float: left;
+	cursor: pointer;
+}
+
+.jdat-field-container .jdat-arrow-down {
+	display: inline;
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 6px 3px 0 3px;
+	border-color: #eee transparent transparent transparent;
+	margin: 10px 5px 0 6px;
+	float: left;
+	cursor: pointer;
+}

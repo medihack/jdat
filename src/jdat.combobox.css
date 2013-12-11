@@ -1,0 +1,16 @@
+/*
+ * ComboBox
+ */
+.jdat-combobox .jdat-field-container {
+	border-left: 3px solid #ffd300;
+}
+
+.jdat-combobox select {
+	margin-top: 4px;
+	border 0;
+	width: auto;
+	min-width: 80%;
+	cursor: pointer;
+	height: 18px;
+	padding: 0;
+}

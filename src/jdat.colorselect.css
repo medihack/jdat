@@ -1,0 +1,89 @@
+/*
+ * ColorSelect
+ */
+.jdat-colorselect .jdat-field-container {
+	border-left: 3px solid #00cc00;
+}
+
+.jdat-colorselect input {
+	outline: none;
+	text-align: center;
+	border: 0;
+	font-weight: bold;
+	width: 100%;
+	padding: 3px 0;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.jdat-colorpicker {
+	display: none;
+	position: absolute;
+	width: 146px;
+	height: 100px;
+	background-color: #222222;
+	z-index: 100;
+}
+
+.jdat-saturation-field {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
+	border: 1px solid #eee;
+	margin-right: 5px;
+}
+
+.jdat-saturation-inner {
+	width: 100%;
+	height: 100%;
+
+	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+	background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+	background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+	background: linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+}
+
+.jdat-saturation-knob {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	border: 2px solid #fff;
+	margin-top: -6px;
+	margin-left: -7px;
+}
+
+.jdat-hue-field {
+	position: absolute;
+	left: 110px;
+	width: 15px;
+	height: 100px;
+	cursor: ns-resize;
+	border: 1px solid #eee;
+
+	background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);
+	background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);
+	background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);
+	background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);
+	background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);
+}
+
+.jdat-hue-knob {
+	position: absolute;
+	width: 13px;
+	height: 3px;
+	margin-top: -3px;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+	border-top: 2px solid #fff;
+	border-bottom: 2px solid #fff;
+}
+
+button.jdat-colorpicker-close {
+	position: absolute;
+	left: 135px;
+	padding: 0 2px;
+	margin: 0;
+	border: 0;
+}

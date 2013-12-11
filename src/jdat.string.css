@@ -1,0 +1,16 @@
+/*
+ * String
+ */
+.jdat-string input {
+	background: #303030;
+	outline: none;
+	width: 100%;
+	padding: 3px 0;
+	border: 0;
+	color: #fff;
+	height: 13px;
+}
+
+.jdat-string input:hover {
+	background-color: #3c3c3c;
+}

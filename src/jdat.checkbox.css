@@ -1,0 +1,10 @@
+/*
+ * CheckBox
+ */
+.jdat-checkbox .jdat-field-container {
+	border-left: 3px solid #ff0000;
+}
+
+.jdat-checkbox input {
+	margin-top: 7px;
+}
