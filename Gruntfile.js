@@ -42,7 +42,8 @@ module.exports = function(grunt) {
     },
 		cssmin: {
       options: {
-        banner: '<%= banner %>'
+        banner: '<%= banner %>',
+				keepSpecialComments: 0
       },
       dist: {
         src: '<%= concat.css.dest %>',

@@ -1,64 +1,71 @@
-JDat.ToggleController = (function() {
-	var defaults = {
-		label: "Toggle",
-		value: false
-	}
+!function($) { "use strict";
 
-	var ToggleController = function(el, options, eventBus) {
-		var opts = $.extend({}, defaults, options);
-		JDat.FieldController.call(this, el, opts, eventBus);
+	/*
+	 * ToggleController
+	 */
+	JDat.ToggleController = (function() {
+		var defaults = {
+			label: "Toggle",
+			value: false
+		}
 
-		this._bindToggle();
+		var ToggleController = function(el, options, eventBus) {
+			var opts = $.extend({}, defaults, options);
+			JDat.FieldController.call(this, el, opts, eventBus);
 
-		this._initialize();
-	}
+			this._bindToggle();
 
-	JDat.extend(ToggleController, JDat.FieldController, {
-		_render: function() {
-			this._template()
-				.append($('<div class="jdat-toggle-bg">')
-					.append($('<div class="jdat-toggle-fg">')
-						.text("OFF")));
-		},
-		_bindToggle: function() {
-			var self = this;
+			this._initialize();
+		}
 
-			this._el.find(".jdat-toggle-bg")
-				.click(function(e) {
-					self.value(!self.value(), true, true);
+		JDat.extend(ToggleController, JDat.FieldController, {
+			_render: function() {
+				this._template()
+					.append($('<div class="jdat-toggle-bg">')
+						.append($('<div class="jdat-toggle-fg">')
+							.text("OFF")));
+			},
+			_bindToggle: function() {
+				var self = this;
 
-					return false;
-				});
-		},
-		value: function(checked, trigger, finishChange) {
-			if (checked === undefined) {
-				return this._options.value;
-			}
-			else {
-				var checked = Boolean(checked);
+				this._el.find(".jdat-toggle-bg")
+					.click(function(e) {
+						self.value(!self.value(), true, true);
 
-				var toggle = this._el.find(".jdat-toggle-fg");
-				if (checked) {
-					toggle.addClass("jdat-toggle-on");
-					toggle.text("ON");
+						return false;
+					});
+			},
+			value: function(checked, trigger, finishChange) {
+				if (checked === undefined) {
+					return this._options.value;
 				}
 				else {
-					toggle.removeClass("jdat-toggle-on");
-					toggle.text("OFF");
-				}
+					var checked = Boolean(checked);
 
-				this._options.value = checked;
+					var toggle = this._el.find(".jdat-toggle-fg");
+					if (checked) {
+						toggle.addClass("jdat-toggle-on");
+						toggle.text("ON");
+					}
+					else {
+						toggle.removeClass("jdat-toggle-on");
+						toggle.text("OFF");
+					}
 
-				var data = {value: checked};
+					this._options.value = checked;
 
-				if (trigger) {
-					this._trigger(data, finishChange);
+					var data = {value: checked};
+
+					if (trigger) {
+						this._trigger(data, finishChange);
+					}
 				}
 			}
-		}
-	});
+		});
 
-	return ToggleController;
-})();
+		return ToggleController;
+	})();
 
-JDat.Registry["toggle"] = JDat.ToggleController;
+	JDat.Registry["toggle"] = JDat.ToggleController;
+
+}(jQuery);

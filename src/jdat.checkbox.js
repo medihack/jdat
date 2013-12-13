@@ -1,54 +1,61 @@
-JDat.CheckBoxController = (function() {
-	var defaults = {
-		label: "Check Box",
-		value: false,
-	}
+!function($) { "use strict";
 
-	var CheckBoxController = function(el, options, eventBus) {
-		var opts = $.extend({}, defaults, options);
-		JDat.FieldController.call(this, el, opts, eventBus);
+	/*
+	 * CheckBoxController
+	 */
+	JDat.CheckBoxController = (function() {
+		var defaults = {
+			label: "Check Box",
+			value: false,
+		}
 
-		this._bindInput();
+		var CheckBoxController = function(el, options, eventBus) {
+			var opts = $.extend({}, defaults, options);
+			JDat.FieldController.call(this, el, opts, eventBus);
 
-		this._initialize();
-	}
+			this._bindInput();
 
-	JDat.extend(CheckBoxController, JDat.FieldController, {
-		_render: function() {
-			this._template()
-				.append($('<input type="checkbox">'));
-		},
-		_bindInput: function() {
-			var self = this;
+			this._initialize();
+		}
 
-			this._el.find("input")
-				.change(function(e) {
-					var checked = $(e.currentTarget).is(":checked");
-					self.value(checked, true, true);
+		JDat.extend(CheckBoxController, JDat.FieldController, {
+			_render: function() {
+				this._template()
+					.append($('<input type="checkbox">'));
+			},
+			_bindInput: function() {
+				var self = this;
 
-					return false;
-				});
-		},
-		value: function(checked, trigger, finishChange) {
-			if (checked === undefined) {
-				return this._options.value;
-			}
-			else {
-				var checked = Boolean(checked);
 				this._el.find("input")
-					.attr("checked", checked);
-				this._options.value = checked;
+					.change(function(e) {
+						var checked = $(e.currentTarget).is(":checked");
+						self.value(checked, true, true);
 
-				var data = {value: checked};
+						return false;
+					});
+			},
+			value: function(checked, trigger, finishChange) {
+				if (checked === undefined) {
+					return this._options.value;
+				}
+				else {
+					var checked = Boolean(checked);
+					this._el.find("input")
+						.attr("checked", checked);
+					this._options.value = checked;
 
-				if (trigger) {
-					this._trigger(data, finishChange);
+					var data = {value: checked};
+
+					if (trigger) {
+						this._trigger(data, finishChange);
+					}
 				}
 			}
-		}
-	});
+		});
 
-	return CheckBoxController;
-})();
+		return CheckBoxController;
+	})();
 
-JDat.Registry["checkbox"] = JDat.CheckBoxController;
+	JDat.Registry["checkbox"] = JDat.CheckBoxController;
+
+}(jQuery);
