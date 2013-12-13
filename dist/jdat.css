@@ -1,0 +1,548 @@
+/*! jdat - v0.1.0 - 2013-12-13
+* https://github.com/medihack/jdat
+* Copyright (c) 2013 Kai Schlamp; Licensed MIT */
+.jdat-widget {
+	color: #eee;
+	font: 12px 'Lucida Grande', sans-serif;
+	text-shadow: 0 -1px 0 #111;
+	position: relative;
+	width: 250px;
+	min-width: 200px;
+	z-index: 99;
+
+	/*-webkit-user-select: none;*/
+	/*-moz-user-select: none;*/
+	/*user-select: none;*/
+}
+
+.jdat-title {
+	font-style: italic;
+	font-weight: bold;
+}
+
+
+/*
+ * Resizer
+ */
+.jdat-resizer {
+	position: absolute;
+	width: 8px;
+	cursor: ew-resize;
+	height: 100%;
+	z-index: 100;
+}
+
+.jdat-resizer.jdat-right {
+	right: -4px;
+}
+
+.jdat-resizer.jdat-left {
+	left: -4px;
+}
+
+
+/*
+ * TitleBar
+ */
+.jdat-titlebar {
+	background-color: #111;
+	color: #eee;
+	clear: both;
+	height: 16px;
+	padding: 3px 3px 3px 0;
+}
+
+.jdat-resize-knob {
+	float: left;
+	height: 100%;
+	width: 5px;
+	margin-right: 8px;
+	background-color: #eee;
+}
+
+.jdat-titlebar-title {
+	float: left;
+	font-size: larger;
+	text-overflow: ellipsis;
+}
+
+.jdat-titlebar button {
+	float: right;
+	width: 14px;
+	height: 14px;
+	margin-left: 5px;
+	border: 0;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.jdat-titlebar button.jdat-remove {
+	background-image: url(images/jdat-remove.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-collapse {
+	background-image: url(images/jdat-collapse.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-expand {
+	background-image: url(images/jdat-expand.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-undock {
+	background-image: url(images/jdat-undock.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-dock {
+	background-image: url(images/jdat-dock.png);
+	background-repeat: no-repeat;
+}
+
+.jdat-titlebar button.jdat-settings {
+	background-image: url(images/jdat-settings.png);
+	background-repeat: no-repeat;
+}
+
+/*
+ * CloseBar
+ */
+a.jdat-closebar {
+	display: inline-block;
+	text-decoration: none;
+	border: 0;
+	line-height: 19px;
+	height: 20px;
+	text-align: center;
+	background-color: #111;
+	color: #eee;
+	width: 100%;
+}
+
+
+/*
+ * Field
+ */
+.jdat-field {
+	position: relative;
+}
+
+.jdat-field-container {
+	overflow: hidden;
+	border-left: 3px solid #2fa1d6;
+	background-color: #1a1a1a;
+	border-bottom: 1px solid #2c2c2c;
+	cursor: auto;
+	height: 27px;
+	line-height: 27px;
+	padding: 0 4px 0 5px;
+}
+
+.jdat-field-label {
+	cursor: default;
+	float: left;
+	overflow: hidden;
+  white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 40%;
+	height: 27px;
+}
+
+.jdat-field-panel {
+	width: 60%;
+	float: left;
+}
+
+.jdat-field input, .jdat-field select {
+	font: 12px 'Lucida Grande', sans-serif;
+	vertical-align: baseline;
+	margin: 4px 0 0 0;
+	border: 0;
+	height: 13px;
+}
+
+.jdat-field button {
+	font: 12px 'Lucida Grande', sans-serif;
+	cursor: pointer;
+	vertical-align: baseline;
+}
+
+.jdat-field input:focus {
+	border: 0;
+	outline: 0;
+	box-shadow: none;
+}
+
+.jdat-field-disabler {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	background-color: #000;
+	background-repeat: repeat-x;
+	background-size: 30px 30px;
+	background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+	transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+	transparent 75%, transparent);
+	background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+	transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+	transparent 75%, transparent);
+	background-image: linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+	transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+	transparent 75%, transparent);
+	-pie-background: linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+	transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+	transparent 75%, transparent) 0 0 / 20px 20px, #000;
+}
+
+.jdat-loading {
+  -webkit-animation: loading 1s linear infinite;
+	animation: loading 1s linear infinite;
+}
+
+@-webkit-keyframes loading
+{
+to { background-position: 30px 0; }
+}
+
+@keyframes loading
+{
+to { background-position: 30px 0; }
+}
+
+
+/*
+ * Section
+ */
+.jdat-section-title {
+	width: auto;
+}
+
+.jdat-section-panel {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	clear: both;
+}
+
+.jdat-section-panel.jdat-indent {
+	margin-left: 4px;
+}
+
+.jdat-field-container .jdat-arrow-right {
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 3px 0 3px 6px;
+	border-color: transparent transparent transparent #eee;
+	margin: 10px 5px 0 6px;
+	float: left;
+	cursor: pointer;
+}
+
+.jdat-field-container .jdat-arrow-down {
+	display: inline;
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 6px 3px 0 3px;
+	border-color: #eee transparent transparent transparent;
+	margin: 10px 5px 0 6px;
+	float: left;
+	cursor: pointer;
+}
+
+.jdat-buttons button {
+	margin: 4px 0 0 0;
+	padding: 0 2px;
+}
+
+.jdat-checkbox .jdat-field-container {
+	border-left: 3px solid #ff0000;
+}
+
+.jdat-checkbox input {
+	margin-top: 7px;
+}
+
+.jdat-colorbar-container {
+	position: relative;
+	width: 100%;
+	height: 19px;
+	margin-top: 4px;
+}
+
+.jdat-colorbar-canvas {
+	height: 100%;
+	width: 100%;
+}
+
+.jdat-colorbar-caption {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	line-height: 19px;
+	height: 100%;
+	width: 100%;
+	cursor: default;
+	text-overflow: ellipsis;
+}
+
+.jdat-colorbar-marker {
+	display: none;
+	background-color: #fff;
+	position: absolute;
+	width: 1px;
+	height: 19px;
+	top: 0;
+	left: 0;
+}
+
+.jdat-colorselect .jdat-field-container {
+	border-left: 3px solid #00cc00;
+}
+
+.jdat-colorselect input {
+	outline: none;
+	text-align: center;
+	border: 0;
+	font-weight: bold;
+	width: 100%;
+	padding: 3px 0;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.jdat-colorpicker {
+	display: none;
+	position: absolute;
+	width: 146px;
+	height: 100px;
+	background-color: #222222;
+	z-index: 100;
+}
+
+.jdat-saturation-field {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
+	border: 1px solid #eee;
+	margin-right: 5px;
+}
+
+.jdat-saturation-inner {
+	width: 100%;
+	height: 100%;
+
+	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+	background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+	background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+	background: linear-gradient(top, rgba(0, 0, 0, 0) 0%, #000 100%);
+}
+
+.jdat-saturation-knob {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	border: 2px solid #fff;
+	margin-top: -6px;
+	margin-left: -7px;
+}
+
+.jdat-hue-field {
+	position: absolute;
+	left: 110px;
+	width: 15px;
+	height: 100px;
+	cursor: ns-resize;
+	border: 1px solid #eee;
+
+	background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);
+	background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);
+	background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);
+	background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);
+	background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);
+}
+
+.jdat-hue-knob {
+	position: absolute;
+	width: 13px;
+	height: 3px;
+	margin-top: -3px;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+	border-top: 2px solid #fff;
+	border-bottom: 2px solid #fff;
+}
+
+button.jdat-colorpicker-close {
+	position: absolute;
+	left: 135px;
+	padding: 0 2px;
+	margin: 0;
+	border: 0;
+}
+
+.jdat-combobox .jdat-field-container {
+	border-left: 3px solid #ffd300;
+}
+
+.jdat-combobox select {
+	margin-top: 4px;
+	border 0;
+	width: auto;
+	min-width: 80%;
+	cursor: pointer;
+	height: 18px;
+	padding: 0;
+}
+
+.jdat-progressbar-bg {
+  position: relative;
+  background-color: #303030;
+	height: 19px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.jdat-progressbar-overlay {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  line-height: 19px;
+}
+
+.jdat-progressbar-fg {
+  background-color: #2fa1d6;
+  display: inline-block;
+  height: 100%;
+
+  -webkit-transition: width .4s ease-in-out;
+  -moz-transition: width .4s ease-in-out;
+  -ms-transition: width .4s ease-in-out;
+  -o-transition: width .4s ease-in-out;
+  transition: width .4s ease-in-out;
+
+  -webkit-background-size: 30px 30px;
+  -moz-background-size: 30px 30px;
+  background-size: 30px 30px;
+  background-image: -webkit-gradient(linear, left top, right bottom,
+  color-stop(.25, rgba(255, 255, 255, .15)), color-stop(.25, transparent),
+  color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .15)),
+  color-stop(.75, rgba(255, 255, 255, .15)), color-stop(.75, transparent),
+  to(transparent));
+  background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+  transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+  transparent 75%, transparent);
+  background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+  transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+  transparent 75%, transparent);
+  background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+  transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+  transparent 75%, transparent);
+  background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+  transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+  transparent 75%, transparent);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+  transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+  transparent 75%, transparent);
+
+  -webkit-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+	0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}
+
+@keyframes animate-stripes {
+	0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}
+
+.jdat-slider .jdat-field-container {
+	border-left: 3px solid #2fa1d6;
+}
+
+.jdat-slider-bg {
+	background-color: #303030;
+	cursor: ew-resize;
+	width: 66%;
+	float: left;
+	height: 19px;
+	margin-top: 4px;
+	margin-left: -5px;
+	margin-right: 0;
+}
+
+.jdat-slider-bg:hover {
+	background-color: #3c3c3c;
+}
+
+.jdat-slider-fg {
+	background-color: #2fa1d6;
+	height: 100%;
+	width: 0%;
+}
+
+.jdat-slider input {
+	background: #303030;
+	outline: none;
+	width: 30%;
+	float: right;
+	padding: 3px;
+	border: 0;
+	color: #2fa1d6;
+	height: 13px;
+}
+
+.jdat-slider input:hover {
+	background-color: #3c3c3c;
+}
+
+.jdat-string input {
+	background: #303030;
+	outline: none;
+	width: 100%;
+	padding: 3px 0;
+	border: 0;
+	color: #fff;
+	height: 13px;
+}
+
+.jdat-string input:hover {
+	background-color: #3c3c3c;
+}
+
+.jdat-toggle .jdat-toggle-bg {
+	height: 19px;
+	width: 80px;
+	margin-top: 4px;
+	background-color: #464747;
+	position: relative;
+	cursor: pointer;
+}
+
+.jdat-toggle .jdat-toggle-fg {
+	height: 19px;
+	width: 40px;
+	background-color: #666666;
+	position: absolute;
+	text-align: center;
+	line-height: 19px;
+	left: 0;
+}
+
+.jdat-toggle .jdat-toggle-on {
+	background-color: #0E88B1;
+	left: 40px;
+}
