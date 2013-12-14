@@ -99,12 +99,8 @@ var JDat = JDat || {};
 			onChange: null,
 			onFinishChange: null,
 			onSetup: null,
-			onUpdateView: function(model, binding) {
-				this.value(model[binding], false);
-			},
-			onUpdateModel: function(model, binding, value, finishChange) {
-				model[binding] = value;
-			}
+			onUpdateView: null,
+			onUpdateModel: null
 		}
 
 		var BaseField = function(el, options, eventBus) {
@@ -328,6 +324,14 @@ var JDat = JDat || {};
 					options.model = this._options.model;
 				}
 
+				if (!options.onUpdateView) {
+					options.onUpdateView = this._options.onUpdateView;
+				}
+
+				if (!options.onUpdateModel) {
+					options.onUpdateModel = this._options.onUpdateModel;
+				}
+
 				var field = new Field(li, options, this._eventBus);
 				li.data("jdat", field);
 
@@ -399,7 +403,14 @@ var JDat = JDat || {};
 			settings: false,
 			onSettings: function() {},
 
-			model: null
+			model: null,
+
+			onUpdateView: function(model, binding) {
+				this.value(model[binding], false);
+			},
+			onUpdateModel: function(model, binding, value, finishChange) {
+				model[binding] = value;
+			}
 		}
 
 		var Widget = function(el, options) {
