@@ -1372,7 +1372,7 @@ var JDat = JDat || {};
 			},
 			value: function(selection, trigger, finishChange) {
 				if (selection === undefined) {
-					return this._el.find("select").val();
+					return this._options.value;
 				}
 				else {
 					var selectOption = this._el
