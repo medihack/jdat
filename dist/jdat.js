@@ -269,6 +269,8 @@ var JDat = JDat || {};
 		}
 
 		var SectionField = function(el, options, eventBus) {
+			el.addClass("jdat-section");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.BaseField.call(this, el, opts, eventBus);
 
@@ -714,6 +716,11 @@ var JDat = JDat || {};
 				}
 
 				this.undocked = false;
+			},
+			getField: function(id) {
+				var s = "#" + id + ".jdat-field";
+				var field = this._el.find(s).data("jdat");
+				return field;
 			},
 			updateView: function() {
 				this._eventBus.trigger("jdat.updateView");
