@@ -33,7 +33,7 @@
 								.append($('<div class="jdat-saturation-knob">')))
 							.append($('<div class="jdat-hue-field">')
 								.append($('<div class="jdat-hue-knob">')))
-							.append($('<button class="jdat-colorpicker-close">×</button>'))
+							.append($('<button class="jdat-colorpicker-close">×</button>'));
 					});
 			},
 			_bindInput: function() {
