@@ -1,19 +1,19 @@
 !function($) { "use strict";
 
 	/*
-	 * ColorSelectController
+	 * ColorSelectField
 	 */
-	JDat.ColorSelectController = (function() {
+	JDat.ColorSelectField = (function() {
 		var defaults = {
 			label: "Color Select",
 			value: "#ffffff",
 		}
 
-		var ColorSelectController = function(el, options, eventBus) {
+		var ColorSelectField = function(el, options, eventBus) {
 			el.addClass("jdat-colorselect");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindInput();
 			this._bindSelector();
@@ -21,7 +21,7 @@
 			this._initialize();
 		}
 
-		JDat.extend(ColorSelectController, JDat.FieldController, {
+		JDat.extend(ColorSelectField, JDat.BaseField, {
 			_render: function() {
 				this._template()
 					.append($('<input type="text">')
@@ -283,7 +283,7 @@
 			}
 		});
 
-		return ColorSelectController;
+		return ColorSelectField;
 	})();
 
 }(jQuery);

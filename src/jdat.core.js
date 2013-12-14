@@ -83,9 +83,9 @@ var JDat = JDat || {};
 	}
 
 	/*
-	 * FieldController
+	 * BaseField
 	 */
-	JDat.FieldController = (function() {
+	JDat.BaseField = (function() {
 		var defaults = {
 			id: null,
 			binding: null,
@@ -104,7 +104,7 @@ var JDat = JDat || {};
 			}
 		}
 
-		var FieldController = function(el, options, eventBus) {
+		var BaseField = function(el, options, eventBus) {
 			this._el = el;
 			this._options = $.extend({}, defaults, options);
 			this._eventBus = eventBus;
@@ -135,8 +135,8 @@ var JDat = JDat || {};
 			}
 		}
 
-		FieldController.prototype = {
-			constructor: FieldController,
+		BaseField.prototype = {
+			constructor: BaseField,
 			_initialize: function() {
 				if (this._options.model && this._options.binding) {
 					this._options.onUpdateView.call(this,
@@ -254,13 +254,13 @@ var JDat = JDat || {};
 			}
 		}
 
-		return FieldController;
+		return BaseField;
 	})();
 
 	/*
-	 * SectionController
+	 * SectionField
 	 */
-	JDat.SectionController = (function() {
+	JDat.SectionField = (function() {
 		var defaults = {
 			label: "Section",
 			title: true,
@@ -269,9 +269,9 @@ var JDat = JDat || {};
 			indent: true
 		}
 
-		var SectionController = function(el, options, eventBus) {
+		var SectionField = function(el, options, eventBus) {
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindClose();
 
@@ -280,7 +280,7 @@ var JDat = JDat || {};
 			}
 		}
 
-		JDat.extend(SectionController, JDat.FieldController, {
+		JDat.extend(SectionField, JDat.BaseField, {
 			_render: function() {
 				if (this._options.title) {
 					this._template().remove(); // removes the field panel
@@ -314,12 +314,7 @@ var JDat = JDat || {};
 						});
 				}
 			},
-			add: function(Controller, options) {
-				if (!Controller) {
-					console.error("Controller of type '" + type + "' does not exist.");
-					return null;
-				}
-
+			add: function(Field, options) {
 				var li = $("<li>")
 					.addClass("jdat-field")
 					.appendTo(this._el.find(".jdat-section-panel:eq(0)"));
@@ -330,10 +325,10 @@ var JDat = JDat || {};
 					options.model = this._options.model;
 				}
 
-				var controller = new Controller(li, options, this._eventBus);
-				li.data("jdat", controller);
+				var field = new Field(li, options, this._eventBus);
+				li.data("jdat", field);
 
-				return controller;
+				return field;
 			},
 			open: function(complete) {
 				var self = this;
@@ -377,7 +372,7 @@ var JDat = JDat || {};
 			}
 		});
 
-		return SectionController;
+		return SectionField;
 	})();
 
 	/*
@@ -422,7 +417,7 @@ var JDat = JDat || {};
 			}
 		}
 
-		JDat.extend(Widget, JDat.SectionController, {
+		JDat.extend(Widget, JDat.SectionField, {
 			_render: function() {
 				var self = this;
 

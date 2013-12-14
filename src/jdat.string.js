@@ -1,9 +1,9 @@
 !function($) { "use strict";
 
 	/*
-	 * StringController
+	 * StringField
 	 */
-	JDat.StringController = (function() {
+	JDat.StringField = (function() {
 		var defaults = {
 			label: "String",
 			value: "",
@@ -13,18 +13,18 @@
 			strip: false
 		}
 
-		var StringController = function(el, options, eventBus) {
+		var StringField = function(el, options, eventBus) {
 			el.addClass("jdat-string");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindInput();
 
 			this._initialize();
 		}
 
-		JDat.extend(StringController, JDat.FieldController, {
+		JDat.extend(StringField, JDat.BaseField, {
 			_render: function() {
 				this._template()
 					.append($('<input type="text">'));
@@ -120,7 +120,7 @@
 			}
 		});
 
-		return StringController;
+		return StringField;
 	})();
 
 }(jQuery);

@@ -1,25 +1,25 @@
 !function($) { "use strict";
 
 	/*
-	 * ButtonsController
+	 * ButtonsField
 	 */
-	JDat.ButtonsController = (function() {
+	JDat.ButtonsField = (function() {
 		var defaults = {
 			label: "Button",
 			holdTimeout: 500,
 			buttons: [] // array of strings or array of hashes {buttonId, buttonContent}
 		}
 
-		var ButtonsController = function(el, options, eventBus) {
+		var ButtonsField = function(el, options, eventBus) {
 			el.addClass("jdat-buttons");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindButtons();
 		}
 
-		JDat.extend(ButtonsController, JDat.FieldController, {
+		JDat.extend(ButtonsField, JDat.BaseField, {
 			_render: function() {
 				var template = this._template()
 				$.each(this._options.buttons, function(index, button) {
@@ -80,7 +80,7 @@
 			}
 		});
 
-		return ButtonsController;
+		return ButtonsField;
 	})();
 
 }(jQuery);

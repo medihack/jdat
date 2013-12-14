@@ -1,9 +1,9 @@
 !function($) { "use strict";
 
 	/*
-	 * CustomController
+	 * CustomField
 	 */
-	JDat.CustomController = (function() {
+	JDat.CustomField = (function() {
 		var defaults = {
 			label: "Custom",
 			hasLabel: true,
@@ -11,14 +11,14 @@
 			render: function() {}
 		}
 
-		var CustomController = function(el, options, eventBus) {
+		var CustomField = function(el, options, eventBus) {
 			el.addClass("jdat-custom");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 		}
 
-		JDat.extend(CustomController, JDat.FieldController, {
+		JDat.extend(CustomField, JDat.BaseField, {
 			_render: function() {
 				$.each(this._options.classes, function(i, clazz) {
 					this._el.addClass(clazz);
@@ -34,7 +34,7 @@
 			}
 		});
 
-		return CustomController;
+		return CustomField;
 	})();
 
 }(jQuery);

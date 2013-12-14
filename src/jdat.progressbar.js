@@ -1,26 +1,26 @@
 !function($) { "use strict";
 
 	/*
-	 * ProgressBarController
+	 * ProgressBarField
 	 */
-	JDat.ProgressBarController = (function() {
+	JDat.ProgressBarField = (function() {
 		var defaults = {
 			label: "Progress Bar",
 			value: 0,
 			text: "Loading ..."
 		}
 
-		var ProgressBarController = function(el, options, eventBus) {
+		var ProgressBarField = function(el, options, eventBus) {
 			el.addClass("jdat-progressbar");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this.value(this._options.value, false);
 			this.text(this._options.text);
 		}
 
-		JDat.extend(ProgressBarController, JDat.FieldController, {
+		JDat.extend(ProgressBarField, JDat.BaseField, {
 			_render: function() {
 				var progressBar = $('<div class="jdat-progressbar-bg">')
 					.append($('<span class="jdat-progressbar-fg">'))
@@ -68,7 +68,7 @@
 			}
 		});
 
-		return ProgressBarController;
+		return ProgressBarField;
 	})();
 
 }(jQuery);

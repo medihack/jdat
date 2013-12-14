@@ -1,25 +1,25 @@
 !function($) { "use strict";
 
 	/*
-	 * ColorBarController
+	 * ColorBarField
 	 */
-	JDat.ColorBarController = (function() {
+	JDat.ColorBarField = (function() {
 		var defaults = {
 			label: "Color Bar",
 			colors: [],
 			onHover: function(rel, pageX, pageY, barX, barY) {}
 		}
 
-		var ColorBarController = function(el, options, eventBus) {
+		var ColorBarField = function(el, options, eventBus) {
 			el.addClass("jdat-colorbar");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindHover();
 		}
 
-		JDat.extend(ColorBarController, JDat.FieldController, {
+		JDat.extend(ColorBarField, JDat.BaseField, {
 			_render: function() {
 				var template = this._template();
 
@@ -111,7 +111,7 @@
 			}
 		});
 
-		return ColorBarController;
+		return ColorBarField;
 	})();
 
 }(jQuery);

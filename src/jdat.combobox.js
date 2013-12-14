@@ -1,20 +1,20 @@
 !function($) { "use strict";
 
 	/*
-	 * ComboBoxController
+	 * ComboBoxField
 	 */
-	JDat.ComboBoxController = (function() {
+	JDat.ComboBoxField = (function() {
 		var defaults = {
 			label: "ComboBox",
 			selectOptions: [], // array of strings or array of hashes {value, text}
 			value: ""
 		}
 
-		var ComboBoxController = function(el, options, eventBus) {
+		var ComboBoxField = function(el, options, eventBus) {
 			el.addClass("jdat-combobox");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindSelect();
 
@@ -25,7 +25,7 @@
 			this._initialize();
 		}
 
-		JDat.extend(ComboBoxController, JDat.FieldController, {
+		JDat.extend(ComboBoxField, JDat.BaseField, {
 			_render: function() {
 				this._template()
 					.append($('<select>'));
@@ -98,7 +98,7 @@
 			}
 		});
 
-		return ComboBoxController;
+		return ComboBoxField;
 	})();
 
 }(jQuery);

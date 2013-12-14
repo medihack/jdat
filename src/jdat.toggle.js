@@ -1,26 +1,26 @@
 !function($) { "use strict";
 
 	/*
-	 * ToggleController
+	 * ToggleField
 	 */
-	JDat.ToggleController = (function() {
+	JDat.ToggleField = (function() {
 		var defaults = {
 			label: "Toggle",
 			value: false
 		}
 
-		var ToggleController = function(el, options, eventBus) {
+		var ToggleField = function(el, options, eventBus) {
 			el.addClass("jdat-toggle");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindToggle();
 
 			this._initialize();
 		}
 
-		JDat.extend(ToggleController, JDat.FieldController, {
+		JDat.extend(ToggleField, JDat.BaseField, {
 			_render: function() {
 				this._template()
 					.append($('<div class="jdat-toggle-bg">')
@@ -65,7 +65,7 @@
 			}
 		});
 
-		return ToggleController;
+		return ToggleField;
 	})();
 
 }(jQuery);

@@ -1,26 +1,26 @@
 !function($) { "use strict";
 
 	/*
-	 * CheckBoxController
+	 * CheckBoxField
 	 */
-	JDat.CheckBoxController = (function() {
+	JDat.CheckBoxField = (function() {
 		var defaults = {
 			label: "Check Box",
 			value: false,
 		}
 
-		var CheckBoxController = function(el, options, eventBus) {
+		var CheckBoxField = function(el, options, eventBus) {
 			el.addClass("jdat-combobox");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindInput();
 
 			this._initialize();
 		}
 
-		JDat.extend(CheckBoxController, JDat.FieldController, {
+		JDat.extend(CheckBoxField, JDat.BaseField, {
 			_render: function() {
 				this._template()
 					.append($('<input type="checkbox">'));
@@ -55,7 +55,7 @@
 			}
 		});
 
-		return CheckBoxController;
+		return CheckBoxField;
 	})();
 
 }(jQuery);

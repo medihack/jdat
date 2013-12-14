@@ -1,9 +1,9 @@
 !function($) { "use strict";
 
 	/*
-	 * SliderController
+	 * SliderField
 	 */
-	JDat.SliderController = (function() {
+	JDat.SliderField = (function() {
 		var defaults = {
 			label: "Slider",
 			max: 100,
@@ -12,11 +12,11 @@
 			value: 50,
 		}
 
-		var SliderController = function(el, options, eventBus) {
+		var SliderField = function(el, options, eventBus) {
 			el.addClass("jdat-slider");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.FieldController.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts, eventBus);
 
 			this._bindSlide();
 			this._bindInput();
@@ -24,7 +24,7 @@
 			this._initialize();
 		}
 
-		JDat.extend(SliderController, JDat.FieldController, {
+		JDat.extend(SliderField, JDat.BaseField, {
 			_render: function() {
 				this._template()
 					.append($('<input type="text">'))
@@ -210,7 +210,7 @@
 			}
 		});
 
-		return SliderController;
+		return SliderField;
 	})();
 
 }(jQuery);
