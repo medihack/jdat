@@ -1,8 +1,7 @@
-/*! jdat - v0.1.0 - 2013-12-13
+/*! jdat - v0.1.0 - 2013-12-14
 * https://github.com/medihack/jdat
 * Copyright (c) 2013 Kai Schlamp; Licensed MIT */
 var JDat = JDat || {};
-JDat.Registry = JDat.Registry || {};
 
 !function($) { "use strict";
 
@@ -318,17 +317,14 @@ JDat.Registry = JDat.Registry || {};
 						});
 				}
 			},
-			add: function(type, options) {
-				var controllerClazz = JDat.Registry[type];
-
-				if (!controllerClazz) {
+			add: function(Controller, options) {
+				if (!Controller) {
 					console.error("Controller of type '" + type + "' does not exist.");
 					return null;
 				}
 
 				var li = $("<li>")
 					.addClass("jdat-field")
-					.addClass("jdat-" + type)
 					.appendTo(this._el.find(".jdat-section-panel:eq(0)"));
 
 				if (options.id) li.attr("id", options.id);
@@ -337,7 +333,7 @@ JDat.Registry = JDat.Registry || {};
 					options.model = this._options.model;
 				}
 
-				var controller = new controllerClazz(li, options, this._eventBus);
+				var controller = new Controller(li, options, this._eventBus);
 				li.data("jdat", controller);
 
 				return controller;
@@ -386,8 +382,6 @@ JDat.Registry = JDat.Registry || {};
 
 		return SectionController;
 	})();
-
-	JDat.Registry["section"] = JDat.SectionController;
 
 	/*
 	 * Widget
@@ -751,6 +745,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var ButtonsController = function(el, options, eventBus) {
+			el.addClass("jdat-buttons");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -821,8 +817,6 @@ JDat.Registry = JDat.Registry || {};
 		return ButtonsController;
 	})();
 
-	JDat.Registry["buttons"] = JDat.ButtonsController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -837,6 +831,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var CheckBoxController = function(el, options, eventBus) {
+			el.addClass("jdat-combobox");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -883,8 +879,6 @@ JDat.Registry = JDat.Registry || {};
 		return CheckBoxController;
 	})();
 
-	JDat.Registry["checkbox"] = JDat.CheckBoxController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -900,6 +894,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var ColorBarController = function(el, options, eventBus) {
+			el.addClass("jdat-colorbar");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -1001,8 +997,6 @@ JDat.Registry = JDat.Registry || {};
 		return ColorBarController;
 	})();
 
-	JDat.Registry["colorbar"] = JDat.ColorBarController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -1017,6 +1011,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var ColorSelectController = function(el, options, eventBus) {
+			el.addClass("jdat-colorselect");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -1291,8 +1287,6 @@ JDat.Registry = JDat.Registry || {};
 		return ColorSelectController;
 	})();
 
-	JDat.Registry["colorselect"] = JDat.ColorSelectController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -1308,6 +1302,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var ComboBoxController = function(el, options, eventBus) {
+			el.addClass("jdat-combobox");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -1396,8 +1392,6 @@ JDat.Registry = JDat.Registry || {};
 		return ComboBoxController;
 	})();
 
-	JDat.Registry["combobox"] = JDat.ComboBoxController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -1414,6 +1408,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var CustomController = function(el, options, eventBus) {
+			el.addClass("jdat-custom");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 		}
@@ -1437,8 +1433,6 @@ JDat.Registry = JDat.Registry || {};
 		return CustomController;
 	})();
 
-	JDat.Registry["custom"] = JDat.CustomController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -1454,6 +1448,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var ProgressBarController = function(el, options, eventBus) {
+			el.addClass("jdat-progressbar");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -1512,8 +1508,6 @@ JDat.Registry = JDat.Registry || {};
 		return ProgressBarController;
 	})();
 
-	JDat.Registry["progressbar"] = JDat.ProgressBarController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -1531,6 +1525,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var SliderController = function(el, options, eventBus) {
+			el.addClass("jdat-slider");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -1729,8 +1725,6 @@ JDat.Registry = JDat.Registry || {};
 		return SliderController;
 	})();
 
-	JDat.Registry["slider"] = JDat.SliderController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -1749,6 +1743,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var StringController = function(el, options, eventBus) {
+			el.addClass("jdat-string");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -1856,8 +1852,6 @@ JDat.Registry = JDat.Registry || {};
 		return StringController;
 	})();
 
-	JDat.Registry["string"] = JDat.StringController;
-
 }(jQuery);
 
 !function($) { "use strict";
@@ -1872,6 +1866,8 @@ JDat.Registry = JDat.Registry || {};
 		}
 
 		var ToggleController = function(el, options, eventBus) {
+			el.addClass("jdat-toggle");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -1927,7 +1923,5 @@ JDat.Registry = JDat.Registry || {};
 
 		return ToggleController;
 	})();
-
-	JDat.Registry["toggle"] = JDat.ToggleController;
 
 }(jQuery);

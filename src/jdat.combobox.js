@@ -11,6 +11,8 @@
 		}
 
 		var ComboBoxController = function(el, options, eventBus) {
+			el.addClass("jdat-combobox");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -98,7 +100,5 @@
 
 		return ComboBoxController;
 	})();
-
-	JDat.Registry["combobox"] = JDat.ComboBoxController;
 
 }(jQuery);

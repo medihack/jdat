@@ -11,6 +11,8 @@
 		}
 
 		var ProgressBarController = function(el, options, eventBus) {
+			el.addClass("jdat-progressbar");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -68,7 +70,5 @@
 
 		return ProgressBarController;
 	})();
-
-	JDat.Registry["progressbar"] = JDat.ProgressBarController;
 
 }(jQuery);

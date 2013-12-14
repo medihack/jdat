@@ -1,5 +1,4 @@
 var JDat = JDat || {};
-JDat.Registry = JDat.Registry || {};
 
 !function($) { "use strict";
 
@@ -315,17 +314,14 @@ JDat.Registry = JDat.Registry || {};
 						});
 				}
 			},
-			add: function(type, options) {
-				var controllerClazz = JDat.Registry[type];
-
-				if (!controllerClazz) {
+			add: function(Controller, options) {
+				if (!Controller) {
 					console.error("Controller of type '" + type + "' does not exist.");
 					return null;
 				}
 
 				var li = $("<li>")
 					.addClass("jdat-field")
-					.addClass("jdat-" + type)
 					.appendTo(this._el.find(".jdat-section-panel:eq(0)"));
 
 				if (options.id) li.attr("id", options.id);
@@ -334,7 +330,7 @@ JDat.Registry = JDat.Registry || {};
 					options.model = this._options.model;
 				}
 
-				var controller = new controllerClazz(li, options, this._eventBus);
+				var controller = new Controller(li, options, this._eventBus);
 				li.data("jdat", controller);
 
 				return controller;
@@ -383,8 +379,6 @@ JDat.Registry = JDat.Registry || {};
 
 		return SectionController;
 	})();
-
-	JDat.Registry["section"] = JDat.SectionController;
 
 	/*
 	 * Widget

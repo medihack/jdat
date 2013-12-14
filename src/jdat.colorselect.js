@@ -10,6 +10,8 @@
 		}
 
 		var ColorSelectController = function(el, options, eventBus) {
+			el.addClass("jdat-colorselect");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -283,7 +285,5 @@
 
 		return ColorSelectController;
 	})();
-
-	JDat.Registry["colorselect"] = JDat.ColorSelectController;
 
 }(jQuery);

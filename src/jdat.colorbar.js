@@ -11,6 +11,8 @@
 		}
 
 		var ColorBarController = function(el, options, eventBus) {
+			el.addClass("jdat-colorbar");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -111,7 +113,5 @@
 
 		return ColorBarController;
 	})();
-
-	JDat.Registry["colorbar"] = JDat.ColorBarController;
 
 }(jQuery);

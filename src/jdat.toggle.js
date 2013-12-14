@@ -10,6 +10,8 @@
 		}
 
 		var ToggleController = function(el, options, eventBus) {
+			el.addClass("jdat-toggle");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -65,7 +67,5 @@
 
 		return ToggleController;
 	})();
-
-	JDat.Registry["toggle"] = JDat.ToggleController;
 
 }(jQuery);

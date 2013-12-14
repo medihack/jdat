@@ -12,6 +12,8 @@
 		}
 
 		var CustomController = function(el, options, eventBus) {
+			el.addClass("jdat-custom");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 		}
@@ -34,7 +36,5 @@
 
 		return CustomController;
 	})();
-
-	JDat.Registry["custom"] = JDat.CustomController;
 
 }(jQuery);

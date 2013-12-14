@@ -13,6 +13,8 @@
 		}
 
 		var SliderController = function(el, options, eventBus) {
+			el.addClass("jdat-slider");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -210,7 +212,5 @@
 
 		return SliderController;
 	})();
-
-	JDat.Registry["slider"] = JDat.SliderController;
 
 }(jQuery);

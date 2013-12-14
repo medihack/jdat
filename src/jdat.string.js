@@ -14,6 +14,8 @@
 		}
 
 		var StringController = function(el, options, eventBus) {
+			el.addClass("jdat-string");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -120,7 +122,5 @@
 
 		return StringController;
 	})();
-
-	JDat.Registry["string"] = JDat.StringController;
 
 }(jQuery);

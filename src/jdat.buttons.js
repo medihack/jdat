@@ -11,6 +11,8 @@
 		}
 
 		var ButtonsController = function(el, options, eventBus) {
+			el.addClass("jdat-buttons");
+
 			var opts = $.extend({}, defaults, options);
 			JDat.FieldController.call(this, el, opts, eventBus);
 
@@ -80,7 +82,5 @@
 
 		return ButtonsController;
 	})();
-
-	JDat.Registry["buttons"] = JDat.ButtonsController;
 
 }(jQuery);
