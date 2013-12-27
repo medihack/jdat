@@ -91,8 +91,6 @@ var JDat = JDat || {};
 			binding: null,
 			label: null,
 			titleize: false,
-			disabled: false,
-			hidden: false,
 			onChange: null,
 			onFinishChange: null,
 			onSetup: null,
@@ -116,14 +114,6 @@ var JDat = JDat || {};
 																						self._options.binding);
 					}
 				});
-			}
-
-			if (this._options.disabled) {
-				this.disable();
-			}
-
-			if (this._options.hidden) {
-				this._el.hide();
 			}
 
 			if (this._options.onSetup) {
@@ -212,8 +202,6 @@ var JDat = JDat || {};
 						complete.call(self);
 					}
 				});
-
-				this._options.hidden = false;
 			},
 			hide: function(complete) {
 				var self = this;
@@ -225,14 +213,10 @@ var JDat = JDat || {};
 						complete.call(self);
 					}
 				});
-
-				this._options.hidden = true;
 			},
 			enable: function() {
 				this._el.find($(".jdat-field-disabler")
 						.remove());
-
-				this._options.disabled = false;
 			},
 			disable: function(loading) {
 				var disabler = this._el.find(".jdat-field-disabler");
@@ -245,8 +229,6 @@ var JDat = JDat || {};
 						disabler.addClass("jdat-loading");
 					}
 				}
-
-				this._options.disabled = true;
 			}
 		}
 
