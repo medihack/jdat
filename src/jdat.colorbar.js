@@ -73,11 +73,11 @@
 
 					var text = self._options.onHover.call(self, value);
 
-					if (text) {
-						self.caption.html(text).show();
+					if (text == null) {
+						self.caption.hide();
 					}
 					else {
-						self.caption.hide();
+						self.caption.html(text).show();
 					}
 
 					return false;
