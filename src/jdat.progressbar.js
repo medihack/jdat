@@ -10,11 +10,11 @@
 			text: "Loading ..."
 		}
 
-		var ProgressBarField = function(el, options, eventBus) {
+		var ProgressBarField = function(el, options) {
 			el.addClass("jdat-progressbar");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this.value(this._options.value, false);
 			this.text(this._options.text);

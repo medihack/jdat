@@ -13,11 +13,11 @@
 			strip: false
 		}
 
-		var StringField = function(el, options, eventBus) {
+		var StringField = function(el, options) {
 			el.addClass("jdat-string");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindInput();
 

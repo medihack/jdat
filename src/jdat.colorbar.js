@@ -10,11 +10,11 @@
 			onHover: function(rel, pageX, pageY, barX, barY) {}
 		}
 
-		var ColorBarField = function(el, options, eventBus) {
+		var ColorBarField = function(el, options) {
 			el.addClass("jdat-colorbar");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindHover();
 		}

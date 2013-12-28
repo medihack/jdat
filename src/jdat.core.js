@@ -98,23 +98,11 @@ var JDat = JDat || {};
 			onUpdateModel: null
 		}
 
-		var BaseField = function(el, options, eventBus) {
+		var BaseField = function(el, options) {
 			this._el = el;
 			this._options = $.extend({}, defaults, options);
-			this._eventBus = eventBus;
 
 			this._render();
-
-			if (this._eventBus) {
-				var self = this;
-				this._eventBus.bind("jdat.updateView", function() {
-					if (self._options.model && self._options.binding) {
-						self._options.onUpdateView.call(self,
-																						self._options.model,
-																						self._options.binding);
-					}
-				});
-			}
 
 			if (this._options.onSetup) {
 				this._options.onSetup.call(this);
@@ -229,7 +217,15 @@ var JDat = JDat || {};
 						disabler.addClass("jdat-loading");
 					}
 				}
-			}
+			},
+      updateView: function() {
+        var options = this._options;
+        if (options.model && options.binding) {
+          options.onUpdateView.call(self,
+                                    options.model,
+                                    options.binding);
+        }
+      }
 		}
 
 		return BaseField;
@@ -247,11 +243,11 @@ var JDat = JDat || {};
 			indent: true
 		}
 
-		var SectionField = function(el, options, eventBus) {
+		var SectionField = function(el, options) {
 			el.addClass("jdat-section");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindClose();
 
@@ -313,7 +309,7 @@ var JDat = JDat || {};
 					options.onUpdateModel = this._options.onUpdateModel;
 				}
 
-				var field = new Field(li, options, this._eventBus);
+				var field = new Field(li, options);
 				li.data("jdat", field);
 
 				return field;
@@ -357,6 +353,13 @@ var JDat = JDat || {};
 			empty: function() {
 				this._el.find(".jdat-section-panel:eq(0)")
 					.empty();
+			},
+			updateView: function() {
+        this._el.find(".jdat-field").each(function() {
+          if (!$(this).hasClass("jdat-section")) {
+            $(this).data("jdat").updateView();
+          }
+        });
 			}
 		});
 
@@ -397,8 +400,6 @@ var JDat = JDat || {};
 		var Widget = function(el, options) {
 			this._el = el;
 			this._options = $.extend({}, defaults, options);
-
-			this._eventBus = $({});
 
 			this._render();
 
@@ -700,9 +701,6 @@ var JDat = JDat || {};
 				var s = "#" + id + ".jdat-field";
 				var field = this._el.find(s).data("jdat");
 				return field;
-			},
-			updateView: function() {
-				this._eventBus.trigger("jdat.updateView");
 			}
 		});
 

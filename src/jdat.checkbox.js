@@ -9,11 +9,11 @@
 			value: false,
 		}
 
-		var CheckBoxField = function(el, options, eventBus) {
+		var CheckBoxField = function(el, options) {
 			el.addClass("jdat-combobox");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindInput();
 

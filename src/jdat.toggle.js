@@ -9,11 +9,11 @@
 			value: false
 		}
 
-		var ToggleField = function(el, options, eventBus) {
+		var ToggleField = function(el, options) {
 			el.addClass("jdat-toggle");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindToggle();
 

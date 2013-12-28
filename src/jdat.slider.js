@@ -12,11 +12,11 @@
 			value: 50,
 		}
 
-		var SliderField = function(el, options, eventBus) {
+		var SliderField = function(el, options) {
 			el.addClass("jdat-slider");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindSlide();
 			this._bindInput();

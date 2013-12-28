@@ -10,11 +10,11 @@
 			buttons: [] // array of strings or array of hashes {buttonId, buttonContent}
 		}
 
-		var ButtonsField = function(el, options, eventBus) {
+		var ButtonsField = function(el, options) {
 			el.addClass("jdat-buttons");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindButtons();
 		}

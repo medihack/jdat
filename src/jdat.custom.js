@@ -11,11 +11,11 @@
 			render: function() {}
 		}
 
-		var CustomField = function(el, options, eventBus) {
+		var CustomField = function(el, options) {
 			el.addClass("jdat-custom");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 		}
 
 		JDat.extend(CustomField, JDat.BaseField, {

@@ -1,4 +1,4 @@
-/*! jdat - v0.1.0 - 2013-12-27
+/*! jdat - v0.1.0 - 2013-12-28
 * https://github.com/medihack/jdat
 * Copyright (c) 2013 Kai Schlamp; Licensed MIT */
 var JDat = JDat || {};
@@ -101,23 +101,11 @@ var JDat = JDat || {};
 			onUpdateModel: null
 		}
 
-		var BaseField = function(el, options, eventBus) {
+		var BaseField = function(el, options) {
 			this._el = el;
 			this._options = $.extend({}, defaults, options);
-			this._eventBus = eventBus;
 
 			this._render();
-
-			if (this._eventBus) {
-				var self = this;
-				this._eventBus.bind("jdat.updateView", function() {
-					if (self._options.model && self._options.binding) {
-						self._options.onUpdateView.call(self,
-																						self._options.model,
-																						self._options.binding);
-					}
-				});
-			}
 
 			if (this._options.onSetup) {
 				this._options.onSetup.call(this);
@@ -232,7 +220,15 @@ var JDat = JDat || {};
 						disabler.addClass("jdat-loading");
 					}
 				}
-			}
+			},
+      updateView: function() {
+        var options = this._options;
+        if (options.model && options.binding) {
+          options.onUpdateView.call(self,
+                                    options.model,
+                                    options.binding);
+        }
+      }
 		}
 
 		return BaseField;
@@ -250,11 +246,11 @@ var JDat = JDat || {};
 			indent: true
 		}
 
-		var SectionField = function(el, options, eventBus) {
+		var SectionField = function(el, options) {
 			el.addClass("jdat-section");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindClose();
 
@@ -316,7 +312,7 @@ var JDat = JDat || {};
 					options.onUpdateModel = this._options.onUpdateModel;
 				}
 
-				var field = new Field(li, options, this._eventBus);
+				var field = new Field(li, options);
 				li.data("jdat", field);
 
 				return field;
@@ -360,6 +356,13 @@ var JDat = JDat || {};
 			empty: function() {
 				this._el.find(".jdat-section-panel:eq(0)")
 					.empty();
+			},
+			updateView: function() {
+        this._el.find(".jdat-field").each(function() {
+          if (!$(this).hasClass("jdat-section")) {
+            $(this).data("jdat").updateView();
+          }
+        });
 			}
 		});
 
@@ -400,8 +403,6 @@ var JDat = JDat || {};
 		var Widget = function(el, options) {
 			this._el = el;
 			this._options = $.extend({}, defaults, options);
-
-			this._eventBus = $({});
 
 			this._render();
 
@@ -703,9 +704,6 @@ var JDat = JDat || {};
 				var s = "#" + id + ".jdat-field";
 				var field = this._el.find(s).data("jdat");
 				return field;
-			},
-			updateView: function() {
-				this._eventBus.trigger("jdat.updateView");
 			}
 		});
 
@@ -739,11 +737,11 @@ var JDat = JDat || {};
 			buttons: [] // array of strings or array of hashes {buttonId, buttonContent}
 		}
 
-		var ButtonsField = function(el, options, eventBus) {
+		var ButtonsField = function(el, options) {
 			el.addClass("jdat-buttons");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindButtons();
 		}
@@ -825,11 +823,11 @@ var JDat = JDat || {};
 			value: false,
 		}
 
-		var CheckBoxField = function(el, options, eventBus) {
+		var CheckBoxField = function(el, options) {
 			el.addClass("jdat-combobox");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindInput();
 
@@ -888,11 +886,11 @@ var JDat = JDat || {};
 			onHover: function(rel, pageX, pageY, barX, barY) {}
 		}
 
-		var ColorBarField = function(el, options, eventBus) {
+		var ColorBarField = function(el, options) {
 			el.addClass("jdat-colorbar");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindHover();
 		}
@@ -1005,11 +1003,11 @@ var JDat = JDat || {};
 			value: "#ffffff",
 		}
 
-		var ColorSelectField = function(el, options, eventBus) {
+		var ColorSelectField = function(el, options) {
 			el.addClass("jdat-colorselect");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindInput();
 			this._bindSelector();
@@ -1296,11 +1294,11 @@ var JDat = JDat || {};
 			value: ""
 		}
 
-		var ComboBoxField = function(el, options, eventBus) {
+		var ComboBoxField = function(el, options) {
 			el.addClass("jdat-combobox");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindSelect();
 
@@ -1402,11 +1400,11 @@ var JDat = JDat || {};
 			render: function() {}
 		}
 
-		var CustomField = function(el, options, eventBus) {
+		var CustomField = function(el, options) {
 			el.addClass("jdat-custom");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 		}
 
 		JDat.extend(CustomField, JDat.BaseField, {
@@ -1442,11 +1440,11 @@ var JDat = JDat || {};
 			text: "Loading ..."
 		}
 
-		var ProgressBarField = function(el, options, eventBus) {
+		var ProgressBarField = function(el, options) {
 			el.addClass("jdat-progressbar");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this.value(this._options.value, false);
 			this.text(this._options.text);
@@ -1519,11 +1517,11 @@ var JDat = JDat || {};
 			value: 50,
 		}
 
-		var SliderField = function(el, options, eventBus) {
+		var SliderField = function(el, options) {
 			el.addClass("jdat-slider");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindSlide();
 			this._bindInput();
@@ -1737,11 +1735,11 @@ var JDat = JDat || {};
 			strip: false
 		}
 
-		var StringField = function(el, options, eventBus) {
+		var StringField = function(el, options) {
 			el.addClass("jdat-string");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindInput();
 
@@ -1860,11 +1858,11 @@ var JDat = JDat || {};
 			value: false
 		}
 
-		var ToggleField = function(el, options, eventBus) {
+		var ToggleField = function(el, options) {
 			el.addClass("jdat-toggle");
 
 			var opts = $.extend({}, defaults, options);
-			JDat.BaseField.call(this, el, opts, eventBus);
+			JDat.BaseField.call(this, el, opts);
 
 			this._bindToggle();
 
