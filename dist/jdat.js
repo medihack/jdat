@@ -222,11 +222,10 @@ var JDat = JDat || {};
 				}
 			},
       updateView: function() {
-        var options = this._options;
-        if (options.model && options.binding) {
-          options.onUpdateView.call(self,
-                                    options.model,
-                                    options.binding);
+        if (this._options.model && this._options.binding) {
+          this._options.onUpdateView.call(self,
+                                          this._options.model,
+                                          this._options.binding);
         }
       }
 		}
