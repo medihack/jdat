@@ -223,7 +223,7 @@ var JDat = JDat || {};
 			},
       updateView: function() {
         if (this._options.model && this._options.binding) {
-          this._options.onUpdateView.call(self,
+          this._options.onUpdateView.call(this,
                                           this._options.model,
                                           this._options.binding);
         }
