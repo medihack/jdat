@@ -94,9 +94,9 @@ var JDat = JDat || {};
 			binding: null,
 			label: null,
 			titleize: false,
+			onSetup: null,
 			onChange: null,
 			onFinishChange: null,
-			onSetup: null,
 			onUpdateView: null,
 			onUpdateModel: null
 		}
@@ -115,19 +115,16 @@ var JDat = JDat || {};
 		BaseField.prototype = {
 			constructor: BaseField,
 			_initialize: function() {
-				if (this._options.model && this._options.binding) {
-					this._options.onUpdateView.call(this,
-																					this._options.model,
-																					this._options.binding);
-				}
-				else if (this._options.value) {
+				if (this._options.value) {
 					this.value(this._options.value, false);
 				}
+
+        this.updateView();
 			},
 			_trigger: function(data, finishChange) {
 				data.source = this;
 
-				if (this._options.model && this._options.binding) {
+				if (this._options.onUpdateModel) {
 					this._options.onUpdateModel.call(this,
 																				this._options.model,
 																				this._options.binding,
@@ -222,7 +219,7 @@ var JDat = JDat || {};
 				}
 			},
       updateView: function() {
-        if (this._options.model && this._options.binding) {
+        if (this._options.onUpdateView) {
           this._options.onUpdateView.call(this,
                                           this._options.model,
                                           this._options.binding);
@@ -392,10 +389,14 @@ var JDat = JDat || {};
 			model: null,
 
 			onUpdateView: function(model, binding) {
-				this.value(model[binding], false);
+        if (model && binding) {
+          this.value(model[binding], false);
+        }
 			},
 			onUpdateModel: function(model, binding, value, finishChange) {
-				model[binding] = value;
+        if (model && binding) {
+          model[binding] = value;
+        }
 			}
 		}
 
