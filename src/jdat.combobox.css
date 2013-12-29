@@ -8,8 +8,8 @@
 .jdat-combobox select {
 	margin-top: 4px;
 	border 0;
-	width: auto;
-	min-width: 80%;
+  max-width: 100%;
+  min-width: 50%;
 	cursor: pointer;
 	height: 18px;
 	padding: 0;

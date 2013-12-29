@@ -1,4 +1,4 @@
-/*! jdat - v0.1.0 - 2013-12-28
+/*! jdat - v0.1.0 - 2013-12-29
 * https://github.com/medihack/jdat
 * Copyright (c) 2013 Kai Schlamp; Licensed MIT */
 var JDat = JDat || {};

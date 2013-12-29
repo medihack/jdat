@@ -1,4 +1,4 @@
-/*! jdat - v0.1.0 - 2013-12-28
+/*! jdat - v0.1.0 - 2013-12-29
 * https://github.com/medihack/jdat
 * Copyright (c) 2013 Kai Schlamp; Licensed MIT */
 .jdat-widget {
@@ -398,8 +398,8 @@ button.jdat-colorpicker-close {
 .jdat-combobox select {
 	margin-top: 4px;
 	border 0;
-	width: auto;
-	min-width: 80%;
+  max-width: 100%;
+  min-width: 50%;
 	cursor: pointer;
 	height: 18px;
 	padding: 0;
