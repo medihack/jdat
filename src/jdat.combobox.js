@@ -30,26 +30,6 @@
 				this._template()
 					.append($('<select>'));
 			},
-			_fillSelect: function(select) {
-				var selectOptions = this._options.selectOptions;
-				$.each(selectOptions, function(i, option) {
-					var value, text;
-					if (typeof option === "string") {
-						value = option;
-						text = option;
-					}
-					else {
-						// assumes an array of hashes (with one key each)
-						// e.g. [{"myoption1", "My Option 1"}, {"myoption2": "My Option 2"}]
-						for (value in option) break;
-						text = option[value];
-					}
-
-					select.append($('<option>')
-						.attr("value", value)
-						.text(text));
-				});
-			},
 			_bindSelect: function() {
 				var self = this;
 
@@ -67,8 +47,26 @@
 				}
 				else {
 					this._options.selectOptions = selectOptions;
+
 					var select = this._el.find("select").empty();
-					this._fillSelect(select);
+
+          $.each(selectOptions, function(i, option) {
+            var value, text;
+            if (typeof option === "string") {
+              value = option;
+              text = option;
+            }
+            else {
+              // assumes an array of hashes (with one key each)
+              // e.g. [{"myoption1", "My Option 1"}, {"myoption2": "My Option 2"}]
+              for (value in option) break;
+              text = option[value];
+            }
+
+            select.append($('<option>')
+              .attr("value", value)
+              .text(text));
+          });
 
           if (selectOptions.length > 0) {
             select.prop("disabled", false);
