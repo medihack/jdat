@@ -70,7 +70,13 @@
 					var select = this._el.find("select").empty();
 					this._fillSelect(select);
 
-					select.prop("disabled", selectOptions.length == 0);
+          if (selectOptions.length > 0) {
+            select.prop("disabled", false);
+            this._options.value = this._el.find("select").val();
+          }
+          else {
+            select.prop("disabled", true);
+          }
 				}
 			},
 			value: function(selection, trigger, finishChange) {
