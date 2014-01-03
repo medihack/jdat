@@ -6,7 +6,7 @@
 	JDat.ColorBarField = (function() {
 		var defaults = {
 			label: "Color Bar",
-			colors: [],
+			colors: ["#00ff00", "#ff0000"],
       marker: true,
 			onHover: function(value, color) {}
 		}
