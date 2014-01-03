@@ -407,6 +407,7 @@ var JDat = JDat || {};
 			this._bindResize();
 			this._bindRemove();
 			this._bindDocking();
+      this._bindSettings();
 
 			if (this.closed) {
 				this.close();

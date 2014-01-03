@@ -1,6 +1,6 @@
-/*! jdat - v0.1.0 - 2013-12-31
+/*! jdat - v0.1.0 - 2014-01-03
 * https://github.com/medihack/jdat
-* Copyright (c) 2013 Kai Schlamp; Licensed MIT */
+* Copyright (c) 2014 Kai Schlamp; Licensed MIT */
 var JDat = JDat || {};
 
 !function($) { "use strict";
@@ -410,6 +410,7 @@ var JDat = JDat || {};
 			this._bindResize();
 			this._bindRemove();
 			this._bindDocking();
+      this._bindSettings();
 
 			if (this.closed) {
 				this.close();
