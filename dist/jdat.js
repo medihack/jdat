@@ -884,7 +884,8 @@ var JDat = JDat || {};
 		var defaults = {
 			label: "Color Bar",
 			colors: [],
-			onHover: function(rel, pageX, pageY, barX, barY) {}
+      marker: true,
+			onHover: function(value, color) {}
 		}
 
 		var ColorBarField = function(el, options) {
@@ -916,8 +917,14 @@ var JDat = JDat || {};
 				container.append(caption);
 				this.caption = caption;
 
+        this._drawGradient();
+			},
+      _drawGradient: function() {
 				var w = this.ctx.canvas.width;
 				var h = this.ctx.canvas.height;
+
+        this.ctx.clearRect(0, 0, w, h);
+
 				var lingrad = this.ctx.createLinearGradient(0 ,0, w, 0);
 
 				var colors = this._options.colors;
@@ -928,7 +935,7 @@ var JDat = JDat || {};
 
 				this.ctx.fillStyle = lingrad;
 				this.ctx.fillRect(0, 0, w, h);
-			},
+      },
 			_bindHover: function() {
 				var self = this;
 
@@ -938,7 +945,7 @@ var JDat = JDat || {};
 					var x = Math.round(e.pageX - offset.left);
 					var value = x / (canvas.width() - 1);
 
-					self.marker.show();
+					if (self._options.marker) self.marker.show();
 
 					if (value >= 0 && value <= 1) {
 						self.marker.css("left", x + "px");
@@ -948,7 +955,9 @@ var JDat = JDat || {};
 						if (value > 1) value = 1;
 					}
 
-					var text = self._options.onHover.call(self, value);
+          var color = self.colorAt(value);
+
+					var text = self._options.onHover.call(self, value, color);
 
 					if (text == null) {
 						self.caption.hide();
@@ -968,7 +977,15 @@ var JDat = JDat || {};
 					return false;
 				});
 			},
-			getColor: function(value, format) {
+      colors: function(colors) {
+				if (colors === undefined) {
+					return this._options.colors;
+				}
+				else {
+          this._drawGradient();
+        }
+      },
+			colorAt: function(value, format) {
 				var canvas = this.ctx.canvas;
 				var canvasWidth = canvas.width;
 				var x = (canvasWidth - 1) * value;
