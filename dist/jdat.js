@@ -1,4 +1,4 @@
-/*! jdat - v0.1.0 - 2014-01-03
+/*! jdat - v0.1.0 - 2014-01-04
 * https://github.com/medihack/jdat
 * Copyright (c) 2014 Kai Schlamp; Licensed MIT */
 var JDat = JDat || {};
@@ -982,6 +982,8 @@ var JDat = JDat || {};
 					return this._options.colors;
 				}
 				else {
+          this._options.colors = colors;
+
           this._drawGradient();
         }
       },

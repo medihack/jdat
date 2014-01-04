@@ -105,6 +105,8 @@
 					return this._options.colors;
 				}
 				else {
+          this._options.colors = colors;
+
           this._drawGradient();
         }
       },
