@@ -31,11 +31,33 @@
 				var self = this;
 
 				this._el.find(".jdat-toggle-bg")
-					.click(function(e) {
-						self.value(!self.value(), true, true);
+          .mousedown(function(e) {
+            var switched = false;
+            var prevX = e.pageX;
 
-						return false;
-					});
+            var toggle = $(e.currentTarget);
+            toggle.on("mousemove", function(e) {
+              e.preventDefault();
+              if (e.pageX > prevX) {
+                self.value(true, true, true);
+                switched = true;
+              }
+
+              if (e.pageX < prevX) {
+                self.value(false, true, true);
+                switched = true;
+              }
+            });
+
+            toggle.one("mouseup", function(e) {
+              e.preventDefault();
+              toggle.off("mousemove");
+
+              if (!switched) {
+                self.value(!self.value(), true, true);
+              }
+            });
+          });
 			},
 			value: function(checked, trigger, finishChange) {
 				if (checked === undefined) {

@@ -370,15 +370,15 @@ var JDat = JDat || {};
 			resizeable: true,
 			resizer: "right",
 
-			closeBar: "bottom",
-			openLabel: "Open",
-			closeLabel: "Close",
-
 			titleBar: true,
 			title: "",
 			undockable: true,
 			removable: true,
 			collapsible: true,
+
+			closeBar: "bottom",
+			closeLabel: "Close",
+			openLabel: "Open",
 
 			settings: false,
 			onSettings: function() {},
@@ -577,7 +577,9 @@ var JDat = JDat || {};
 
 				this.widget.find(".jdat-settings")
 					.click(function(e) {
-						self._options.onSettings.call(self);
+            if (self._options.onSettings) {
+              self._options.onSettings.call(self);
+            }
 					});
 			},
 			open: function(complete) {

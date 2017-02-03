@@ -5,6 +5,8 @@ $(function() {
 		title: "jDat Panel"
 	}).data("jdat");
 
+	window.jdat = jdat;
+
 	jdat.add(JDat.ToggleField, {
 		label: "Toggle"
 	});
@@ -19,7 +21,8 @@ $(function() {
 
 	jdat.add(JDat.ColorSelectField, {
 		label: "Color",
-		value: "#0000ff"
+		value: "#0000ff",
+		id: "color-control"
 	});
 
 	jdat.add(JDat.ComboBoxField, {
@@ -27,7 +30,8 @@ $(function() {
 		selectOptions: [
 			{"option1": "Option 1"},
 			{"option2": "Option 2"},
-			{"option3": "Option 3"}
+			{"option3": "Option 3"},
+      {"option_long": "A really very long option with length"}
 		]
 	});
 
@@ -48,6 +52,7 @@ $(function() {
 
 	var section = jdat.add(JDat.SectionField, {
 		label: "Section",
+    title: false,
 		closed: false
 	});
 
@@ -72,11 +77,17 @@ $(function() {
 
 	jdat.add(JDat.ColorBarField, {
 		label: "Colorbar",
-		colors: ["#00ff00", "#0000ff", "#ff0000"]
+    marker: true,
+		colors: ["#00ff00", "#0000ff", "#ff0000"],
+    onHover: function(value) {
+      return value.toFixed(2);
+    }
 	});
 
 	jdat.add(JDat.ProgressBarField, {
 		label: "Progressbar",
 		value: 33
 	});
+
+  jdat.updateView();
 });

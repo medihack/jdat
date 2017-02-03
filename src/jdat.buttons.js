@@ -5,9 +5,9 @@
 	 */
 	JDat.ButtonsField = (function() {
 		var defaults = {
-			label: "Button",
-			holdTimeout: 500,
-			buttons: [] // array of strings or array of hashes {buttonId, buttonContent}
+			label: "Buttons",
+			buttons: [], // array of strings or array of hashes {buttonId, buttonContent}
+			holdTimeout: 500
 		}
 
 		var ButtonsField = function(el, options) {
